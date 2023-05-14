@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.6' apply false
     id 'io.spring.dependency-management' version '1.1.0' apply false
+    id "org.sonarqube" version "3.5.0.2730"
 }
 
 subprojects {
@@ -35,5 +36,13 @@ subprojects {
 
     tasks.named('test') {
         useJUnitPlatform()
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "YAPP-Github_22nd-iOS-Team-1-iOS"
+        property "sonar.organization", "yapp-github"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
