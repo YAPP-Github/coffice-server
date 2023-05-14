@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cafe Admin</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<h1 th:text="'Cafe Admin'"></h1>
+<h2 th:text="'activeProfiles'"></h2>
+<ul th:each="activeProfile : ${@environment.getActiveProfiles()}">
+    <li th:text="${activeProfile}"></li>
+</ul>
+</body>
+</html>
