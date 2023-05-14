@@ -5,16 +5,15 @@ plugins {
     id 'jacoco'
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = "$jacocoVersion"
+    }
 
     group = 'kr.co.yapp.cafe'
     version = '0.0.1-SNAPSHOT'
@@ -42,5 +41,13 @@ subprojects {
 
     tasks.named('test') {
         useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+
+    tasks.named('jacocoTestReport') {
+        dependsOn test
+        reports {
+            xml.enabled true
+        }
     }
 }
