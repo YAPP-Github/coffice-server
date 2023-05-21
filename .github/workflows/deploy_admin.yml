@@ -1,0 +1,19 @@
+name: Deployment admin
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ vars.ADMIN_SSH_HOST }}
+          port: ${{ vars.ADMIN_SSH_PORT }}
+          username: ${{ vars.ADMIN_SSH_USERNAME }}
+          key: ${{ secrets.ADMIN_SSH_PRIVATE_KEY }}
+          script: ${{ vars.ADMIN_SSH_SCRIPT }}
