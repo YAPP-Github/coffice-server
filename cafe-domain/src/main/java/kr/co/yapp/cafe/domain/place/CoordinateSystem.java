@@ -4,7 +4,7 @@ public enum CoordinateSystem {
     WGS84,
     ;
 
-    static CoordinateSystem getDefault() {
+    public static CoordinateSystem getDefault() {
         return WGS84;
     }
 }
