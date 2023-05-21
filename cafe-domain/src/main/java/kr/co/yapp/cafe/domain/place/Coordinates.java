@@ -1,6 +1,8 @@
 package kr.co.yapp.cafe.domain.place;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -19,6 +21,7 @@ public class Coordinates {
     /**
      * 좌표계
      */
+    @Enumerated(EnumType.STRING)
     private final CoordinateSystem coordinateSystem;
 
     private Coordinates(

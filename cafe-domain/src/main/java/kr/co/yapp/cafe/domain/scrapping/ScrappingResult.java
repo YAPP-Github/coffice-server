@@ -27,10 +27,12 @@ public class ScrappingResult {
     /**
      * 가게 주소
      */
+    @Embedded
     private Address address;
     /**
      * 가게 좌표
      */
+    @Embedded
     private Coordinates coordinates;
     /**
      * 가게 전화번호
