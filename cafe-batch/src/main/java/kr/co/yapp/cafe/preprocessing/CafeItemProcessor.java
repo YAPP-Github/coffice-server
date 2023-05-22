@@ -1,8 +1,8 @@
 package kr.co.yapp.cafe.preprocessing;
 
-import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
+import com.jayway.jsonpath.ReadContext;
 import kr.co.yapp.cafe.domain.place.Address;
 import kr.co.yapp.cafe.domain.place.Coordinates;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResultCreateVo;
@@ -44,47 +44,18 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
 
     @Override
     public ScrappingResultCreateVo process(Object item) throws Exception {
-        DocumentContext jsonContext = JsonPath.parse(item);
-        Object name;
-        try {
-            name = jsonContext.read(nameJsonPath);
-        } catch (PathNotFoundException e) {
-            name = null;
-        }
-        Object address;
-        try {
-            address = jsonContext.read(addressJsonPath);
-        } catch (PathNotFoundException e) {
-            address = null;
-        }
-        Object contactNumber;
-        try {
-            contactNumber = jsonContext.read(contactNumberJsonPath);
-        } catch (PathNotFoundException e) {
-            contactNumber = null;
-        }
-        Object latitude;
-        try {
-            latitude = jsonContext.read(latitudeJsonPath);
-        } catch (PathNotFoundException e) {
-            latitude = null;
-        }
-        Object longitude;
-        try {
-            longitude = jsonContext.read(longitudeJsonPath);
-        } catch (PathNotFoundException e) {
-            longitude = null;
-        }
-        Object imageUrl;
-        try {
-            imageUrl = jsonContext.read(imageUrlJsonPath);
-        } catch (PathNotFoundException e) {
-            imageUrl = null;
-        }
+        ReadContext jsonContext = JsonPath.parse(item);
+        Object name = readJsonPath(jsonContext, nameJsonPath);
+        Object address = readJsonPath(jsonContext, addressJsonPath);
+        Object contactNumber = readJsonPath(jsonContext, contactNumberJsonPath);
+        Object latitude = readJsonPath(jsonContext, latitudeJsonPath);
+        Object longitude = readJsonPath(jsonContext, longitudeJsonPath);
+        Object imageUrl = readJsonPath(jsonContext, imageUrlJsonPath);
         return ScrappingResultCreateVo.of(
                 name instanceof String && !"null".equalsIgnoreCase((String) name)
                         ? String.join("", namePrefix, namePrefixAfterSpace ? " " : "", ((String) name).trim(), namePostfix).trim()
                         : null,
+                // TODO: 도로명주소, 지번주소 구분
                 address instanceof String && !"null".equalsIgnoreCase((String) address)
                         ? Address.builder().streetAddress((String) address).build()
                         : null,
@@ -93,12 +64,22 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
                         : latitude instanceof String && longitude instanceof String
                         ? Coordinates.of((Double.valueOf((String) latitude)), Double.valueOf((String) longitude))
                         : null,
+                // TODO: 연락처 여러개 저장
                 contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)
                         ? Collections.singletonList((String) contactNumber)
                         : Collections.emptyList(),
+                // TODO: 이미지 여러개 저장
                 imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)
                         ? Collections.singletonList(String.join("", imageUrlPrefix, (String) imageUrl).trim())
                         : Collections.emptyList()
         );
+    }
+
+    private Object readJsonPath(ReadContext jsonContext, String jsonPath) {
+        try {
+            return jsonContext.read(jsonPath);
+        } catch (PathNotFoundException e) {
+            return null;
+        }
     }
 }
