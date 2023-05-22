@@ -27,7 +27,6 @@ import org.springframework.core.io.PathResource;
         name = "spring.batch.job.names",
         havingValue = CafeItemPreprocessingJobConfig.JOB_NAME
 )
-
 @Configuration
 @RequiredArgsConstructor
 public class CafeItemPreprocessingJobConfig {
