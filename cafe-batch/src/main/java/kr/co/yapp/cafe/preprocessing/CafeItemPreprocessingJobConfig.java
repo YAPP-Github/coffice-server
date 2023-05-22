@@ -10,17 +10,14 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.json.JacksonJsonObjectReader;
-import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.PathResource;
 
 @Slf4j
 @ConditionalOnProperty(
@@ -32,32 +29,12 @@ import org.springframework.core.io.PathResource;
 public class CafeItemPreprocessingJobConfig {
     static final String JOB_NAME = "cafeItemPreprocessingJob";
     private final JobRepository jobRepository;
-    @Value("${cafe.filePath.arrayJsonInput}")
-    private String arrayJsonInputFilePath;
 
     @Bean
-    public Job preprocessingJob() {
+    public Job preprocessingJob() throws Exception {
         return new JobBuilder(JOB_NAME, jobRepository)
-                .start(arrayExtractionStep())
-                .next(preprocessingStep())
+                .start(preprocessingStep())
                 .build();
-    }
-
-    /**
-     * 입력받은 json 파일 중에서 배열 부분만 남긴다.
-     */
-    @Bean
-    @JobScope
-    public Step arrayExtractionStep() {
-        return new StepBuilder("arrayExtractionStep", jobRepository)
-                .tasklet(arrayExtranctionTasklet(), new ResourcelessTransactionManager())
-                .build();
-    }
-
-    @Bean
-    @StepScope
-    public Tasklet arrayExtranctionTasklet() {
-        return new JsonArrayExtractionTasklet();
     }
 
     /**
@@ -65,17 +42,22 @@ public class CafeItemPreprocessingJobConfig {
      */
     @Bean
     @JobScope
-    public Step preprocessingStep() {
+    public Step preprocessingStep() throws Exception {
         return new StepBuilder("preprocessingStep", jobRepository)
                 .<Object, ScrappingResultCreateVo>chunk(1, new ResourcelessTransactionManager())
-                .reader(new JsonItemReaderBuilder<>()
-                        .jsonObjectReader(new JacksonJsonObjectReader<>(Object.class))
-                        .resource(new PathResource(arrayJsonInputFilePath))
-                        .saveState(false)
-                        .build())
+                .reader(cafeItemReader(null, null))
                 .processor(cafeItemProcessor())
                 .writer(cafeItemWriter())
                 .build();
+    }
+
+    @Bean
+    @StepScope
+    public ItemReader<Object> cafeItemReader(
+            @Value("#{jobParameters['filePath']}") String filePath,
+            @Value("#{jobParameters['dataJsonPath']}") String dataJsonPath
+    ) throws Exception {
+        return new CafeItemReader(filePath, dataJsonPath);
     }
 
     @Bean
