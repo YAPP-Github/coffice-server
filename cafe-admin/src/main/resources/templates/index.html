@@ -3,6 +3,8 @@
 <head>
     <title>Cafe Admin</title>
     <meta charset="UTF-8"/>
+    <script type="text/javascript"
+            th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${@environment.getProperty('MAP_CLIENT_ID_NAVER')}"></script>
 </head>
 <body>
 <h1 th:text="'Cafe Admin'"></h1>
@@ -10,5 +12,13 @@
 <ul th:each="activeProfile : ${@environment.getActiveProfiles()}">
     <li th:text="${activeProfile}"></li>
 </ul>
+<div id="map" style="width:100%;height:400px;"></div>
+<script>
+    const mapOptions = {
+        center: new naver.maps.LatLng(37.3595704, 127.105399),
+        zoom: 10
+    };
+    const map = new naver.maps.Map('map', mapOptions);
+</script>
 </body>
 </html>
