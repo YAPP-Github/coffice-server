@@ -24,9 +24,9 @@ public class Address {
     private final String postalCode;
 
     private Address(String streetAddress, String landAddress, String postalCode) {
-        this.streetAddress = streetAddress;
-        this.landAddress = landAddress;
-        this.postalCode = postalCode;
+        this.streetAddress = streetAddress != null ? streetAddress.trim() : null;
+        this.landAddress = landAddress != null ? landAddress.trim() : null;
+        this.postalCode = postalCode != null ? postalCode.trim() : null;
     }
 
     protected Address() {
