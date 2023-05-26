@@ -19,7 +19,7 @@ import java.util.List;
 public class ScrappingResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long scrappingResult;
+    private Long scrappingResultId;
     /**
      * 가게 이름
      */
