@@ -5,6 +5,8 @@ services:
     image: "${IMAGE_NAME}:${IMAGE_TAG}"
     ports:
       - "8080:8080"
+    env_file:
+      - "${APP_ENV_FILE}"
   nginx:
     container_name: nginx
     build: ./nginx
