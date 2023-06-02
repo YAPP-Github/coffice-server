@@ -1,0 +1,57 @@
+name: Build and deploy admin
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ 'develop' ]
+    paths:
+      - 'admin/**'
+
+permissions:
+  contents: read
+
+env:
+  DOCKER_IMAGE_NAME: 'yapp22ndios1st/cafe-admin'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2.4.2
+        with:
+          arguments: :cafe-admin:build
+      - name: Build docker images
+        run: |
+          docker build -t ${DOCKER_IMAGE_NAME}:${{ github.sha }} ./cafe-api
+          docker build -t ${DOCKER_IMAGE_NAME}:latest ./cafe-api
+      - name: Sign in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_DEPLOYMENT_TOKEN }}
+      - name: Push docker images
+        run: |
+          docker push ${DOCKER_IMAGE_NAME}:${{ github.sha }}
+          docker push ${DOCKER_IMAGE_NAME}:latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ vars.ADMIN_SSH_HOST }}
+          port: ${{ vars.ADMIN_SSH_PORT }}
+          username: ${{ vars.ADMIN_SSH_USERNAME }}
+          key: ${{ secrets.ADMIN_SSH_PRIVATE_KEY }}
+          script: ${{ vars.ADMIN_SSH_SCRIPT }}
+
+
+
