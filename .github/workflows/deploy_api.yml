@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   push:
     branches: [ "develop" ]
+  paths:
+    - 'cafe-api/**'
+    - 'cafe-domain/**'
 
 jobs:
   build:
