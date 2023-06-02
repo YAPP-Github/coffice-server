@@ -6,6 +6,7 @@ on:
     branches: [ 'develop' ]
     paths:
       - 'cafe-admin/**'
+      - 'cafe-domain/**'
 
 permissions:
   contents: read
