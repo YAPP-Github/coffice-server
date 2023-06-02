@@ -2,11 +2,9 @@ name: Deployment admin
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "develop" ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using ssh key
