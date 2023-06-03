@@ -6,21 +6,29 @@ import kr.co.yapp.cafe.domain.scrapping.ScrappingResult;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResultCreateVo;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResultService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/scrapping-results")
 @RestController
 @RequiredArgsConstructor
 public class ScrappingResultController {
     private final ScrappingResultService scrappingResultService;
 
-    @PostMapping("/scrapping-results")
+    @GetMapping
+    public List<ScrappingResultResponse> read() {
+//        return Collections.emptyList();
+        return List.of("name1", "name2", "name3").stream().map(
+                (it) -> {
+                    return new ScrappingResultResponse(1L, it);
+                }
+        ).toList();
+    }
+
+    @PostMapping
     public ScrappingResultResponse create(
             @RequestBody ScrappingResultCreateRequest scrappingResultCreateRequest
     ) {
