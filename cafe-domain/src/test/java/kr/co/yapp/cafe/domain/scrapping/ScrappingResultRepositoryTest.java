@@ -16,7 +16,7 @@ class ScrappingResultRepositoryTest {
     private ScrappingResultRepository scrappingResultRepository;
 
     @Test
-    void name() {
+    void test() {
         Optional<ScrappingResult> actual = scrappingResultRepository.findByScrappingResultId(0L);
         assertThat(actual).isEmpty();
     }
