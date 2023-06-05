@@ -3,6 +3,9 @@ package kr.co.yapp.cafe.domain.scrapping;
 import jakarta.persistence.*;
 import kr.co.yapp.cafe.domain.place.Address;
 import kr.co.yapp.cafe.domain.place.Coordinates;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +18,9 @@ import java.util.List;
  * TODO: 영업시간
  */
 @Entity
+@Getter
+@ToString
+@EqualsAndHashCode(of = "scrappingResultId")
 @EntityListeners(AuditingEntityListener.class)
 public class ScrappingResult {
     @Id
