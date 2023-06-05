@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ScrappingResultResultServiceImpl implements ScrappingResultService {
-    private final ScrappingRepository scrappingRepository;
+    private final ScrappingResultRepository scrappingResultRepository;
 
 
     @Override
@@ -18,11 +18,11 @@ public class ScrappingResultResultServiceImpl implements ScrappingResultService 
     public ScrappingResult create(ScrappingResultCreateVo scrappingResultCreateVo) {
         // TODO: validation
         ScrappingResult scrappingResult = ScrappingResult.from(scrappingResultCreateVo);
-        return scrappingRepository.save(scrappingResult);
+        return scrappingResultRepository.save(scrappingResult);
     }
 
     @Override
     public Page<ScrappingResult> findAll(Pageable pageable) {
-        return scrappingRepository.findAll(pageable);
+        return scrappingResultRepository.findAll(pageable);
     }
 }
