@@ -35,8 +35,12 @@ public class Address {
     }
 
     public String value() {
-        return StringUtils.hasText(streetAddress) ? streetAddress
-                : StringUtils.hasText(landAddress) ? landAddress
-                : null;
+        if (StringUtils.hasText(streetAddress)) {
+            return streetAddress;
+        }
+        if (StringUtils.hasText(landAddress)) {
+            return landAddress;
+        }
+        return null;
     }
 }

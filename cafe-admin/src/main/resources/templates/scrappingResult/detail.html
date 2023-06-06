@@ -15,49 +15,49 @@
     <caption th:text="'ScrappingResult Detail'"></caption>
     <thead>
     <tr>
-        <th th:text="'Key'"></th>
-        <th th:text="'Value'"></th>
+        <th th:text="'Key'" scope="col"></th>
+        <th th:text="'Value'" scope="col"></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <th th:text="'ScrappingResultId'"></th>
+        <th th:text="'ScrappingResultId'" scope="row"></th>
         <td th:text="${scrappingResult.getScrappingResultId()}"></td>
     </tr>
     <tr>
-        <th th:text="'Name'"></th>
+        <th th:text="'Name'" scope="row"></th>
         <td th:text="${scrappingResult.getName()}"></td>
     </tr>
     <tr>
-        <th th:text="'ImageUrls'"></th>
+        <th th:text="'ImageUrls'" scope="row"></th>
         <td th:text="${scrappingResult.getImageUrls()}"></td>
     </tr>
     <tr>
-        <th th:text="'ContactNumbers'"></th>
+        <th th:text="'ContactNumbers'" scope="row"></th>
         <td th:text="${scrappingResult.getContactNumbers()}"></td>
     </tr>
     <tr>
-        <th th:text="'Address'"></th>
+        <th th:text="'Address'" scope="row"></th>
         <td th:text="${scrappingResult.getAddress().value()}"></td>
     </tr>
     <tr>
-        <th th:text="'Latitude'"></th>
+        <th th:text="'Latitude'" scope="row"></th>
         <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLatitude() : ''}"></td>
     </tr>
     <tr>
-        <th th:text="'Longitude'"></th>
+        <th th:text="'Longitude'" scope="row"></th>
         <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLongitude() : ''}"></td>
     </tr>
     <tr>
-        <th th:text="'CoordinateSystem'"></th>
+        <th th:text="'CoordinateSystem'" scope="row"></th>
         <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getCoordinateSystem().name() : ''}"></td>
     </tr>
     <tr>
-        <th th:text="'CreatedAt'"></th>
+        <th th:text="'CreatedAt'" scope="row"></th>
         <td th:text="${scrappingResult.getCreatedAt()}"></td>
     </tr>
     <tr>
-        <th th:text="'UpdatedAt'"></th>
+        <th th:text="'UpdatedAt'" scope="row"></th>
         <td th:text="${scrappingResult.getUpdatedAt()}"></td>
     </tr>
     </tbody>
