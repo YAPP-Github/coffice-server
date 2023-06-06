@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cafe List</title>
+    <title>ScrappingResult List</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -19,7 +19,11 @@
     </thead>
     <tbody>
     <tr th:each="scrappingResult : ${scrappingResultPage.getContent()}">
-        <td th:text="${scrappingResult.getScrappingResultId()}"></td>
+        <td>
+            <a th:href="@{/scrapping-result/detail(scrappingResultId=${scrappingResult.getScrappingResultId()})}"
+               th:text="${scrappingResult.getScrappingResultId()}">
+            </a>
+        </td>
         <td th:text="${scrappingResult.getName()}"></td>
     </tr>
     </tbody>

@@ -25,4 +25,10 @@ public class ScrappingResultResultServiceImpl implements ScrappingResultService 
     public Page<ScrappingResult> findAll(Pageable pageable) {
         return scrappingRepository.findAll(pageable);
     }
+
+    @Override
+    public ScrappingResult findById(Long scrappingResultId) {
+        return scrappingRepository.findById(scrappingResultId)
+                .orElseThrow(() -> new ScrappingResultNotFoundException(scrappingResultId));
+    }
 }

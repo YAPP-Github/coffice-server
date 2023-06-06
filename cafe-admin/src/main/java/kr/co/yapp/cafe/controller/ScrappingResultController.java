@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -34,6 +35,16 @@ public class ScrappingResultController {
                     .toList();
             model.addAttribute("pageNumbers", pageNumbers);
         }
-        return "scrappingResult/index";
+        return "scrappingResult/list";
+    }
+
+    @GetMapping("/detail")
+    public String detail(
+            @RequestParam Long scrappingResultId,
+            Model model
+    ) {
+        ScrappingResult scrappingResult = scrappingResultService.findById(scrappingResultId);
+        model.addAttribute("scrappingResult", scrappingResult);
+        return "scrappingResult/detail";
     }
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ScrappingResult Detail</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript"
+            th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${@environment.getProperty('MAP_CLIENT_ID_NAVER')}"></script>
+</head>
+<body>
+<h1 th:text="'ScrappingResult Detail'"></h1>
+<table class="table">
+    <caption th:text="'ScrappingResult Detail'"></caption>
+    <thead>
+    <tr>
+        <th th:text="'Key'"></th>
+        <th th:text="'Value'"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th th:text="'ScrappingResultId'"></th>
+        <td th:text="${scrappingResult.getScrappingResultId()}"></td>
+    </tr>
+    <tr>
+        <th th:text="'Name'"></th>
+        <td th:text="${scrappingResult.getName()}"></td>
+    </tr>
+    <tr>
+        <th th:text="'ImageUrls'"></th>
+        <td th:text="${scrappingResult.getImageUrls()}"></td>
+    </tr>
+    <tr>
+        <th th:text="'ContactNumbers'"></th>
+        <td th:text="${scrappingResult.getContactNumbers()}"></td>
+    </tr>
+    <tr>
+        <th th:text="'Address'"></th>
+        <td th:text="${scrappingResult.getAddress().value()}"></td>
+    </tr>
+    <tr>
+        <th th:text="'Latitude'"></th>
+        <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLatitude() : ''}"></td>
+    </tr>
+    <tr>
+        <th th:text="'Longitude'"></th>
+        <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLongitude() : ''}"></td>
+    </tr>
+    <tr>
+        <th th:text="'CoordinateSystem'"></th>
+        <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getCoordinateSystem().name() : ''}"></td>
+    </tr>
+    <tr>
+        <th th:text="'CreatedAt'"></th>
+        <td th:text="${scrappingResult.getCreatedAt()}"></td>
+    </tr>
+    <tr>
+        <th th:text="'UpdatedAt'"></th>
+        <td th:text="${scrappingResult.getUpdatedAt()}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${scrappingResult.getCoordinates() != null}" id="map" style="width:100%;height:400px;"></div>
+<script th:if="${scrappingResult.getCoordinates() != null}" th:inline="javascript">
+    /*<![CDATA[*/
+
+    const latitude = /*[[${scrappingResult.getCoordinates().getLatitude()}]]*/ 0;
+    const longitude = /*[[${scrappingResult.getCoordinates().getLongitude()}]]*/ 0;
+    console.log(latitude);
+    console.log(longitude);
+
+    const mapOptions = {
+        center: new naver.maps.LatLng(latitude, longitude),
+        zoom: 18
+    };
+    const map = new naver.maps.Map('map', mapOptions);
+    const marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(latitude, longitude),
+        map: map
+    });
+
+    /*]]>*/
+</script>
+</body>
