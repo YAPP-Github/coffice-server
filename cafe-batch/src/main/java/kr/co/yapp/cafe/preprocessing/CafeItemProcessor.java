@@ -8,8 +8,10 @@ import kr.co.yapp.cafe.domain.place.Coordinates;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResultCreateVo;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
+import java.util.List;
 
 public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultCreateVo> {
     @Value("#{jobParameters['namePrefix'] ?: ''}")
@@ -30,10 +32,10 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
     @Value("#{jobParameters['contactNumberJsonPath']}")
     private String contactNumberJsonPath;
 
-    @Value("#{jobParameters['latitudeJsonPath']}")
+    @Value("#{jobParameters['latitudeJsonPath'] ?: ''}")
     private String latitudeJsonPath;
 
-    @Value("#{jobParameters['longitudeJsonPath']}")
+    @Value("#{jobParameters['longitudeJsonPath'] ?: ''}")
     private String longitudeJsonPath;
 
     @Value("#{jobParameters['imageUrlJsonPath']}")
@@ -64,18 +66,23 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
                         : latitude instanceof String && longitude instanceof String
                         ? Coordinates.of((Double.valueOf((String) latitude)), Double.valueOf((String) longitude))
                         : null,
-                // TODO: 연락처 여러개 저장
-                contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)
+                contactNumber instanceof List && !((List<?>) contactNumber).isEmpty() && ((List<?>) contactNumber).get(0) instanceof String
+                        ? (List<String>) contactNumber
+                        : contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)
                         ? Collections.singletonList((String) contactNumber)
                         : Collections.emptyList(),
-                // TODO: 이미지 여러개 저장
-                imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)
+                imageUrl instanceof List && !((List<?>) imageUrl).isEmpty() && ((List<?>) imageUrl).get(0) instanceof String
+                        ? (List<String>) imageUrl
+                        : imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)
                         ? Collections.singletonList(String.join("", imageUrlPrefix, (String) imageUrl).trim())
                         : Collections.emptyList()
         );
     }
 
     private Object readJsonPath(ReadContext jsonContext, String jsonPath) {
+        if (!StringUtils.hasText(jsonPath)) {
+            return null;
+        }
         try {
             return jsonContext.read(jsonPath);
         } catch (PathNotFoundException e) {
