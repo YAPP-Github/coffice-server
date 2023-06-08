@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ScrappingResult List</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<h1 th:text="'ScrappingResult List'"></h1>
+<table class="table table-striped">
+    <caption th:text="'ScrappingResult List'"></caption>
+    <thead>
+    <tr>
+        <th th:text="scrappingResultId"></th>
+        <th th:text="name"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="scrappingResult : ${scrappingResultPage.getContent()}">
+        <td>
+            <a th:href="@{/scrapping-result/detail(scrappingResultId=${scrappingResult.getScrappingResultId()})}"
+               th:text="${scrappingResult.getScrappingResultId()}">
+            </a>
+        </td>
+        <td th:text="${scrappingResult.getName()}"></td>
+    </tr>
+    </tbody>
+</table>
+<nav aria-label="Page navigation">
+    <ul th:if="${scrappingResultPage.totalPages > 0}" class="pagination">
+        <li class="page-item">
+            <a th:class="'page-link ' + ${scrappingResultPage.hasPrevious() ? '' : 'disabled'}"
+               th:href="@{/scrapping-result/list(size=${scrappingResultPage.size}, page=${scrappingResultPage.number - 1})}"
+               th:text="'Previous'">
+            </a>
+        </li>
+        <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+            <a th:class="'page-link ' + ${scrappingResultPage.number == pageNumber ? 'active' : ''}"
+               th:if="${pageNumber >= scrappingResultPage.number / 10 * 10 && pageNumber < scrappingResultPage.number / 10 * 10 + 10}"
+               th:href="@{/scrapping-result/list(size=${scrappingResultPage.size}, page=${pageNumber})}"
+               th:text="${pageNumber}">
+            </a>
+        </li>
+        <li class="page-item">
+            <a th:class="'page-link ' + ${scrappingResultPage.hasNext() ? '' : 'disabled'}"
+               th:href="@{/scrapping-result/list(size=${scrappingResultPage.size}, page=${scrappingResultPage.number + 1})}"
+               th:text="'Next'">
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

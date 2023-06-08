@@ -7,4 +7,6 @@ public interface ScrappingResultService {
     ScrappingResult create(ScrappingResultCreateVo scrappingResultCreateVo);
 
     Page<ScrappingResult> findAll(Pageable pageable);
+
+    ScrappingResult findById(Long scrappingResultId);
 }

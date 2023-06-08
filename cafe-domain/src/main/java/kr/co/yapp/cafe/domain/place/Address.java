@@ -4,6 +4,7 @@ import jakarta.persistence.Embeddable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.util.StringUtils;
 
 @Embeddable
 @Builder
@@ -31,5 +32,15 @@ public class Address {
 
     protected Address() {
         this(null, null, null);
+    }
+
+    public String value() {
+        if (StringUtils.hasText(streetAddress)) {
+            return streetAddress;
+        }
+        if (StringUtils.hasText(landAddress)) {
+            return landAddress;
+        }
+        return null;
     }
 }
