@@ -44,7 +44,7 @@ public class CafeItemPreprocessingJobConfig {
     @JobScope
     public Step preprocessingStep() throws Exception {
         return new StepBuilder("preprocessingStep", jobRepository)
-                .<Object, ScrappingResultCreateVo>chunk(1, new ResourcelessTransactionManager())
+                .<Object, ScrappingResultCreateVo>chunk(100, new ResourcelessTransactionManager())
                 .reader(cafeItemReader(null, null))
                 .processor(cafeItemProcessor())
                 .writer(cafeItemWriter())
