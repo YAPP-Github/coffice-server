@@ -28,7 +28,7 @@ public class ScrappingResultResultServiceImpl implements ScrappingResultService 
 
     @Override
     public ScrappingResult findById(Long scrappingResultId) {
-        return scrappingRepository.findById(scrappingResultId)
+        return scrappingResultRepository.findById(scrappingResultId)
                 .orElseThrow(() -> new ScrappingResultNotFoundException(scrappingResultId));
     }
 }
