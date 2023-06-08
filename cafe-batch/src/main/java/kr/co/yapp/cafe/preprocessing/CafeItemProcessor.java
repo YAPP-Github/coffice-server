@@ -18,7 +18,7 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
     private String namePrefix;
 
     @Value("#{jobParameters['namePrefixAfterSpace'] ?: true}")
-    private Boolean namePrefixAfterSpace;
+    private boolean namePrefixAfterSpace;
 
     @Value("#{jobParameters['namePostfix'] ?: ''}")
     private String namePostfix;
