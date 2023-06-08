@@ -8,6 +8,19 @@
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/" th:text="'Cafe Admin'"></a>
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/" th:text="'Home'"></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/scrapping-result/list" th:text="'Scrapping Result'"></a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <h1 th:text="'ScrappingResult List'"></h1>
 <table class="table table-striped">
     <caption th:text="'ScrappingResult List'"></caption>
