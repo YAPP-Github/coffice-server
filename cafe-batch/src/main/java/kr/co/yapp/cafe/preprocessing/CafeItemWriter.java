@@ -1,8 +1,8 @@
 package kr.co.yapp.cafe.preprocessing;
 
-import kr.co.yapp.cafe.domain.scrapping.ScrappingRepository;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResult;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResultCreateVo;
+import kr.co.yapp.cafe.domain.scrapping.ScrappingResultRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class CafeItemWriter implements ItemWriter<ScrappingResultCreateVo> {
     @Autowired
-    private ScrappingRepository scrappingRepository;
+    private ScrappingResultRepository scrappingResultRepository;
 
     @Override
     public void write(Chunk<? extends ScrappingResultCreateVo> chunk) throws Exception {
@@ -22,6 +22,6 @@ public class CafeItemWriter implements ItemWriter<ScrappingResultCreateVo> {
                 .stream()
                 .map(ScrappingResult::from)
                 .toList();
-        scrappingRepository.saveAll(scrappingResults);
+        scrappingResultRepository.saveAll(scrappingResults);
     }
 }
