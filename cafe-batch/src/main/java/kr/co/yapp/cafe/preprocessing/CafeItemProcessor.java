@@ -54,28 +54,11 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
         Object longitude = readJsonPath(jsonContext, longitudeJsonPath);
         Object imageUrl = readJsonPath(jsonContext, imageUrlJsonPath);
         return ScrappingResultCreateVo.of(
-                name instanceof String && !"null".equalsIgnoreCase((String) name)
-                        ? String.join("", namePrefix, namePrefixAfterSpace ? " " : "", ((String) name).trim(), namePostfix).trim()
-                        : null,
-                // TODO: 도로명주소, 지번주소 구분
-                address instanceof String && !"null".equalsIgnoreCase((String) address)
-                        ? Address.builder().streetAddress((String) address).build()
-                        : null,
-                latitude instanceof Double && longitude instanceof Double
-                        ? Coordinates.of(((Double) latitude), (Double) longitude)
-                        : latitude instanceof String && longitude instanceof String
-                        ? Coordinates.of((Double.valueOf((String) latitude)), Double.valueOf((String) longitude))
-                        : null,
-                contactNumber instanceof List && !((List<?>) contactNumber).isEmpty() && ((List<?>) contactNumber).get(0) instanceof String
-                        ? (List<String>) contactNumber
-                        : contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)
-                        ? Collections.singletonList((String) contactNumber)
-                        : Collections.emptyList(),
-                imageUrl instanceof List && !((List<?>) imageUrl).isEmpty() && ((List<?>) imageUrl).get(0) instanceof String
-                        ? (List<String>) imageUrl
-                        : imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)
-                        ? Collections.singletonList(String.join("", imageUrlPrefix, (String) imageUrl).trim())
-                        : Collections.emptyList()
+                resolveName(name),
+                resolveAddress(address),
+                resolveCoordinates(latitude, longitude),
+                resolveContactNumbers(contactNumber),
+                resolveImageUrls(imageUrl)
         );
     }
 
@@ -88,5 +71,50 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
         } catch (PathNotFoundException e) {
             return null;
         }
+    }
+
+    private String resolveName(Object name) {
+        if (name instanceof String && !"null".equalsIgnoreCase((String) name)) {
+            return String.join("", namePrefix, namePrefixAfterSpace ? " " : "", ((String) name).trim(), namePostfix).trim();
+        }
+        return null;
+    }
+
+    // TODO: 도로명주소, 지번주소 구분
+    private Address resolveAddress(Object address) {
+        if (address instanceof String && !"null".equalsIgnoreCase((String) address)) {
+            return Address.builder().streetAddress((String) address).build();
+        }
+        return null;
+    }
+
+    private Coordinates resolveCoordinates(Object latitude, Object longitude) {
+        if (latitude instanceof Double && longitude instanceof Double) {
+            return Coordinates.of(((Double) latitude), (Double) longitude);
+        }
+        if (latitude instanceof String && longitude instanceof String) {
+            return Coordinates.of((Double.valueOf((String) latitude)), Double.valueOf((String) longitude));
+        }
+        return null;
+    }
+
+    private List<String> resolveContactNumbers(Object contactNumber) {
+        if (contactNumber instanceof List && !((List<?>) contactNumber).isEmpty() && ((List<?>) contactNumber).get(0) instanceof String) {
+            return (List<String>) contactNumber;
+        }
+        if (contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)) {
+            return Collections.singletonList((String) contactNumber);
+        }
+        return Collections.emptyList();
+    }
+
+    private List<String> resolveImageUrls(Object imageUrl) {
+        if (imageUrl instanceof List && !((List<?>) imageUrl).isEmpty() && ((List<?>) imageUrl).get(0) instanceof String) {
+            return (List<String>) imageUrl;
+        }
+        if (imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)) {
+            return Collections.singletonList(String.join("", imageUrlPrefix, (String) imageUrl).trim());
+        }
+        return Collections.emptyList();
     }
 }
