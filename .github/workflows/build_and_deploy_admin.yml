@@ -30,8 +30,8 @@ jobs:
           arguments: :cafe-admin:build
       - name: Build docker images
         run: |
-          docker build -t ${DOCKER_IMAGE_NAME}:${{ github.sha }} ./cafe-api
-          docker build -t ${DOCKER_IMAGE_NAME}:latest ./cafe-api
+          docker build -t ${DOCKER_IMAGE_NAME}:${{ github.sha }} ./cafe-admin
+          docker build -t ${DOCKER_IMAGE_NAME}:latest ./cafe-admin
       - name: Sign in to Docker Hub
         uses: docker/login-action@v2
         with:
