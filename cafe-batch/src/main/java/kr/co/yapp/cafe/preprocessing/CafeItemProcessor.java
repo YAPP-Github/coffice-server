@@ -8,15 +8,17 @@ import kr.co.yapp.cafe.domain.place.Coordinates;
 import kr.co.yapp.cafe.domain.scrapping.ScrappingResultCreateVo;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
+import java.util.List;
 
 public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultCreateVo> {
     @Value("#{jobParameters['namePrefix'] ?: ''}")
     private String namePrefix;
 
     @Value("#{jobParameters['namePrefixAfterSpace'] ?: true}")
-    private Boolean namePrefixAfterSpace;
+    private boolean namePrefixAfterSpace;
 
     @Value("#{jobParameters['namePostfix'] ?: ''}")
     private String namePostfix;
@@ -30,10 +32,10 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
     @Value("#{jobParameters['contactNumberJsonPath']}")
     private String contactNumberJsonPath;
 
-    @Value("#{jobParameters['latitudeJsonPath']}")
+    @Value("#{jobParameters['latitudeJsonPath'] ?: ''}")
     private String latitudeJsonPath;
 
-    @Value("#{jobParameters['longitudeJsonPath']}")
+    @Value("#{jobParameters['longitudeJsonPath'] ?: ''}")
     private String longitudeJsonPath;
 
     @Value("#{jobParameters['imageUrlJsonPath']}")
@@ -52,34 +54,67 @@ public class CafeItemProcessor implements ItemProcessor<Object, ScrappingResultC
         Object longitude = readJsonPath(jsonContext, longitudeJsonPath);
         Object imageUrl = readJsonPath(jsonContext, imageUrlJsonPath);
         return ScrappingResultCreateVo.of(
-                name instanceof String && !"null".equalsIgnoreCase((String) name)
-                        ? String.join("", namePrefix, namePrefixAfterSpace ? " " : "", ((String) name).trim(), namePostfix).trim()
-                        : null,
-                // TODO: 도로명주소, 지번주소 구분
-                address instanceof String && !"null".equalsIgnoreCase((String) address)
-                        ? Address.builder().streetAddress((String) address).build()
-                        : null,
-                latitude instanceof Double && longitude instanceof Double
-                        ? Coordinates.of(((Double) latitude), (Double) longitude)
-                        : latitude instanceof String && longitude instanceof String
-                        ? Coordinates.of((Double.valueOf((String) latitude)), Double.valueOf((String) longitude))
-                        : null,
-                // TODO: 연락처 여러개 저장
-                contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)
-                        ? Collections.singletonList((String) contactNumber)
-                        : Collections.emptyList(),
-                // TODO: 이미지 여러개 저장
-                imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)
-                        ? Collections.singletonList(String.join("", imageUrlPrefix, (String) imageUrl).trim())
-                        : Collections.emptyList()
+                resolveName(name),
+                resolveAddress(address),
+                resolveCoordinates(latitude, longitude),
+                resolveContactNumbers(contactNumber),
+                resolveImageUrls(imageUrl)
         );
     }
 
     private Object readJsonPath(ReadContext jsonContext, String jsonPath) {
+        if (!StringUtils.hasText(jsonPath)) {
+            return null;
+        }
         try {
             return jsonContext.read(jsonPath);
         } catch (PathNotFoundException e) {
             return null;
         }
+    }
+
+    private String resolveName(Object name) {
+        if (name instanceof String && !"null".equalsIgnoreCase((String) name)) {
+            return String.join("", namePrefix, namePrefixAfterSpace ? " " : "", ((String) name).trim(), namePostfix).trim();
+        }
+        return null;
+    }
+
+    // TODO: 도로명주소, 지번주소 구분
+    private Address resolveAddress(Object address) {
+        if (address instanceof String && !"null".equalsIgnoreCase((String) address)) {
+            return Address.builder().streetAddress((String) address).build();
+        }
+        return null;
+    }
+
+    private Coordinates resolveCoordinates(Object latitude, Object longitude) {
+        if (latitude instanceof Double && longitude instanceof Double) {
+            return Coordinates.of(((Double) latitude), (Double) longitude);
+        }
+        if (latitude instanceof String && longitude instanceof String) {
+            return Coordinates.of((Double.valueOf((String) latitude)), Double.valueOf((String) longitude));
+        }
+        return null;
+    }
+
+    private List<String> resolveContactNumbers(Object contactNumber) {
+        if (contactNumber instanceof List && !((List<?>) contactNumber).isEmpty() && ((List<?>) contactNumber).get(0) instanceof String) {
+            return (List<String>) contactNumber;
+        }
+        if (contactNumber instanceof String && !"null".equalsIgnoreCase((String) contactNumber)) {
+            return Collections.singletonList((String) contactNumber);
+        }
+        return Collections.emptyList();
+    }
+
+    private List<String> resolveImageUrls(Object imageUrl) {
+        if (imageUrl instanceof List && !((List<?>) imageUrl).isEmpty() && ((List<?>) imageUrl).get(0) instanceof String) {
+            return (List<String>) imageUrl;
+        }
+        if (imageUrl instanceof String && !"null".equalsIgnoreCase((String) imageUrl)) {
+            return Collections.singletonList(String.join("", imageUrlPrefix, (String) imageUrl).trim());
+        }
+        return Collections.emptyList();
     }
 }

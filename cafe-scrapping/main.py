@@ -40,11 +40,15 @@ def get_document(store_id):
     return result
 
 
+def is_valid(document):
+    return document['name'] != ''
+
+
 def main():
     documents = []
     for i in range(1, 2000):
         document = get_document(i)
-        if document['name'] != '':
+        if is_valid(document):
             documents.append(document)
     dumps = json.dumps(documents, ensure_ascii=False).encode('utf8')
     with open("result.json", "w") as out_file:
