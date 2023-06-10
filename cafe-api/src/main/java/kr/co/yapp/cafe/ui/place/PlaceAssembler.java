@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class PlaceAssembler {
     public PlaceResponse toPlaceResponse(Place place) {
         return new PlaceResponse(
-                place.getId(),
+                place.getPlaceId(),
                 place.getName()
         );
     }

@@ -32,11 +32,11 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Page<Place> findAll(Pageable pageable) {
-        return placeRepository.findAll(pageable);
+        return placeRepository.findByDeletedFalse(pageable);
     }
 
     @Override
     public Optional<Place> findById(Long placeId) {
-        return placeRepository.findById(placeId);
+        return placeRepository.findByPlaceIdAndDeletedFalse(placeId);
     }
 }

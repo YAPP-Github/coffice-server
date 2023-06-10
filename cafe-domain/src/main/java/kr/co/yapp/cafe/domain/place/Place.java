@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long placeId;
 
     private String name;
 
