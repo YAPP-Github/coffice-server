@@ -27,7 +27,7 @@ public class PlaceController {
     }
 
     @GetMapping("/{placeId}")
-    public ApiResponse<PlaceResponse> getplace(
+    public ApiResponse<PlaceResponse> getPlace(
             @PathVariable Long placeId
     ) {
         return ApiResponse.success(
