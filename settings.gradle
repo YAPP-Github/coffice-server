@@ -3,4 +3,5 @@ include 'cafe-domain'
 include 'cafe-api'
 include 'cafe-batch'
 include 'cafe-admin'
+include 'cafe-consumer'
 
