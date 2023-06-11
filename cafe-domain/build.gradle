@@ -10,6 +10,7 @@ dependencies {
     annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
     implementation "com.amazonaws:aws-java-sdk-s3:$awsJavaSdkS3Version"
+    implementation "com.amazonaws:aws-java-sdk-sqs:$awsJavaSdkSqsVersion"
 }
 
 jar {

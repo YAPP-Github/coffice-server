@@ -14,3 +14,6 @@ cafe:
       secret-key: ${AWS_S3_SECRET_KEY}
       region: ap-northeast-2
       bucket-name: ${AWS_S3_BUCKET_NAME}
+    sqs:
+      access-key: ${AWS_SQS_ACCESS_KEY}
+      secret-key: ${AWS_SQS_SECRET_KEY}
