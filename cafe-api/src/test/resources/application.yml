@@ -5,3 +5,10 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
   datasource:
     driver-class-name: org.h2.Driver
+cafe:
+  aws:
+    s3:
+      access-key: accessKey
+      secret-key: secretKey
+      region: ap-northeast-2
+      bucket-name: bucketName
