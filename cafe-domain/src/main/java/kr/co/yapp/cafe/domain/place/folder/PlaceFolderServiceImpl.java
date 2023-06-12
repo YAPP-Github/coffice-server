@@ -31,7 +31,7 @@ public class PlaceFolderServiceImpl implements PlaceFolderService {
             Long memberId,
             PlaceFolderCreateVo placeFolderCreateVo
     ) {
-        boolean isDuplicated = placeFolderRepository.findByMember_memberIdAndNameContains(memberId, placeFolderCreateVo.getName()).isPresent();
+        boolean isDuplicated = placeFolderRepository.findByMember_memberIdAndNameContainsAndDeletedFalse(memberId, placeFolderCreateVo.getName()).isPresent();
         if (isDuplicated) {
             throw new PlaceFolderDuplicatedException(memberId, placeFolderCreateVo.getName());
         }
@@ -44,15 +44,25 @@ public class PlaceFolderServiceImpl implements PlaceFolderService {
             Long placeFolderId,
             PlaceFolderUpdateVo placeFolderUpdateVo
     ) {
-        PlaceFolder placeFolder = placeFolderRepository.findByMember_memberIdAndPlaceFolderId(memberId, placeFolderId)
+        PlaceFolder placeFolder = placeFolderRepository.findByMember_memberIdAndPlaceFolderIdAndDeletedFalse(memberId, placeFolderId)
                 .orElseThrow(() -> new PlaceFolderNotFoundException(placeFolderId));
         placeFolder.update(placeFolderUpdateVo);
         return placeFolder;
     }
 
     @Override
+    @Transactional
+    public void delete(
+            Long memberId,
+            Long placeFolderId
+    ) {
+        placeFolderRepository.findByMember_memberIdAndPlaceFolderIdAndDeletedFalse(memberId, placeFolderId)
+                .ifPresent(PlaceFolder::delete);
+    }
+
+    @Override
     public List<PlaceFolder> getPlaceFolders(Long memberId) {
-        return placeFolderRepository.findByMember_memberId(memberId);
+        return placeFolderRepository.findByMember_memberIdAndDeletedFalse(memberId);
     }
 
     @Override
@@ -60,7 +70,7 @@ public class PlaceFolderServiceImpl implements PlaceFolderService {
             Long memberId,
             Long placeFolderId
     ) {
-        return placeFolderRepository.findByMember_memberIdAndPlaceFolderId(memberId, placeFolderId)
+        return placeFolderRepository.findByMember_memberIdAndPlaceFolderIdAndDeletedFalse(memberId, placeFolderId)
                 .orElseThrow(() -> new PlaceFolderNotFoundException(placeFolderId));
     }
 }

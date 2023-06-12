@@ -43,4 +43,8 @@ public class PlaceFolder {
     public void update(PlaceFolderUpdateVo placeFolderUpdateVo) {
         this.name = placeFolderUpdateVo.getName();
     }
+
+    public void delete() {
+        this.deleted = true;
+    }
 }

@@ -7,6 +7,8 @@ public interface PlaceFolderService {
 
     PlaceFolder update(Long memberId, Long placeFolderId, PlaceFolderUpdateVo placeFolderUpdateVo);
 
+    void delete(Long memberId, Long placeFolderId);
+
     List<PlaceFolder> getPlaceFolders(Long memberId);
 
     PlaceFolder getPlaceFolder(Long memberId, Long placeFolderId);
