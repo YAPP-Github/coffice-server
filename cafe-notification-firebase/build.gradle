@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':cafe-notification-core')
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "com.google.firebase:firebase-admin:$firebaseAdminVersion"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+}
+
+jar {
+    enabled = true
+}
+
+bootJar {
+    enabled = false
+}

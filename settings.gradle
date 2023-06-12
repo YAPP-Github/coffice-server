@@ -4,4 +4,5 @@ include 'cafe-api'
 include 'cafe-batch'
 include 'cafe-admin'
 include 'cafe-consumer'
-
+include 'cafe-notification-core'
+include 'cafe-notification-firebase'
