@@ -1,11 +1,18 @@
 package kr.co.yapp.cafe.ui.member;
 
+import kr.co.yapp.cafe.domain.member.Member;
+import kr.co.yapp.cafe.domain.member.MemberCreateVo;
+import kr.co.yapp.cafe.domain.member.MemberRepository;
+import kr.co.yapp.cafe.ui.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/members")
 @RestController
+@RequiredArgsConstructor
 public class MemberController {
+    private final MemberRepository memberRepository;
 
     /**
      * 내 정보 조회
@@ -22,15 +29,25 @@ public class MemberController {
 
     /**
      * 회원 가입 또는 로그인
+     * 실제 구현 전까지는 1번 회원 및 'accessToken' 으로 응답
      *
      * @return accessToken, 회원 정보
      */
     @PostMapping("/login")
-    public Object login(
+    public ApiResponse<LoginResponse> login(
             @RequestBody LoginRequest loginRequest
     ) {
-        // TODO: 회원 가입 또는 로그인
-        return null;
+        Long testMemberId = 1L;
+        Member member = memberRepository.findById(testMemberId)
+                .orElseGet(() -> Member.from(MemberCreateVo.of("test")));
+        MemberResponse memberResponse = new MemberResponse();
+        memberResponse.setMemberId(member.getMemberId());
+        memberResponse.setName(member.getName());
+        LoginResponse loginResponse = new LoginResponse();
+        String testAccessToken = "accessToken";
+        loginResponse.setAccessToken(testAccessToken);
+        loginResponse.setMember(memberResponse);
+        return ApiResponse.success(loginResponse);
     }
 
     /**
