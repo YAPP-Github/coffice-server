@@ -1,5 +1,6 @@
 package kr.co.yapp.cafe.ui;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,7 +12,9 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 public class ApiResponse<T> {
+    @NotNull
     private final String code;
+    @NotNull
     private final String message;
     private final T data;
 
