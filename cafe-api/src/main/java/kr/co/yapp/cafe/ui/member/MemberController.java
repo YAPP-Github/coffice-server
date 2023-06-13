@@ -1,11 +1,13 @@
 package kr.co.yapp.cafe.ui.member;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import kr.co.yapp.cafe.domain.member.Member;
 import kr.co.yapp.cafe.domain.member.MemberCreateVo;
 import kr.co.yapp.cafe.domain.member.MemberRepository;
+import kr.co.yapp.cafe.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp.cafe.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/members")
@@ -17,12 +19,12 @@ public class MemberController {
     /**
      * 내 정보 조회
      *
-     * @param authorization Bearer ${accessToken}
      * @return 현재 로그인한 회원 정보
      */
+    @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
     @GetMapping("/me")
     public Object getMyInfo(
-            @RequestHeader("Authorization") String authorization
+            @AuthenticationPrincipal Long memberId
     ) {
         return null;
     }
@@ -52,26 +54,22 @@ public class MemberController {
 
     /**
      * 로그아웃
-     *
-     * @param authorization Bearer ${accessToken}
      */
+    @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
     @PostMapping("/logout")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(
-            @RequestHeader("Authorization") String authorization
+            @AuthenticationPrincipal Long memberId
     ) {
         // TODO: 로그아웃
     }
 
     /**
      * 회원 탈퇴
-     *
-     * @param authorization Bearer ${accessToken}
      */
+    @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
     @PostMapping("/withdraw")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void withdraw(
-            @RequestHeader("Authorization") String authorization
+            @AuthenticationPrincipal Long memberId
     ) {
         // TODO: 회원탈퇴
     }

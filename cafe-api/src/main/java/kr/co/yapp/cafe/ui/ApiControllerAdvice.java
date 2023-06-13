@@ -1,5 +1,6 @@
 package kr.co.yapp.cafe.ui;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,8 +15,11 @@ public class ApiControllerAdvice {
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ApiResponse<?> handleAuthenticationException(AuthenticationException e) {
-        log.error("handleAuthenticationException", e);
+    public ApiResponse<?> handleAuthenticationException(
+            AuthenticationException e,
+            HttpServletRequest request
+    ) {
+        log.warn("{}. requestURI: {}", e.getMessage(), request.getRequestURI());
         return ApiResponse.failure(ResultCode.UNAUTHORIZED);
     }
 
