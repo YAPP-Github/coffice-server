@@ -1,14 +1,18 @@
 package kr.co.yapp.cafe.ui.place;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import kr.co.yapp.cafe.domain.place.*;
+import kr.co.yapp.cafe.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp.cafe.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
 @RequestMapping("/api/v1/places")
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ public class PlaceController {
 
     @GetMapping
     public ApiResponse<List<PlaceResponse>> getPlaces(
+            @AuthenticationPrincipal Long memberId,
             @PageableDefault Pageable pageable
     ) {
         return ApiResponse.success(
@@ -37,6 +42,7 @@ public class PlaceController {
         );
     }
 
+    @Deprecated
     @PostMapping
     public ApiResponse<PlaceResponse> createPlace(
             @RequestBody PlaceCreateRequest placeCreateRequest
@@ -47,6 +53,7 @@ public class PlaceController {
         return ApiResponse.success(placeResponse);
     }
 
+    @Deprecated
     @PutMapping("/{placeId}")
     public ApiResponse<PlaceResponse> updatePlace(
             @PathVariable Long placeId,
