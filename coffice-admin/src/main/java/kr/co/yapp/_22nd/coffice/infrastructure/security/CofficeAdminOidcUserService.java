@@ -19,18 +19,23 @@ public class CofficeAdminOidcUserService implements OAuth2UserService<OidcUserRe
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         var loadedUser = oidcUserService.loadUser(userRequest);
         if (!isAdminMember(loadedUser)) {
-            //noinspection DataFlowIssue
-            log.warn("접근 권한이 없습니다. email: {}", String.valueOf(loadedUser.getAttribute("email")));
-            throw new OAuth2AuthenticationException("접근 권한이 없습니다. email: " + loadedUser.getAttribute("email"));
+            String email = getEmail(loadedUser);
+            log.warn("접근 권한이 없습니다. email: {}", email);
+            throw new OAuth2AuthenticationException("접근 권한이 없습니다. email: " + email);
         }
         return loadedUser;
     }
 
     private boolean isAdminMember(OidcUser oidcUser) {
-        String email = oidcUser.getAttribute("email");
+        String email = getEmail(oidcUser);
         if (email == null) {
             return false;
         }
         return adminMemberRepository.findByEmail(email).isPresent();
+    }
+
+    private String getEmail(OidcUser oidcUser) {
+        Object email = oidcUser.getAttribute("email");
+        return email == null ? "null" : email.toString();
     }
 }
