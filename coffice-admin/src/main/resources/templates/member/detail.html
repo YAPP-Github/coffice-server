@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Place Detail</title>
+    <title>Member Detail</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -10,10 +10,12 @@
 <body>
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}">Header</div>
+
+<!-- Table -->
 <div class="container">
-    <h1 th:text="'Place Detail'"></h1>
+    <h1 th:text="'Member Detail'"></h1>
     <table class="table">
-        <caption th:text="'Place Detail'"></caption>
+        <caption th:text="'Member Detail'"></caption>
         <thead>
         <tr>
             <th th:text="'Key'" scope="col"></th>
@@ -22,20 +24,20 @@
         </thead>
         <tbody>
         <tr>
-            <th th:text="'PlaceId'" scope="row"></th>
-            <td th:text="${place.getPlaceId()}"></td>
+            <th th:text="'MemberId'" scope="row"></th>
+            <td th:text="${member.getMemberId()}"></td>
         </tr>
         <tr>
             <th th:text="'Name'" scope="row"></th>
-            <td th:text="${place.getName()}"></td>
+            <td th:text="${member.getName()}"></td>
         </tr>
         <tr>
             <th th:text="'CreatedAt'" scope="row"></th>
-            <td th:text="${place.getCreatedAt()}"></td>
+            <td th:text="${member.getCreatedAt()}"></td>
         </tr>
         <tr>
             <th th:text="'UpdatedAt'" scope="row"></th>
-            <td th:text="${place.getUpdatedAt()}"></td>
+            <td th:text="${member.getUpdatedAt()}"></td>
         </tr>
         </tbody>
     </table>
