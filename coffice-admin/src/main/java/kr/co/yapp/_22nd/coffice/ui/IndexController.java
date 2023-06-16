@@ -1,4 +1,4 @@
-package kr.co.yapp._22nd.coffice.controller;
+package kr.co.yapp._22nd.coffice.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

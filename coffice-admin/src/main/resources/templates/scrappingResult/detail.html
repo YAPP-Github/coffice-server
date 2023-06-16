@@ -10,72 +10,62 @@
             th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${@environment.getProperty('MAP_CLIENT_ID_NAVER')}"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/" th:text="'Cafe Admin'"></a>
-        <ul class="nav navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/" th:text="'Home'"></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/scrapping-result/list" th:text="'Scrapping Result'"></a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<h1 th:text="'ScrappingResult Detail'"></h1>
-<table class="table">
-    <caption th:text="'ScrappingResult Detail'"></caption>
-    <thead>
-    <tr>
-        <th th:text="'Key'" scope="col"></th>
-        <th th:text="'Value'" scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th th:text="'ScrappingResultId'" scope="row"></th>
-        <td th:text="${scrappingResult.getScrappingResultId()}"></td>
-    </tr>
-    <tr>
-        <th th:text="'Name'" scope="row"></th>
-        <td th:text="${scrappingResult.getName()}"></td>
-    </tr>
-    <tr>
-        <th th:text="'ImageUrls'" scope="row"></th>
-        <td th:text="${scrappingResult.getImageUrls()}"></td>
-    </tr>
-    <tr>
-        <th th:text="'ContactNumbers'" scope="row"></th>
-        <td th:text="${scrappingResult.getContactNumbers()}"></td>
-    </tr>
-    <tr>
-        <th th:text="'Address'" scope="row"></th>
-        <td th:text="${scrappingResult.getAddress().value()}"></td>
-    </tr>
-    <tr>
-        <th th:text="'Latitude'" scope="row"></th>
-        <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLatitude() : ''}"></td>
-    </tr>
-    <tr>
-        <th th:text="'Longitude'" scope="row"></th>
-        <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLongitude() : ''}"></td>
-    </tr>
-    <tr>
-        <th th:text="'CoordinateSystem'" scope="row"></th>
-        <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getCoordinateSystem().name() : ''}"></td>
-    </tr>
-    <tr>
-        <th th:text="'CreatedAt'" scope="row"></th>
-        <td th:text="${scrappingResult.getCreatedAt()}"></td>
-    </tr>
-    <tr>
-        <th th:text="'UpdatedAt'" scope="row"></th>
-        <td th:text="${scrappingResult.getUpdatedAt()}"></td>
-    </tr>
-    </tbody>
-</table>
-<div th:if="${scrappingResult.getCoordinates() != null}" id="map" style="width:100%;height:400px;"></div>
+<div th:replace="~{fragments/header :: header}">Header</div>
+<div class="container">
+    <h1 th:text="'ScrappingResult Detail'"></h1>
+    <table class="table">
+        <caption th:text="'ScrappingResult Detail'"></caption>
+        <thead>
+        <tr>
+            <th th:text="'Key'" scope="col"></th>
+            <th th:text="'Value'" scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th th:text="'ScrappingResultId'" scope="row"></th>
+            <td th:text="${scrappingResult.getScrappingResultId()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Name'" scope="row"></th>
+            <td th:text="${scrappingResult.getName()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'ImageUrls'" scope="row"></th>
+            <td th:text="${scrappingResult.getImageUrls()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'ContactNumbers'" scope="row"></th>
+            <td th:text="${scrappingResult.getContactNumbers()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Address'" scope="row"></th>
+            <td th:text="${scrappingResult.getAddress().value()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Latitude'" scope="row"></th>
+            <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLatitude() : ''}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Longitude'" scope="row"></th>
+            <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getLongitude() : ''}"></td>
+        </tr>
+        <tr>
+            <th th:text="'CoordinateSystem'" scope="row"></th>
+            <td th:text="${scrappingResult.getCoordinates() != null ? scrappingResult.getCoordinates().getCoordinateSystem().name() : ''}"></td>
+        </tr>
+        <tr>
+            <th th:text="'CreatedAt'" scope="row"></th>
+            <td th:text="${scrappingResult.getCreatedAt()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'UpdatedAt'" scope="row"></th>
+            <td th:text="${scrappingResult.getUpdatedAt()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${scrappingResult.getCoordinates() != null}" id="map" style="width:100%;height:400px;"></div>
+</div>
 <script th:if="${scrappingResult.getCoordinates() != null}" th:inline="javascript">
     /*<![CDATA[*/
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<th:block th:fragment="pagination (pagedObject)">
+
+    <div th:if="${pagedObject.getTotalPages() != 1}" class="form-group col-md-11 pagination-centered"
+         aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- page number start with 0, totalPages returns actual number of pages -->
+            <li th:classappend="${pagedObject.getNumber() == 0} ? disabled" class="page-item">
+                <a class="page-link" th:href="@{''(size=${pagedObject.getSize()}, page=0)}">&laquo;</a>
+            </li>
+            <li th:classappend="${pagedObject.getNumber() == 0} ? disabled" class="page-item">
+                <a class="page-link"
+                   th:href="@{''(size=${pagedObject.getSize()}, page=${pagedObject.getNumber() -1})}">&larr;</a>
+            </li>
+            <li th:classappend="${pagedObject.getNumber() == (page  )} ? 'active pointer-disabled'"
+                th:each="page : ${#numbers.sequence( T(java.lang.Math).max(0, pagedObject.getNumber() - 5), T(java.lang.Math).min(pagedObject.getNumber() + 5, pagedObject.getTotalPages() - 1))}"
+                class="page-item">
+                <a class="page-link" th:href="@{''(size=${pagedObject.getSize()}, page=${page})}"
+                   th:text="${page + 1}"></a>
+            </li>
+            <li th:classappend="${pagedObject.getNumber() + 1 == pagedObject.getTotalPages()} ? disabled"
+                class="page-item">
+                <a class="page-link"
+                   th:href="@{''(size=${pagedObject.getSize()}, page=${pagedObject.getNumber() + 1})}">&rarr;</a>
+            </li>
+            <li th:classappend="${pagedObject.getNumber() + 1 == pagedObject.getTotalPages()} ? disabled"
+                class="page-item">
+                <a class="page-link"
+                   th:href="@{''(size=${pagedObject.getSize()}, page=${pagedObject.getTotalPages() - 1})}">&raquo;</a>
+            </li>
+        </ul>
+
+        <p class="text-muted small">
+            Showing page <span th:text="${pagedObject.getNumber() +1}"></span> of <span
+                th:text="${pagedObject.getTotalPages()}"></span>.
+            Total: <span th:text="${pagedObject.getTotalElements()}"></span>.
+        </p>
+    </div>
+
+    <div th:if="${pagedObject.getTotalElements() ==0}">
+        <div class="alert alert-warning" role="alert">
+            <span>No items available.</span>
+        </div>
+    </div>
+
+</th:block>
+</body>
