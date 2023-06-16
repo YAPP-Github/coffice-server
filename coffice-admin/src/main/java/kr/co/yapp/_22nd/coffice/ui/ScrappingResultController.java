@@ -1,4 +1,4 @@
-package kr.co.yapp._22nd.coffice.controller;
+package kr.co.yapp._22nd.coffice.ui;
 
 import kr.co.yapp._22nd.coffice.domain.scrapping.ScrappingResult;
 import kr.co.yapp._22nd.coffice.domain.scrapping.ScrappingResultService;
