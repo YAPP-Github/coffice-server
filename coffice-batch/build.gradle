@@ -1,6 +1,6 @@
 dependencies {
-    implementation project(':cafe-domain')
-    implementation project(':cafe-notification-firebase')
+    implementation project(':coffice-domain')
+    implementation project(':coffice-notification-firebase')
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.fasterxml.jackson.core:jackson-databind'

@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(':cafe-domain')
+    implementation project(':coffice-domain')
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'

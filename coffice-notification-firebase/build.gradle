@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api project(':cafe-notification-core')
+    api project(':coffice-notification-core')
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "com.google.firebase:firebase-admin:$firebaseAdminVersion"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
