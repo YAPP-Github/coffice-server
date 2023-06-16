@@ -5,8 +5,8 @@ on:
   push:
     branches: [ "develop" ]
     paths:
-      - 'cafe-api/**'
-      - 'cafe-domain/**'
+      - 'coffice-api/**'
+      - 'coffice-domain/**'
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew cafe-api:bootJar
+        run: ./gradlew :coffice-api:bootJar
         shell: bash
 
       - name: Get current time
@@ -41,7 +41,7 @@ jobs:
         shell: bash
 
       - name: Build docker image
-        run: docker build -t yapp22ndios1st/cafe-api ./cafe-api
+        run: docker build -t yapp22ndios1st/coffice-api ./coffice-api
 
       - name: Sign in to Docker Hub
         uses: docker/login-action@v2
@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_DEPLOYMENT_TOKEN }}
 
       - name: Push docker image to Docker Hub
-        run: docker push yapp22ndios1st/cafe-api
+        run: docker push yapp22ndios1st/coffice-api
 
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v0.1.10
