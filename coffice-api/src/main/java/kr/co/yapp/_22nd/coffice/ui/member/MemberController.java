@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberRepository memberRepository;
+    private final MemberAssembler memberAssembler;
 
     /**
      * 내 정보 조회
@@ -42,9 +43,7 @@ public class MemberController {
         Long testMemberId = 1L;
         Member member = memberRepository.findById(testMemberId)
                 .orElseGet(() -> Member.from(MemberCreateVo.of("test")));
-        MemberResponse memberResponse = new MemberResponse();
-        memberResponse.setMemberId(member.getMemberId());
-        memberResponse.setName(member.getName());
+        MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
         LoginResponse loginResponse = new LoginResponse();
         String testAccessToken = "accessToken";
         loginResponse.setAccessToken(testAccessToken);

@@ -2,6 +2,7 @@ package kr.co.yapp._22nd.coffice.domain.place.folder;
 
 import jakarta.persistence.*;
 import kr.co.yapp._22nd.coffice.domain.member.Member;
+import kr.co.yapp._22nd.coffice.domain.place.folder.place.PlaceFolderPlace;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -10,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +27,8 @@ public class PlaceFolder {
     @JoinColumn(name = "memberId")
     private Member member;
     private String name;
+    @OneToMany(mappedBy = "placeFolder")
+    private final List<PlaceFolderPlace> placeFolderPlaces = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

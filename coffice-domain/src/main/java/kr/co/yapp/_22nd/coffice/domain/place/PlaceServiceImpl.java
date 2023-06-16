@@ -39,4 +39,10 @@ public class PlaceServiceImpl implements PlaceService {
     public Optional<Place> findById(Long placeId) {
         return placeRepository.findByPlaceIdAndDeletedFalse(placeId);
     }
+
+    @Override
+    public Place getPlace(Long placeId) {
+        return placeRepository.findByPlaceIdAndDeletedFalse(placeId)
+                .orElseThrow(() -> new PlaceNotFoundException(placeId));
+    }
 }

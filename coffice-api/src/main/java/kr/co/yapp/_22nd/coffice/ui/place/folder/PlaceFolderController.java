@@ -44,13 +44,13 @@ public class PlaceFolderController {
      * @return 장소 폴더
      */
     @GetMapping("/{placeFolderId}")
-    public ApiResponse<PlaceFolderResponse> getPlaceFolder(
+    public ApiResponse<PlaceFolderDetailResponse> getPlaceFolder(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long placeFolderId
     ) {
         PlaceFolder placeFolder = placeFolderApplicationService.getPlaceFolder(memberId, placeFolderId);
-        PlaceFolderResponse placeFolderResponse = placeFolderAssembler.toPlaceFolderResponse(placeFolder);
-        return ApiResponse.success(placeFolderResponse);
+        PlaceFolderDetailResponse placeFolderDetailResponse = placeFolderAssembler.toPlaceFolderDetailResponse(placeFolder);
+        return ApiResponse.success(placeFolderDetailResponse);
     }
 
     /**
