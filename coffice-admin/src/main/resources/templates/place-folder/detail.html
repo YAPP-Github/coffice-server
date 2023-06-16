@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PlaceFolder Detail</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<!-- Table -->
+<div class="container">
+    <h1 th:text="'PlaceFolder Detail'"></h1>
+    <table class="table">
+        <caption th:text="'PlaceFolder Detail'"></caption>
+        <thead>
+        <tr>
+            <th th:text="'Key'" scope="col"></th>
+            <th th:text="'Value'" scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th th:text="'PlaceFolderId'" scope="row"></th>
+            <td th:text="${placeFolder.getPlaceFolderId()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'MemberId'" scope="row"></th>
+            <td th:text="${placeFolder.getMember().getMemberId()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Name'" scope="row"></th>
+            <td th:text="${placeFolder.getName()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Places'" scope="row"></th>
+            <td>
+                <ul th:each="placeFolderPlace: ${placeFolder.getPlaceFolderPlaces()}">
+                    <li>
+                        <a th:href="@{'/place/' + ${placeFolderPlace.getPlace().getPlaceId()}}">
+                            <span th:text="${placeFolderPlace.getPlace().getName()}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </td>
+        <tr>
+            <th th:text="'CreatedAt'" scope="row"></th>
+            <td th:text="${placeFolder.getCreatedAt()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'UpdatedAt'" scope="row"></th>
+            <td th:text="${placeFolder.getUpdatedAt()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

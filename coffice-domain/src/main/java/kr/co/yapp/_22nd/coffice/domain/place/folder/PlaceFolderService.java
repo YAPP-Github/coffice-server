@@ -1,5 +1,8 @@
 package kr.co.yapp._22nd.coffice.domain.place.folder;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface PlaceFolderService {
@@ -12,4 +15,8 @@ public interface PlaceFolderService {
     List<PlaceFolder> getPlaceFolders(Long memberId);
 
     PlaceFolder getPlaceFolder(Long memberId, Long placeFolderId);
+
+    Page<PlaceFolder> findAll(Pageable pageable);
+
+    PlaceFolder getPlaceFolder(Long placeFolderId);
 }

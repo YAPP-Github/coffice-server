@@ -3,6 +3,8 @@ package kr.co.yapp._22nd.coffice.domain.place.folder;
 import kr.co.yapp._22nd.coffice.domain.member.Member;
 import kr.co.yapp._22nd.coffice.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +73,17 @@ public class PlaceFolderServiceImpl implements PlaceFolderService {
             Long placeFolderId
     ) {
         return placeFolderRepository.findByMember_memberIdAndPlaceFolderIdAndDeletedFalse(memberId, placeFolderId)
+                .orElseThrow(() -> new PlaceFolderNotFoundException(placeFolderId));
+    }
+
+    @Override
+    public Page<PlaceFolder> findAll(Pageable pageable) {
+        return placeFolderRepository.findAll(pageable);
+    }
+
+    @Override
+    public PlaceFolder getPlaceFolder(Long placeFolderId) {
+        return placeFolderRepository.findById(placeFolderId)
                 .orElseThrow(() -> new PlaceFolderNotFoundException(placeFolderId));
     }
 }
