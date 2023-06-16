@@ -1,0 +1,24 @@
+dependencies {
+    implementation project(':coffice-notification-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly "com.mysql:mysql-connector-j:$mysqlVersion"
+    runtimeOnly 'com.h2database:h2'
+
+    implementation 'com.querydsl:querydsl-core'
+    implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+
+    implementation "com.amazonaws:aws-java-sdk-s3:$awsJavaSdkS3Version"
+    implementation "com.amazonaws:aws-java-sdk-sqs:$awsJavaSdkSqsVersion"
+}
+
+jar {
+    enabled = true
+}
+
+bootJar {
+    enabled = false
+}

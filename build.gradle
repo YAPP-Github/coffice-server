@@ -15,7 +15,7 @@ subprojects {
         toolVersion = "$jacocoVersion"
     }
 
-    group = 'kr.co.yapp.cafe'
+    group = 'kr.co.yapp._22nd.coffice'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '17'
 

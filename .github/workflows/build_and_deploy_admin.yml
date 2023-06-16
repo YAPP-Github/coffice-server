@@ -5,14 +5,15 @@ on:
   push:
     branches: [ 'develop' ]
     paths:
-      - 'cafe-admin/**'
-      - 'cafe-domain/**'
+      - 'coffice-admin/**'
+      - 'coffice-domain/**'
+      - 'coffice-notification-core/**'
 
 permissions:
   contents: read
 
 env:
-  DOCKER_IMAGE_NAME: 'yapp22ndios1st/cafe-admin'
+  DOCKER_IMAGE_NAME: 'yapp22ndios1st/coffice-admin'
 
 jobs:
   build:
@@ -30,8 +31,8 @@ jobs:
           arguments: :cafe-admin:build
       - name: Build docker images
         run: |
-          docker build -t ${DOCKER_IMAGE_NAME}:${{ github.sha }} ./cafe-admin
-          docker build -t ${DOCKER_IMAGE_NAME}:latest ./cafe-admin
+          docker build -t ${DOCKER_IMAGE_NAME}:${{ github.sha }} ./coffice-admin
+          docker build -t ${DOCKER_IMAGE_NAME}:latest ./coffice-admin
       - name: Sign in to Docker Hub
         uses: docker/login-action@v2
         with:
