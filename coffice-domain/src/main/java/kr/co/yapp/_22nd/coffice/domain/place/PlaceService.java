@@ -13,4 +13,6 @@ public interface PlaceService {
     Page<Place> findAll(Pageable pageable);
 
     Optional<Place> findById(Long placeId);
+
+    Place getPlace(Long placeId);
 }
