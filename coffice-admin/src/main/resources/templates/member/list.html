@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Place List</title>
+    <title>Member List</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -12,32 +12,31 @@
 <div th:replace="~{fragments/header :: header}">Header</div>
 
 <div class="container">
-    <h1 th:text="'Place List'"></h1>
+    <h1 th:text="'Member List'"></h1>
 
     <!-- Table -->
     <table class="table table-striped">
-        <caption th:text="'Place List'"></caption>
+        <caption th:text="'Member List'"></caption>
         <thead>
         <tr>
-            <th th:text="placeId"></th>
+            <th th:text="memberId"></th>
             <th th:text="name"></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="place : ${placePage.getContent()}">
+        <tr th:each="member : ${memberPage.getContent()}">
             <td>
-                <a th:href="@{'/place/' + ${place.getPlaceId()}}"
-                   th:text="${place.getPlaceId()}">
+                <a th:href="@{'/member/' + ${member.getMemberId()}}"
+                   th:text="${member.getMemberId()}">
                 </a>
             </td>
-            <td th:text="${place.getName()}"></td>
+            <td th:text="${member.getName()}"></td>
         </tr>
         </tbody>
     </table>
 
     <!-- Pagination -->
-    <div th:replace="~{fragments/pagination :: pagination (${placePage})}">Pagination</div>
+    <div th:replace="~{fragments/pagination :: pagination (${memberPage})}">Pagination</div>
 </div>
-
 </body>
 </html>
