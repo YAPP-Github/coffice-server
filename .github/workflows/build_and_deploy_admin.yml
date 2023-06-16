@@ -28,7 +28,7 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: :cafe-admin:build
+          arguments: :coffice-admin:build
       - name: Build docker images
         run: |
           docker build -t ${DOCKER_IMAGE_NAME}:${{ github.sha }} ./coffice-admin
