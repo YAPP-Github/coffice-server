@@ -5,6 +5,13 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
   datasource:
     driver-class-name: org.h2.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: googleClientId
+            clientSecret: googleClientSecret
 cafe:
   aws:
     s3:
