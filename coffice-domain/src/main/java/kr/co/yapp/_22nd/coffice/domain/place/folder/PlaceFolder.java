@@ -27,6 +27,8 @@ public class PlaceFolder {
     @JoinColumn(name = "memberId")
     private Member member;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private PlaceFolderColors color;
     @OneToMany(mappedBy = "placeFolder")
     private final List<PlaceFolderPlace> placeFolderPlaces = new ArrayList<>();
     @CreatedDate
@@ -42,11 +44,13 @@ public class PlaceFolder {
         PlaceFolder placeFolder = new PlaceFolder();
         placeFolder.member = member;
         placeFolder.name = placeFolderCreateVo.getName();
+        placeFolder.color = placeFolderCreateVo.getColor();
         return placeFolder;
     }
 
     public void update(PlaceFolderUpdateVo placeFolderUpdateVo) {
         this.name = placeFolderUpdateVo.getName();
+        this.color = placeFolderUpdateVo.getColor();
     }
 
     public void delete() {

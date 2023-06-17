@@ -5,4 +5,5 @@ import lombok.Value;
 @Value
 public class PlaceFolderCreateVo {
     String name;
+    PlaceFolderColors color;
 }

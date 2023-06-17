@@ -14,4 +14,6 @@ public class PlaceFolderResponse {
     private Long placeFolderId;
     @NotBlank
     private String name;
+    @NotBlank
+    private String color;
 }
