@@ -10,4 +10,6 @@ public class PlaceResponse {
     private final Long placeId;
     @NotBlank
     private final String name;
+    @NotNull
+    private final CoordinatesResponse coordinates;
 }
