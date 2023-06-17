@@ -10,7 +10,7 @@ public class Distance implements Comparable<Distance> {
     DistanceUnit unit;
 
     private Distance(BigDecimal value, DistanceUnit unit) {
-        this.unit = unit;
+        this.unit = DistanceUnit.defaults();
         this.value = toMeterValue(value, unit);
     }
 
