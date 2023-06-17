@@ -14,6 +14,8 @@ public interface PlaceFolderService {
 
     List<PlaceFolder> getPlaceFolders(Long memberId);
 
+    List<PlaceFolder> getPlaceFolders(Long memberId, List<Long> placeFolderIds);
+
     PlaceFolder getPlaceFolder(Long memberId, Long placeFolderId);
 
     Page<PlaceFolder> findAll(Pageable pageable);

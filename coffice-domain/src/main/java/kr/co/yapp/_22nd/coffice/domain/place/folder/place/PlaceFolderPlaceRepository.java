@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface PlaceFolderPlaceRepository extends JpaRepository<PlaceFolderPlace, Long> {
     Optional<PlaceFolderPlace> findByMemberAndPlaceFolderAndPlace(Member member, PlaceFolder placeFolder, Place place);
+
+    void deleteByMember_memberIdAndPlace_placeId(Long memberId, Long placeId);
 }

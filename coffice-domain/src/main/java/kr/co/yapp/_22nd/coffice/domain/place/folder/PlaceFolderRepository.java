@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface PlaceFolderRepository extends JpaRepository<PlaceFolder, Long> {
     List<PlaceFolder> findByMember_memberIdAndDeletedFalse(Long memberId);
 
+    List<PlaceFolder> findByMember_memberIdAndPlaceFolderIdInAndDeletedFalse(Long memberId, List<Long> placeFolderIds);
+
     Optional<PlaceFolder> findByMember_memberIdAndPlaceFolderIdAndDeletedFalse(Long memberId, Long placeFolderId);
 
     Optional<PlaceFolder> findByMember_memberIdAndNameContainsAndDeletedFalse(Long memberId, String name);
