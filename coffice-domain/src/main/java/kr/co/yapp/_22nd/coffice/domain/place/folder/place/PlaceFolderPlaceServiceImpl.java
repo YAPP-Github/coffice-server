@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,7 +24,29 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
 
     @Override
     @Transactional
-    public PlaceFolderPlace add(Long memberId, Long placeFolderId, Long placeId) {
+    public List<PlaceFolderPlace> update(
+            Long memberId,
+            Long placeId,
+            List<Long> placeFolderIds
+    ) {
+        Member member = memberService.getMember(memberId);
+        List<PlaceFolder> placeFolders = placeFolderService.getPlaceFolders(memberId, placeFolderIds);
+        Place place = placeQueryService.getPlace(placeId);
+
+        placeFolderPlaceRepository.deleteByMember_memberIdAndPlace_placeId(memberId, placeId);
+        List<PlaceFolderPlace> placeFolderPlaces = placeFolders.stream()
+                .map(it -> PlaceFolderPlace.of(member, it, place))
+                .collect(Collectors.toList());
+        return placeFolderPlaceRepository.saveAll(placeFolderPlaces);
+    }
+
+    @Override
+    @Transactional
+    public PlaceFolderPlace add(
+            Long memberId,
+            Long placeFolderId,
+            Long placeId
+    ) {
         Member member = memberService.getMember(memberId);
         PlaceFolder placeFolder = placeFolderService.getPlaceFolder(memberId, placeFolderId);
         Place place = placeQueryService.getPlace(placeId);
@@ -34,7 +59,11 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
 
     @Override
     @Transactional
-    public void remove(Long memberId, Long placeFolderId, Long placeId) {
+    public void remove(
+            Long memberId,
+            Long placeFolderId,
+            Long placeId
+    ) {
         Member member = memberService.getMember(memberId);
         PlaceFolder placeFolder = placeFolderService.getPlaceFolder(memberId, placeFolderId);
         Place place = placeQueryService.getPlace(placeId);

@@ -5,10 +5,20 @@ import kr.co.yapp._22nd.coffice.domain.place.folder.place.PlaceFolderPlaceServic
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PlaceFolderPlaceApplicationService {
     private final PlaceFolderPlaceService placeFolderPlaceService;
+
+    public List<PlaceFolderPlace> updatePlaceToPlaceFolderMap(
+            Long memberId,
+            Long placeId,
+            List<Long> placeFolderIds
+    ) {
+        return placeFolderPlaceService.update(memberId, placeId, placeFolderIds);
+    }
 
     public PlaceFolderPlace saveToPlaceFolder(
             Long memberId,

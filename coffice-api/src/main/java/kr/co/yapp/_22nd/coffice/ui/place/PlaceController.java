@@ -47,6 +47,24 @@ public class PlaceController {
         );
     }
 
+    @PutMapping("/{placeId}/place-folders")
+    public ApiResponse<List<PlaceFolderPlaceResponse>> updatePlaceToPlaceFolderMapping(
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable Long placeId,
+            @RequestBody PlaceToPlaceFolderMapRequest placeToPlaceFolderMapRequest
+    ) {
+        return ApiResponse.success(
+                placeFolderPlaceApplicationService.updatePlaceToPlaceFolderMap(
+                                memberId,
+                                placeId,
+                                placeToPlaceFolderMapRequest.getPlaceFolderIds()
+                        )
+                        .stream()
+                        .map(placeFolderPlaceAssembler::toPlaceFolderPlaceResponse)
+                        .toList()
+        );
+    }
+
     /**
      * 폴더에 장소 저장
      *

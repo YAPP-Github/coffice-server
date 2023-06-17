@@ -68,6 +68,11 @@ public class PlaceFolderServiceImpl implements PlaceFolderService {
     }
 
     @Override
+    public List<PlaceFolder> getPlaceFolders(Long memberId, List<Long> placeFolderIds) {
+        return placeFolderRepository.findByMember_memberIdAndPlaceFolderIdInAndDeletedFalse(memberId, placeFolderIds);
+    }
+
+    @Override
     public PlaceFolder getPlaceFolder(
             Long memberId,
             Long placeFolderId
