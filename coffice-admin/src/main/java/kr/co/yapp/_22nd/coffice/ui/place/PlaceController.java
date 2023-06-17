@@ -19,14 +19,20 @@ public class PlaceController {
     private final PlaceService placeService;
 
     @GetMapping
-    public String list(@PageableDefault Pageable pageable, Model model) {
+    public String list(
+            @PageableDefault Pageable pageable,
+            Model model
+    ) {
         Page<Place> placePage = placeService.findAll(pageable);
         model.addAttribute("placePage", placePage);
         return "place/list";
     }
 
     @GetMapping("/{placeId}")
-    public String detail(@PathVariable Long placeId, Model model) {
+    public String detail(
+            @PathVariable Long placeId,
+            Model model
+    ) {
         model.addAttribute("place", placeService.getPlace(placeId));
         return "place/detail";
     }
@@ -37,20 +43,30 @@ public class PlaceController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute PlaceAddRequest placeAddRequest, Model model) {
+    public String add(
+            @ModelAttribute PlaceAddRequest placeAddRequest,
+            Model model
+    ) {
         Place place = placeService.create(PlaceCreateVo.of(placeAddRequest.getName()));
         model.addAttribute("place", place);
         return "redirect:/place/" + place.getPlaceId();
     }
 
     @GetMapping("/{placeId}/edit")
-    public String editForm(@PathVariable Long placeId, Model model) {
+    public String editForm(
+            @PathVariable Long placeId,
+            Model model
+    ) {
         model.addAttribute("place", placeService.getPlace(placeId));
         return "place/edit";
     }
 
     @PostMapping("/{placeId}/edit")
-    public String edit(@PathVariable Long placeId, @ModelAttribute PlaceEditRequest placeEditRequest, Model model) {
+    public String edit(
+            @PathVariable Long placeId,
+            @ModelAttribute PlaceEditRequest placeEditRequest,
+            Model model
+    ) {
         Place place = placeService.update(
                 placeId,
                 PlaceUpdateVo.of(placeEditRequest.getName())
