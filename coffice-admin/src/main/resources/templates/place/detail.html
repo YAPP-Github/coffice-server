@@ -10,8 +10,15 @@
 <body>
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}">Header</div>
+
 <div class="container">
     <h1 th:text="'Place Detail'"></h1>
+
+    <div>
+        <a class="btn btn-primary" th:href="'/place/' + ${place.getPlaceId()} + '/edit'" role="button"
+           th:text="'수정'"></a>
+    </div>
+
     <table class="table">
         <caption th:text="'Place Detail'"></caption>
         <thead>

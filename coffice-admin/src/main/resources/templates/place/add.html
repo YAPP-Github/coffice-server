@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>New Place</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<!-- Content -->
+<div class="container">
+    <h1 th:text="'New Place'"></h1>
+    <form>
+        <div class="form-group">
+            <label for="placeNameId" class="control-label" th:text="'이름'"></label>
+            <input id="placeNameId" class="form-control" name="name" type="text" placeholder="Place 이름을 입력하세요.">
+            <small class="form-text text-muted">ex) 할리스 강남역점, ...</small>
+        </div>
+        <button id="placeSubmitId" type="submit" formmethod="post" class="btn btn-primary"
+                th:text="'추가'"></button>
+    </form>
+</div>
+
+</body>
+</html>

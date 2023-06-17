@@ -2,7 +2,7 @@ package kr.co.yapp._22nd.coffice.domain.place;
 
 import lombok.Value;
 
-@Value
+@Value(staticConstructor = "of")
 public class PlaceUpdateVo {
     String name;
 }
