@@ -96,11 +96,13 @@ public class PlaceController {
 
     @PostMapping("/search")
     public ApiResponse<List<PlaceResponse>> search(
+            @AuthenticationPrincipal Long memberId,
             @RequestBody PlaceSearchRequest placeSearchRequest
     ) {
         // FIXME: pagination
         return ApiResponse.success(
                 placeApplicationService.search(
+                                memberId,
                                 PlaceSearchRequestVo.of(
                                         placeSearchRequest.getSearchText(),
                                         Coordinates.of(

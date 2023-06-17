@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.ui;
 
-import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-    private final PlaceApplicationService placeApplicationService;
+    private final PlaceQueryService placeQueryService;
 
     @GetMapping
     public String index(
             Model model
     ) {
-        Page<PlaceSearchResponseVo> placeSearchResponseVoPage = placeApplicationService.search(
+        Page<PlaceSearchResponseVo> placeSearchResponseVoPage = placeQueryService.search(
                 PlaceSearchRequestVo.of(
                         "",
                         Coordinates.of(
