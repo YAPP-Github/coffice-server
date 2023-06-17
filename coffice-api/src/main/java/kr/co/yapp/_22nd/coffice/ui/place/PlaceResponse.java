@@ -12,4 +12,5 @@ public class PlaceResponse {
     private final String name;
     @NotNull
     private final CoordinatesResponse coordinates;
+    private final AddressResponse address;
 }

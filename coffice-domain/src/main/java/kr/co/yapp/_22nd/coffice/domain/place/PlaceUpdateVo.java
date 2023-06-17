@@ -6,4 +6,5 @@ import lombok.Value;
 public class PlaceUpdateVo {
     String name;
     Coordinates coordinates;
+    Address address;
 }

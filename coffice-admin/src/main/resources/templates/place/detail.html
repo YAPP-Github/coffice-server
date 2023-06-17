@@ -4,6 +4,7 @@
     <title>Place Detail</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
@@ -37,11 +38,23 @@
         </tr>
         <tr>
             <th th:text="'Latitude'" scope="row"></th>
-            <td th:text="${place.getCoordinates().getLatitude()}"></td>
+            <td th:text="${place.getCoordinates() == null ? '' : place.getCoordinates().getLatitude()}"></td>
         </tr>
         <tr>
             <th th:text="'Longitude'" scope="row"></th>
-            <td th:text="${place.getCoordinates().getLongitude()}"></td>
+            <td th:text="${place.getCoordinates() == null ? '' : place.getCoordinates().getLongitude()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'StreetAddress'" scope="row"></th>
+            <td th:text="${place.getAddress() == null ? '' : place.getAddress().getStreetAddress()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'LandAddress'" scope="row"></th>
+            <td th:text="${place.getAddress() == null ? '' : place.getAddress().getLandAddress()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'postalCode'" scope="row"></th>
+            <td th:text="${place.getAddress() == null ? '' : place.getAddress().getPostalCode()}"></td>
         </tr>
         <tr>
             <th th:text="'CreatedAt'" scope="row"></th>

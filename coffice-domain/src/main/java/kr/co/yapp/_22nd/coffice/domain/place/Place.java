@@ -25,6 +25,9 @@ public class Place {
     @Embedded
     private Coordinates coordinates;
 
+    @Embedded
+    private Address address;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -37,12 +40,14 @@ public class Place {
         Place place = new Place();
         place.name = placeCreateVo.getName();
         place.coordinates = placeCreateVo.getCoordinates();
+        place.address = placeCreateVo.getAddress();
         return place;
     }
 
     public void update(PlaceUpdateVo placeUpdateVo) {
         name = placeUpdateVo.getName();
         coordinates = placeUpdateVo.getCoordinates();
+        address = placeUpdateVo.getAddress();
     }
 
     public void delete() {

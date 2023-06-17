@@ -1,10 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
 import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
-import kr.co.yapp._22nd.coffice.domain.place.Coordinates;
-import kr.co.yapp._22nd.coffice.domain.place.Place;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceCreateVo;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceUpdateVo;
+import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +51,12 @@ public class PlaceController {
                         Coordinates.of(
                                 placeAddRequest.getLatitude(),
                                 placeAddRequest.getLongitude()
-                        )
+                        ),
+                        Address.builder()
+                                .streetAddress(placeAddRequest.getStreetAddress())
+                                .landAddress(placeAddRequest.getLandAddress())
+                                .postalCode(placeAddRequest.getPostalCode())
+                                .build()
                 )
         );
         model.addAttribute("place", place);
@@ -83,7 +85,12 @@ public class PlaceController {
                         Coordinates.of(
                                 placeEditRequest.getLatitude(),
                                 placeEditRequest.getLongitude()
-                        )
+                        ),
+                        Address.builder()
+                                .streetAddress(placeEditRequest.getStreetAddress())
+                                .landAddress(placeEditRequest.getLandAddress())
+                                .postalCode(placeEditRequest.getPostalCode())
+                                .build()
                 )
         );
         model.addAttribute("place", place);

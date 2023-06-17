@@ -7,4 +7,7 @@ public class PlaceEditRequest {
     private String name;
     private Double latitude;
     private Double longitude;
+    private String streetAddress;
+    private String landAddress;
+    private String postalCode;
 }

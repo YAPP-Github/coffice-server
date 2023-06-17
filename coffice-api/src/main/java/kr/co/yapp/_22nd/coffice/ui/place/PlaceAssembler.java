@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
-import kr.co.yapp._22nd.coffice.domain.place.*;
+import kr.co.yapp._22nd.coffice.domain.place.Place;
+import kr.co.yapp._22nd.coffice.domain.place.PlaceSearchResponseVo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,7 +10,8 @@ public class PlaceAssembler {
         return new PlaceResponse(
                 place.getPlaceId(),
                 place.getName(),
-                CoordinatesResponse.from(place.getCoordinates())
+                CoordinatesResponse.from(place.getCoordinates()),
+                place.getAddress() == null ? null : AddressResponse.from(place.getAddress())
         );
     }
 
@@ -17,27 +19,8 @@ public class PlaceAssembler {
         return new PlaceResponse(
                 placeSearchResponseVo.getPlaceId(),
                 placeSearchResponseVo.getName(),
-                CoordinatesResponse.from(placeSearchResponseVo.getCoordinates())
-        );
-    }
-
-    public PlaceCreateVo toPlaceCreateVo(PlaceCreateRequest placeCreateRequest) {
-        return PlaceCreateVo.of(
-                placeCreateRequest.getName(),
-                Coordinates.of(
-                        placeCreateRequest.getLatitude(),
-                        placeCreateRequest.getLongitude()
-                )
-        );
-    }
-
-    public PlaceUpdateVo toPlaceUpdateVo(PlaceUpdateRequest placeUpdateRequest) {
-        return PlaceUpdateVo.of(
-                placeUpdateRequest.getName(),
-                Coordinates.of(
-                        placeUpdateRequest.getLatitude(),
-                        placeUpdateRequest.getLongitude()
-                )
+                CoordinatesResponse.from(placeSearchResponseVo.getCoordinates()),
+                placeSearchResponseVo.getAddress() == null ? null : AddressResponse.from(placeSearchResponseVo.getAddress())
         );
     }
 }
