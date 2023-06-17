@@ -1,0 +1,8 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group.required .control-label:after {
+    color: red;
+    content: '*';
+}

@@ -47,29 +47,6 @@ public class PlaceController {
         );
     }
 
-    @Deprecated
-    @PostMapping
-    public ApiResponse<PlaceResponse> createPlace(
-            @RequestBody PlaceCreateRequest placeCreateRequest
-    ) {
-        PlaceCreateVo placeCreateVo = placeAssembler.toPlaceCreateVo(placeCreateRequest);
-        Place place = placeApplicationService.create(placeCreateVo);
-        PlaceResponse placeResponse = placeAssembler.toPlaceResponse(place);
-        return ApiResponse.success(placeResponse);
-    }
-
-    @Deprecated
-    @PutMapping("/{placeId}")
-    public ApiResponse<PlaceResponse> updatePlace(
-            @PathVariable Long placeId,
-            @RequestBody PlaceUpdateRequest placeUpdateRequest
-    ) {
-        PlaceUpdateVo placeUpdateVo = placeAssembler.toPlaceUpdateVo(placeUpdateRequest);
-        Place place = placeApplicationService.update(placeId, placeUpdateVo);
-        PlaceResponse placeResponse = placeAssembler.toPlaceResponse(place);
-        return ApiResponse.success(placeResponse);
-    }
-
     /**
      * 폴더에 장소 저장
      *

@@ -3,11 +3,13 @@ package kr.co.yapp._22nd.coffice.domain.place;
 import jakarta.persistence.Embeddable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 @Embeddable
 @Builder
+@Getter
 @ToString
 @EqualsAndHashCode
 public class Address {
@@ -25,9 +27,9 @@ public class Address {
     private final String postalCode;
 
     private Address(String streetAddress, String landAddress, String postalCode) {
-        this.streetAddress = streetAddress != null ? streetAddress.trim() : null;
-        this.landAddress = landAddress != null ? landAddress.trim() : null;
-        this.postalCode = postalCode != null ? postalCode.trim() : null;
+        this.streetAddress = StringUtils.hasText(streetAddress) ? streetAddress.trim() : null;
+        this.landAddress = StringUtils.hasText(landAddress) ? landAddress.trim() : null;
+        this.postalCode = StringUtils.hasText(postalCode) ? postalCode.trim() : null;
     }
 
     protected Address() {

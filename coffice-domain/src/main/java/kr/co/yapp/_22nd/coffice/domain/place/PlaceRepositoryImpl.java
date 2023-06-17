@@ -46,6 +46,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                         place.name,
                         place.coordinates.latitude,
                         place.coordinates.longitude,
+                        place.address.streetAddress,
+                        place.address.landAddress,
+                        place.address.postalCode,
                         distanceExpression
                 )
                 .fetchResults();
@@ -57,6 +60,11 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                         it.get(place.coordinates.latitude),
                                         it.get(place.coordinates.longitude)
                                 ),
+                                Address.builder()
+                                        .streetAddress(it.get(place.address.streetAddress))
+                                        .landAddress(it.get(place.address.landAddress))
+                                        .postalCode(it.get(place.address.postalCode))
+                                        .build(),
                                 Distance.of(
                                         it.get(distanceExpression),
                                         DistanceUnit.KILOMETER

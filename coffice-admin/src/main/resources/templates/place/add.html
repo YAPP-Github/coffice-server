@@ -4,6 +4,7 @@
     <title>New Place</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
@@ -14,20 +15,40 @@
 <div class="container">
     <h1 th:text="'New Place'"></h1>
     <form>
-        <div class="form-group">
+        <div class="form-group required">
             <label for="placeNameId" class="control-label" th:text="'이름'"></label>
             <input id="placeNameId" class="form-control" name="name" type="text" placeholder="Place 이름을 입력하세요.">
-            <small class="form-text text-muted">ex) 할리스 강남역점, ...</small>
+            <small class="form-text text-muted">ex) 할리스 강남역점</small>
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             <label for="placeLatitudeId" class="control-label" th:text="'Latitude'"></label>
             <input id="placeLatitudeId" class="form-control" name="latitude" type="number" step="0.000000000001"
                    placeholder="위도를 입력하세요.">
+            <small class="form-text text-muted">ex) 37.498768</small>
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             <label for="placeLongitudeId" class="control-label" th:text="'Longitude'"></label>
             <input id="placeLongitudeId" class="form-control" name="longitude" type="number" step="0.000000000001"
                    placeholder="경도를 입력하세요.">
+            <small class="form-text text-muted">ex) 127.0277985</small>
+        </div>
+        <div class="form-group">
+            <label for="placeAddressStreetAddressId" class="control-label" th:text="'Street Address'"></label>
+            <input id="placeAddressStreetAddressId" class="form-control" name="streetAddress" type="text"
+                   placeholder="도로명 주소를 입력하세요.">
+            <small class="form-text text-muted">ex) 서울특별시 강남구 강남대로 402 시계탑빌딩 1층</small>
+        </div>
+        <div class="form-group">
+            <label for="placeAddressLandAddressId" class="control-label" th:text="'Land Address'"></label>
+            <input id="placeAddressLandAddressId" class="form-control" name="landAddress" type="text"
+                   placeholder="지번 주소를 입력하세요.">
+            <small class="form-text text-muted">ex) 서울특별시 강남구 역삼동 820-11</small>
+        </div>
+        <div class="form-group">
+            <label for="placeAddressPostalCodeId" class="control-label" th:text="'Postal Code'"></label>
+            <input id="placeAddressPostalCodeId" class="form-control" name="postalCode" type="number"
+                   placeholder="우편 번호를 입력하세요.">
+            <small class="form-text text-muted">ex) 06134</small>
         </div>
         <button id="placeSubmitId" type="submit" formmethod="post" class="btn btn-primary"
                 th:text="'추가'"></button>
