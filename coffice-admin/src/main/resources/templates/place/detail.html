@@ -37,6 +37,14 @@
             <td th:text="${place.getName()}"></td>
         </tr>
         <tr>
+            <th th:text="'Latitude'" scope="row"></th>
+            <td th:text="${place.getCoordinates().getLatitude()}"></td>
+        </tr>
+        <tr>
+            <th th:text="'Longitude'" scope="row"></th>
+            <td th:text="${place.getCoordinates().getLongitude()}"></td>
+        </tr>
+        <tr>
             <th th:text="'CreatedAt'" scope="row"></th>
             <td th:text="${place.getCreatedAt()}"></td>
         </tr>

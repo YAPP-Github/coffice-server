@@ -1,9 +1,6 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
-import kr.co.yapp._22nd.coffice.domain.place.Place;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceCreateVo;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceService;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceUpdateVo;
+import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +44,15 @@ public class PlaceController {
             @ModelAttribute PlaceAddRequest placeAddRequest,
             Model model
     ) {
-        Place place = placeService.create(PlaceCreateVo.of(placeAddRequest.getName()));
+        Place place = placeService.create(
+                PlaceCreateVo.of(
+                        placeAddRequest.getName(),
+                        Coordinates.of(
+                                placeAddRequest.getLatitude(),
+                                placeAddRequest.getLongitude()
+                        )
+                )
+        );
         model.addAttribute("place", place);
         return "redirect:/place/" + place.getPlaceId();
     }
@@ -69,7 +74,13 @@ public class PlaceController {
     ) {
         Place place = placeService.update(
                 placeId,
-                PlaceUpdateVo.of(placeEditRequest.getName())
+                PlaceUpdateVo.of(
+                        placeEditRequest.getName(),
+                        Coordinates.of(
+                                placeEditRequest.getLatitude(),
+                                placeEditRequest.getLongitude()
+                        )
+                )
         );
         model.addAttribute("place", place);
         return "redirect:/place/" + placeId;

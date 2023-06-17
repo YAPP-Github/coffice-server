@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlaceUpdateRequest {
     private String name;
+    private Double latitude;
+    private Double longitude;
 }

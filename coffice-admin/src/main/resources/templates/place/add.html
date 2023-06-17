@@ -20,6 +20,16 @@
             <input id="placeNameId" class="form-control" name="name" type="text" placeholder="Place 이름을 입력하세요.">
             <small class="form-text text-muted">ex) 할리스 강남역점, ...</small>
         </div>
+        <div class="form-group">
+            <label for="placeLatitudeId" class="control-label" th:text="'Latitude'"></label>
+            <input id="placeLatitudeId" class="form-control" name="latitude" type="number" step="0.000000000001"
+                   placeholder="위도를 입력하세요.">
+        </div>
+        <div class="form-group">
+            <label for="placeLongitudeId" class="control-label" th:text="'Longitude'"></label>
+            <input id="placeLongitudeId" class="form-control" name="longitude" type="number" step="0.000000000001"
+                   placeholder="경도를 입력하세요.">
+        </div>
         <button id="placeSubmitId" type="submit" formmethod="post" class="btn btn-primary"
                 th:text="'추가'"></button>
     </form>

@@ -22,6 +22,9 @@ public class Place {
 
     private String name;
 
+    @Embedded
+    private Coordinates coordinates;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -33,11 +36,13 @@ public class Place {
     public static Place from(PlaceCreateVo placeCreateVo) {
         Place place = new Place();
         place.name = placeCreateVo.getName();
+        place.coordinates = placeCreateVo.getCoordinates();
         return place;
     }
 
     public void update(PlaceUpdateVo placeUpdateVo) {
         name = placeUpdateVo.getName();
+        coordinates = placeUpdateVo.getCoordinates();
     }
 
     public void delete() {
