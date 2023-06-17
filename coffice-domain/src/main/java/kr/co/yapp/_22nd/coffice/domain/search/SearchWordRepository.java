@@ -9,4 +9,6 @@ public interface SearchWordRepository extends JpaRepository<SearchWord, Long> {
     Optional<SearchWord> findByMemberIdAndSearchWordIdAndDeletedFalse(Long memberId, Long searchWordId);
 
     List<SearchWord> findByMemberIdAndDeletedFalseOrderByCreatedAtDesc(Long memberId);
+
+    List<SearchWord> findByMemberIdAndDeletedFalse(Long memberId);
 }

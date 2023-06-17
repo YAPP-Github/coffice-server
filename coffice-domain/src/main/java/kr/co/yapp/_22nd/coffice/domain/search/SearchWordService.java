@@ -7,5 +7,7 @@ public interface SearchWordService {
 
     void delete(Long memberId, Long searchWordId);
 
+    void deleteAll(Long memberId);
+
     List<SearchWord> findByMemberId(Long memberId);
 }

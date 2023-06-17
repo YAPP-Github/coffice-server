@@ -28,6 +28,13 @@ public class SearchWordServiceImpl implements SearchWordService {
     }
 
     @Override
+    @Transactional
+    public void deleteAll(Long memberId) {
+        searchWordRepository.findByMemberIdAndDeletedFalse(memberId)
+                .forEach(SearchWord::delete);
+    }
+
+    @Override
     public List<SearchWord> findByMemberId(Long memberId) {
         return searchWordRepository.findByMemberIdAndDeletedFalseOrderByCreatedAtDesc(memberId);
     }
