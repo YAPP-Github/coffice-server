@@ -1,6 +1,10 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
-import kr.co.yapp._22nd.coffice.domain.place.*;
+import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
+import kr.co.yapp._22nd.coffice.domain.place.Coordinates;
+import kr.co.yapp._22nd.coffice.domain.place.Place;
+import kr.co.yapp._22nd.coffice.domain.place.PlaceCreateVo;
+import kr.co.yapp._22nd.coffice.domain.place.PlaceUpdateVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 public class PlaceController {
-    private final PlaceService placeService;
+    private final PlaceApplicationService placeApplicationService;
 
     @GetMapping
     public String list(
             @PageableDefault Pageable pageable,
             Model model
     ) {
-        Page<Place> placePage = placeService.findAll(pageable);
+        Page<Place> placePage = placeApplicationService.findAll(pageable);
         model.addAttribute("placePage", placePage);
         return "place/list";
     }
@@ -30,7 +34,7 @@ public class PlaceController {
             @PathVariable Long placeId,
             Model model
     ) {
-        model.addAttribute("place", placeService.getPlace(placeId));
+        model.addAttribute("place", placeApplicationService.getPlace(placeId));
         return "place/detail";
     }
 
@@ -44,7 +48,7 @@ public class PlaceController {
             @ModelAttribute PlaceAddRequest placeAddRequest,
             Model model
     ) {
-        Place place = placeService.create(
+        Place place = placeApplicationService.create(
                 PlaceCreateVo.of(
                         placeAddRequest.getName(),
                         Coordinates.of(
@@ -62,7 +66,7 @@ public class PlaceController {
             @PathVariable Long placeId,
             Model model
     ) {
-        model.addAttribute("place", placeService.getPlace(placeId));
+        model.addAttribute("place", placeApplicationService.getPlace(placeId));
         return "place/edit";
     }
 
@@ -72,7 +76,7 @@ public class PlaceController {
             @ModelAttribute PlaceEditRequest placeEditRequest,
             Model model
     ) {
-        Place place = placeService.update(
+        Place place = placeApplicationService.update(
                 placeId,
                 PlaceUpdateVo.of(
                         placeEditRequest.getName(),

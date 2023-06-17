@@ -1,9 +1,6 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
-import kr.co.yapp._22nd.coffice.domain.place.Coordinates;
-import kr.co.yapp._22nd.coffice.domain.place.Place;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceCreateVo;
-import kr.co.yapp._22nd.coffice.domain.place.PlaceUpdateVo;
+import kr.co.yapp._22nd.coffice.domain.place.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +10,14 @@ public class PlaceAssembler {
                 place.getPlaceId(),
                 place.getName(),
                 CoordinatesResponse.from(place.getCoordinates())
+        );
+    }
+
+    public PlaceResponse toPlaceResponse(PlaceSearchResponseVo placeSearchResponseVo) {
+        return new PlaceResponse(
+                placeSearchResponseVo.getPlaceId(),
+                placeSearchResponseVo.getName(),
+                CoordinatesResponse.from(placeSearchResponseVo.getCoordinates())
         );
     }
 

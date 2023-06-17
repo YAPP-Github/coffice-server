@@ -1,11 +1,13 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
 import kr.co.yapp._22nd.coffice.application.PlaceFolderPlaceApplicationService;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,8 +20,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PlaceController {
-    private final PlaceService placeService;
     private final PlaceAssembler placeAssembler;
+    private final PlaceApplicationService placeApplicationService;
     private final PlaceFolderPlaceApplicationService placeFolderPlaceApplicationService;
     private final PlaceFolderPlaceAssembler placeFolderPlaceAssembler;
 
@@ -29,7 +31,7 @@ public class PlaceController {
             @PageableDefault Pageable pageable
     ) {
         return ApiResponse.success(
-                placeService.findAll(pageable)
+                placeApplicationService.findAll(pageable)
                         .map(placeAssembler::toPlaceResponse)
         );
     }
@@ -39,7 +41,7 @@ public class PlaceController {
             @PathVariable Long placeId
     ) {
         return ApiResponse.success(
-                placeService.findById(placeId)
+                placeApplicationService.findById(placeId)
                         .map(placeAssembler::toPlaceResponse)
                         .orElseThrow(() -> new PlaceNotFoundException(placeId))
         );
@@ -51,7 +53,7 @@ public class PlaceController {
             @RequestBody PlaceCreateRequest placeCreateRequest
     ) {
         PlaceCreateVo placeCreateVo = placeAssembler.toPlaceCreateVo(placeCreateRequest);
-        Place place = placeService.create(placeCreateVo);
+        Place place = placeApplicationService.create(placeCreateVo);
         PlaceResponse placeResponse = placeAssembler.toPlaceResponse(place);
         return ApiResponse.success(placeResponse);
     }
@@ -63,7 +65,7 @@ public class PlaceController {
             @RequestBody PlaceUpdateRequest placeUpdateRequest
     ) {
         PlaceUpdateVo placeUpdateVo = placeAssembler.toPlaceUpdateVo(placeUpdateRequest);
-        Place place = placeService.update(placeId, placeUpdateVo);
+        Place place = placeApplicationService.update(placeId, placeUpdateVo);
         PlaceResponse placeResponse = placeAssembler.toPlaceResponse(place);
         return ApiResponse.success(placeResponse);
     }
@@ -113,5 +115,34 @@ public class PlaceController {
                 placeId
         );
         return ApiResponse.success();
+    }
+
+    @PostMapping("/search")
+    public ApiResponse<List<PlaceResponse>> search(
+            @RequestBody PlaceSearchRequest placeSearchRequest
+    ) {
+        // FIXME: pagination
+        return ApiResponse.success(
+                placeApplicationService.search(
+                                PlaceSearchRequestVo.of(
+                                        placeSearchRequest.getSearchText(),
+                                        Coordinates.of(
+                                                placeSearchRequest.getLatitude(),
+                                                placeSearchRequest.getLongitude()
+                                        ),
+                                        Distance.of(
+                                                placeSearchRequest.getDistance(),
+                                                DistanceUnit.METER
+                                        )
+                                ),
+                                PageRequest.of(
+                                        placeSearchRequest.getPageNumber(),
+                                        placeSearchRequest.getPageSize()
+                                )
+                        )
+                        .map(placeAssembler::toPlaceResponse)
+                        .stream()
+                        .toList()
+        );
     }
 }

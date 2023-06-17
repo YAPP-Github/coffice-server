@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Coffice Admin</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript"
+            th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${@environment.getProperty('MAP_CLIENT_ID_NAVER')}"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}">Header</div>
+<!-- Map -->
+<div class="container">
+    <h1 th:text="'Home'"></h1>
+    <div id="map" style="width:100%;height:750px;"></div>
+</div>
+
+<script th:inline="javascript">
+    // Initialize map
+    const mapOptions = {
+        center: new naver.maps.LatLng(37.5015587, 127.026319), // 강남 GGV
+        zoom: 17
+    };
+    const map = new naver.maps.Map('map', mapOptions);
+
+    // Add markers
+    const places = /*[[${places}]]*/ '';
+    console.log(places);
+
+    const markers = places.map(place => {
+        return new naver.maps.Marker({
+            position: new naver.maps.LatLng(place.coordinates.latitude, place.coordinates.longitude),
+            map: map
+        });
+    });
+
+    // Add info-windows
+    const infoWindows = places.map(place => {
+        return new naver.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:10px;">' + place.name + '</div>'
+        });
+    })
+
+    markers.forEach((marker, index) => {
+        naver.maps.Event.addListener(marker, 'click', () => {
+            const marker = markers[index];
+            const infoWindow = infoWindows[index];
+            if (infoWindow.getMap() != null) {
+                infoWindow.close();
+            } else {
+                infoWindow.open(map, marker);
+            }
+        });
+    });
+</script>
+</body>
+</html>
