@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.application;
 
 import kr.co.yapp._22nd.coffice.domain.place.*;
+import kr.co.yapp._22nd.coffice.domain.search.SearchRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class PlaceApplicationService {
     private final PlaceCommandService placeCommandService;
     private final PlaceQueryService placeQueryService;
+    private final SearchRequestedEventPublisher searchRequestedEventPublisher;
 
     public Place create(PlaceCreateVo placeCreateVo) {
         return placeCommandService.create(placeCreateVo);
@@ -22,7 +24,17 @@ public class PlaceApplicationService {
         return placeCommandService.update(placeId, placeUpdateVo);
     }
 
-    public Page<PlaceSearchResponseVo> search(PlaceSearchRequestVo placeSearchRequestVo, Pageable pageable) {
+    public Page<PlaceSearchResponseVo> search(
+            Long memberId,
+            PlaceSearchRequestVo placeSearchRequestVo,
+            Pageable pageable
+    ) {
+        searchRequestedEventPublisher.publish(
+                new SearchRequestedEvent(
+                        memberId,
+                        placeSearchRequestVo.getSearchText()
+                )
+        );
         return placeQueryService.search(
                 placeSearchRequestVo,
                 pageable
