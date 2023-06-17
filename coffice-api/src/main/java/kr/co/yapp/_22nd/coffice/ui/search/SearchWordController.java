@@ -19,6 +19,14 @@ public class SearchWordController {
     private final SearchWordApplicationService searchWordApplicationService;
     private final SearchWordAssembler searchWordAssembler;
 
+    @DeleteMapping
+    public ApiResponse<?> deleteAll(
+            @AuthenticationPrincipal Long memberId
+    ) {
+        searchWordApplicationService.deleteAll(memberId);
+        return ApiResponse.success();
+    }
+
     @DeleteMapping("/{searchWordId}")
     public ApiResponse<?> delete(
             @AuthenticationPrincipal Long memberId,

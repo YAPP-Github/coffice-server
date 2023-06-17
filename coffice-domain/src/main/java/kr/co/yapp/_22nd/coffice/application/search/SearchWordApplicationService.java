@@ -20,6 +20,10 @@ public class SearchWordApplicationService {
         searchWordService.delete(memberId, searchWordId);
     }
 
+    public void deleteAll(Long memberId) {
+        searchWordService.deleteAll(memberId);
+    }
+
     public List<SearchWord> findByMemberId(Long memberId) {
         return searchWordService.findByMemberId(memberId);
     }
