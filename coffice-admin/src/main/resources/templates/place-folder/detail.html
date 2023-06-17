@@ -35,6 +35,10 @@
             <td th:text="${placeFolder.getName()}"></td>
         </tr>
         <tr>
+            <th th:text="'Color'" scope="row"></th>
+            <td th:text="${placeFolder.getColor().name()}"></td>
+        </tr>
+        <tr>
             <th th:text="'Places'" scope="row"></th>
             <td>
                 <ul th:each="placeFolderPlace: ${placeFolder.getPlaceFolderPlaces()}">

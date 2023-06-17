@@ -18,7 +18,8 @@ public class PlaceFolderAssembler {
     public PlaceFolderResponse toPlaceFolderResponse(PlaceFolder placeFolder) {
         return new PlaceFolderResponse(
                 placeFolder.getPlaceFolderId(),
-                placeFolder.getName()
+                placeFolder.getName(),
+                placeFolder.getColor().name()
         );
     }
 
@@ -38,13 +39,15 @@ public class PlaceFolderAssembler {
             PlaceFolderCreateRequest placeFolderCreateRequest
     ) {
         return new PlaceFolderCreateVo(
-                placeFolderCreateRequest.getName()
+                placeFolderCreateRequest.getName(),
+                placeFolderCreateRequest.getColor()
         );
     }
 
     public PlaceFolderUpdateVo toPlaceFolderUpdateVo(PlaceFolderUpdateRequest placeFolderUpdateRequest) {
         return new PlaceFolderUpdateVo(
-                placeFolderUpdateRequest.getName()
+                placeFolderUpdateRequest.getName(),
+                placeFolderUpdateRequest.getColor()
         );
     }
 }
