@@ -15,13 +15,13 @@ public class PlaceAssembler {
     }
 
     public PlaceCreateVo toPlaceCreateVo(PlaceCreateRequest placeCreateRequest) {
-        return new PlaceCreateVo(
+        return PlaceCreateVo.of(
                 placeCreateRequest.getName()
         );
     }
 
     public PlaceUpdateVo toPlaceUpdateVo(PlaceUpdateRequest placeUpdateRequest) {
-        return new PlaceUpdateVo(
+        return PlaceUpdateVo.of(
                 placeUpdateRequest.getName()
         );
     }
