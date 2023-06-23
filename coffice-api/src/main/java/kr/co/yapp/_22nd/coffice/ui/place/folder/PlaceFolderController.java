@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.place.folder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.PlaceFolderApplicationService;
 import kr.co.yapp._22nd.coffice.domain.place.folder.PlaceFolder;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
@@ -62,7 +63,7 @@ public class PlaceFolderController {
     @PostMapping
     public ApiResponse<PlaceFolderResponse> createPlaceFolder(
             @AuthenticationPrincipal Long memberId,
-            @RequestBody PlaceFolderCreateRequest placeFolderCreateRequest
+            @RequestBody @Valid PlaceFolderCreateRequest placeFolderCreateRequest
     ) {
         PlaceFolder placeFolder = placeFolderApplicationService.create(
                 memberId,

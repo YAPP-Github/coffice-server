@@ -1,14 +1,9 @@
 package kr.co.yapp._22nd.coffice.domain.place.folder;
 
-public class PlaceFolderNotFoundException extends RuntimeException {
-    private final Long placeFolderId;
+import kr.co.yapp._22nd.coffice.domain.NotFoundException;
 
+public class PlaceFolderNotFoundException extends NotFoundException {
     public PlaceFolderNotFoundException(Long placeFolderId) {
-        this.placeFolderId = placeFolderId;
-    }
-
-    @Override
-    public String getMessage() {
-        return "PlaceFolder not found. placeFolderId: " + placeFolderId;
+        super("PlaceFolder not found. placeFolderId: " + placeFolderId);
     }
 }
