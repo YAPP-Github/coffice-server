@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
 import kr.co.yapp._22nd.coffice.application.PlaceFolderPlaceApplicationService;
 import kr.co.yapp._22nd.coffice.domain.place.*;
@@ -77,7 +78,7 @@ public class PlaceController {
     public ApiResponse<PlaceFolderPlaceResponse> savePlace(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long placeId,
-            @RequestBody PlaceAddToFolderRequest placeAddToFolderRequest
+            @RequestBody @Valid PlaceAddToFolderRequest placeAddToFolderRequest
     ) {
         return ApiResponse.success(
                 placeFolderPlaceAssembler.toPlaceFolderPlaceResponse(
@@ -102,7 +103,7 @@ public class PlaceController {
     public ApiResponse<?> deletePlace(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long placeId,
-            @RequestBody PlaceDeleteFromFolderRequest placeDeleteFromFolderRequest
+            @RequestBody @Valid PlaceDeleteFromFolderRequest placeDeleteFromFolderRequest
     ) {
         placeFolderPlaceApplicationService.deleteFromPlaceFolder(
                 memberId,
@@ -115,7 +116,7 @@ public class PlaceController {
     @PostMapping("/search")
     public ApiResponse<List<PlaceResponse>> search(
             @AuthenticationPrincipal Long memberId,
-            @RequestBody PlaceSearchRequest placeSearchRequest
+            @RequestBody @Valid PlaceSearchRequest placeSearchRequest
     ) {
         // FIXME: pagination
         return ApiResponse.success(

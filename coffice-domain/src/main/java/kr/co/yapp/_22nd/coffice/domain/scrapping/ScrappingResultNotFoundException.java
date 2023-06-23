@@ -1,14 +1,9 @@
 package kr.co.yapp._22nd.coffice.domain.scrapping;
 
-public class ScrappingResultNotFoundException extends RuntimeException {
-    private final Long scrappingResultId;
+import kr.co.yapp._22nd.coffice.domain.NotFoundException;
 
+public class ScrappingResultNotFoundException extends NotFoundException {
     public ScrappingResultNotFoundException(Long scrappingResultId) {
-        this.scrappingResultId = scrappingResultId;
-    }
-
-    @Override
-    public String getMessage() {
-        return "'scrappingResult' not found. scrappingResultId: " + scrappingResultId;
+        super("scrappingResult not found. scrappingResultId: " + scrappingResultId);
     }
 }

@@ -18,16 +18,22 @@ public class ApiResponse<T> {
     private final String message;
     private final T data;
 
-    private ApiResponse(ResultCode code) {
+    private ApiResponse(ResultCode code, String message, T data) {
         this.code = code.name();
-        this.message = code.getMessage();
-        this.data = null;
+        this.message = message;
+        this.data = data;
     }
 
     private ApiResponse(ResultCode code, T data) {
-        this.code = code.name();
-        this.message = code.getMessage();
-        this.data = data;
+        this(code, code.getMessage(), data);
+    }
+
+    private ApiResponse(ResultCode code, String message) {
+        this(code, message, null);
+    }
+
+    private ApiResponse(ResultCode code) {
+        this(code, code.getMessage(), null);
     }
 
     public static <T> ApiResponse<T> success() {
@@ -48,10 +54,15 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> failure() {
-        return new ApiResponse<T>(ResultCode.FAILURE, null);
+        return new ApiResponse<T>(ResultCode.FAILURE);
     }
 
     public static <T> ApiResponse<T> failure(ResultCode resultCode) {
-        return new ApiResponse<T>(resultCode, null);
+        return new ApiResponse<>(resultCode);
     }
+
+    public static <T> ApiResponse<T> failure(ResultCode resultCode, String message) {
+        return new ApiResponse<>(resultCode, message);
+    }
+
 }

@@ -1,14 +1,10 @@
 package kr.co.yapp._22nd.coffice.domain.place;
 
-public class PlaceNotFoundException extends RuntimeException {
-    private final Long placeId;
+import kr.co.yapp._22nd.coffice.domain.NotFoundException;
+
+public class PlaceNotFoundException extends NotFoundException {
 
     public PlaceNotFoundException(Long placeId) {
-        this.placeId = placeId;
-    }
-
-    @Override
-    public String getMessage() {
-        return "Place not found. placeId: " + placeId;
+        super("Place not found. placeId: " + placeId);
     }
 }
