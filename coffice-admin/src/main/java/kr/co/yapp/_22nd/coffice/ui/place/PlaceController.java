@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
 import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
+import kr.co.yapp._22nd.coffice.domain.GeoCodingService;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PlaceController {
     private final PlaceApplicationService placeApplicationService;
+    private final GeoCodingService geoCodingService;
 
     @GetMapping
     public String list(
@@ -48,10 +50,7 @@ public class PlaceController {
         Place place = placeApplicationService.create(
                 PlaceCreateVo.of(
                         placeAddRequest.getName(),
-                        Coordinates.of(
-                                placeAddRequest.getLatitude(),
-                                placeAddRequest.getLongitude()
-                        ),
+                        resolveCoordinates(placeAddRequest),
                         Address.builder()
                                 .streetAddress(placeAddRequest.getStreetAddress())
                                 .landAddress(placeAddRequest.getLandAddress())
@@ -61,6 +60,20 @@ public class PlaceController {
         );
         model.addAttribute("place", place);
         return "redirect:/place/" + place.getPlaceId();
+    }
+
+    private Coordinates resolveCoordinates(PlaceAddRequest placeAddRequest) {
+        if (placeAddRequest.getLatitude() != null
+                && placeAddRequest.getLongitude() != null) {
+            return Coordinates.of(
+                    placeAddRequest.getLatitude(),
+                    placeAddRequest.getLongitude()
+            );
+        }
+        String address = placeAddRequest.getStreetAddress() != null
+                ? placeAddRequest.getStreetAddress()
+                : placeAddRequest.getLandAddress();
+        return geoCodingService.getCoordinates(address);
     }
 
     @GetMapping("/{placeId}/edit")

@@ -8,3 +8,7 @@ spring:
             clientSecret: ${OAUTH2_CLIENT_SECRET_GOOGLE}
 server:
   use-forward-headers: true
+coffice:
+  ncp:
+    api-key-id: ${NCP_API_KEY_ID}
+    api-key: ${NCP_API_KEY}

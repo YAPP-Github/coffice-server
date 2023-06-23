@@ -22,3 +22,7 @@ cafe:
     sqs:
       access-key: accessKey
       secret-key: secretKey
+coffice:
+  ncp:
+    api-key-id: apiKeyId
+    api-key: apiKey
