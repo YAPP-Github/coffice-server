@@ -57,12 +57,16 @@
             <td th:text="${place.getAddress() == null ? '' : place.getAddress().getPostalCode()}"></td>
         </tr>
         <tr>
+            <th th:text="'electricOutletCount'" scope="row"></th>
+            <td th:text="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"></td>
+        </tr>
+        <tr>
             <th th:text="'seatCount'" scope="row"></th>
             <td th:text="${place.getSeatCount() == null ? '' : place.getSeatCount().getValue()}"></td>
         </tr>
         <tr>
-            <th th:text="'electricOutletCount'" scope="row"></th>
-            <td th:text="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"></td>
+            <th th:text="'communalTableCount'" scope="row"></th>
+            <td th:text="${place.getCommunalTableCount() == null ? '' : place.getCommunalTableCount().getValue()}"></td>
         </tr>
         <tr>
             <th th:text="'CreatedAt'" scope="row"></th>

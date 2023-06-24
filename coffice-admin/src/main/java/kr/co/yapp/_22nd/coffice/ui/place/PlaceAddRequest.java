@@ -12,4 +12,5 @@ public class PlaceAddRequest {
     private String postalCode;
     private Integer seatCount;
     private Integer electricOutletCount;
+    private Integer communalTableCount;
 }

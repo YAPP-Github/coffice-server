@@ -8,4 +8,5 @@ public class PlaceSearchRequestVo {
     Coordinates coordinates;
     Distance distance;
     Boolean open;
+    Boolean hasCommunalTable;
 }

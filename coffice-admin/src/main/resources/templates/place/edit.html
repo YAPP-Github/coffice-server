@@ -54,6 +54,13 @@
             <small class="form-text text-muted">ex) 06134</small>
         </div>
         <div class="form-group">
+            <label for="placeElectricOutletCountId" class="control-label" th:text="'Electric Outlet Count'"></label>
+            <input id="placeElectricOutletCountId" class="form-control" name="electricOutletCount" type="number"
+                   th:value="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"
+                   placeholder="콘센트 개수를 입력하세요.">
+            <small class="form-text text-muted">1구당 1개로 세어주세요</small>
+        </div>
+        <div class="form-group">
             <label for="placeSeatCountId" class="control-label" th:text="'Seat Count'"></label>
             <input id="placeSeatCountId" class="form-control" name="seatCount" type="number"
                    th:value="${place.getSeatCount() == null ? '' : place.getSeatCount().getValue()}"
@@ -61,11 +68,11 @@
             <small class="form-text text-muted">의자 개수</small>
         </div>
         <div class="form-group">
-            <label for="placeElectricOutletCountId" class="control-label" th:text="'Electric Outlet Count'"></label>
-            <input id="placeElectricOutletCountId" class="form-control" name="electricOutletCount" type="number"
-                   th:value="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"
-                   placeholder="콘센트 개수를 입력하세요.">
-            <small class="form-text text-muted">1구당 1개로 세어주세요</small>
+            <label for="placeCommunalTableCountId" class="control-label" th:text="'Commnual Table Count'"></label>
+            <input id="placeCommunalTableCountId" class="form-control" name="communalTableCount" type="number"
+                   th:value="${place.getCommunalTableCount() == null ? '' : place.getCommunalTableCount().getValue()}"
+                   placeholder="단체석 테이블 개수를 입력하세요.">
+            <small class="form-text text-muted">단체석 기준 : 5인 이상 테이블</small>
         </div>
         <button id="placeSubmitId" type="submit" formmethod="post" class="btn btn-primary"
                 th:text="'수정'"></button>

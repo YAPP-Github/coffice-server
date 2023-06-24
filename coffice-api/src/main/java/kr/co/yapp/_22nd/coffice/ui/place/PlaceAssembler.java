@@ -23,7 +23,8 @@ public class PlaceAssembler {
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
-                place.getElectricOutletLevel().name()
+                place.getElectricOutletLevel().name(),
+                place.hasCommunalTable()
         );
     }
 
@@ -37,7 +38,8 @@ public class PlaceAssembler {
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
-                placeSearchResponseVo.getElectricOutletLevel().name()
+                placeSearchResponseVo.getElectricOutletLevel().name(),
+                placeSearchResponseVo.getHasCommunalTable()
         );
     }
 }

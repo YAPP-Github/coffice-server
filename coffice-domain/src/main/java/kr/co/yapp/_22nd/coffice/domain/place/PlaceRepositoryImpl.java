@@ -30,6 +30,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         var coordinates = placeSearchRequestVo.getCoordinates();
         var distance = placeSearchRequestVo.getDistance();
         var open = placeSearchRequestVo.getOpen();
+        var hasCommunalTable = placeSearchRequestVo.getHasCommunalTable();
 
         NumberExpression<Double> distanceExpression = Expressions.numberTemplate(
                 Double.class,
@@ -44,6 +45,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         }
         if (open == Boolean.TRUE) {
             booleanExpression = booleanExpression.and(getOpenCondition());
+        }
+        if (hasCommunalTable == Boolean.TRUE) {
+            booleanExpression = booleanExpression.and(place.communalTableCount.value.gt(0));
         }
         var queryResults = from(place)
                 .leftJoin(place.openingHours, openingHour)
@@ -81,6 +85,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                         it.get(place.electricOutletCount),
                                         it.get(place.seatCount)
                                 ),
+                                it.get(place.communalTableCount) != null && it.get(place.communalTableCount).isPositive(),
                                 Distance.of(
                                         it.get(distanceExpression),
                                         DistanceUnit.KILOMETER
