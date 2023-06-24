@@ -25,9 +25,8 @@ public class MemberController {
     public ApiResponse<MemberResponse> getMyInfo(
             @AuthenticationPrincipal Long memberId
     ) {
-        Long testMemberId = 1L;
-        Member member = memberRepository.findById(testMemberId)
-                .orElseGet(() -> Member.from(MemberCreateVo.of("test", MemberStatus.ACTIVE, AuthProviderType.ANONYMOUS)));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
         MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
         return ApiResponse.success(memberResponse);
     }
