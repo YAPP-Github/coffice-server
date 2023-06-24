@@ -16,4 +16,5 @@ public class PlaceResponse {
     private final CoordinatesResponse coordinates;
     private final AddressResponse address;
     private final List<OpeningHourResponse> openingHours;
+    private final String electricOutletLevel;
 }

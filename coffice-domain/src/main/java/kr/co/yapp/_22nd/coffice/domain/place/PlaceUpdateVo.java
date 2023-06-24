@@ -10,4 +10,6 @@ public class PlaceUpdateVo {
     Coordinates coordinates;
     Address address;
     List<OpeningHour> openingHours;
+    SeatCount seatCount;
+    ElectricOutletCount electricOutletCount;
 }

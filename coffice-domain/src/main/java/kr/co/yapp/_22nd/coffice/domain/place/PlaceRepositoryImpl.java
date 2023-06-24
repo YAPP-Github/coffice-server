@@ -77,6 +77,10 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                 it.get(place.openingHours) != null
                                         ? it.get(place.openingHours)
                                         : Collections.emptyList(),
+                                ElectricOutletLevel.of(
+                                        it.get(place.electricOutletCount),
+                                        it.get(place.seatCount)
+                                ),
                                 Distance.of(
                                         it.get(distanceExpression),
                                         DistanceUnit.KILOMETER

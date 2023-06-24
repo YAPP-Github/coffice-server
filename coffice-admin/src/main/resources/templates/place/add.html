@@ -50,6 +50,18 @@
                    placeholder="우편 번호를 입력하세요.">
             <small class="form-text text-muted">ex) 06134</small>
         </div>
+        <div class="form-group">
+            <label for="placeSeatCountId" class="control-label" th:text="'Seat Count'"></label>
+            <input id="placeSeatCountId" class="form-control" name="seatCount" type="number"
+                   placeholder="자리 개수를 입력하세요.">
+            <small class="form-text text-muted">의자 개수</small>
+        </div>
+        <div class="form-group">
+            <label for="placeElectricOutletCountId" class="control-label" th:text="'Electric Outlet Count'"></label>
+            <input id="placeElectricOutletCountId" class="form-control" name="electricOutletCount" type="number"
+                   placeholder="콘센트 개수를 입력하세요.">
+            <small class="form-text text-muted">1구당 1개로 세어주세요</small>
+        </div>
         <button id="placeSubmitId" type="submit" formmethod="post" class="btn btn-primary"
                 th:text="'추가'"></button>
     </form>

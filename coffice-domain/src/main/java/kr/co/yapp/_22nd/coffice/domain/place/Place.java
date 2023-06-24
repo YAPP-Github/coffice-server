@@ -34,6 +34,12 @@ public class Place {
     @CollectionTable(name = "place_opening_hour", joinColumns = @JoinColumn(name = "placeId"))
     private final List<OpeningHour> openingHours = new ArrayList<>();
 
+    @Embedded
+    private ElectricOutletCount electricOutletCount;
+
+    @Embedded
+    private SeatCount seatCount;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -48,6 +54,8 @@ public class Place {
         place.coordinates = placeCreateVo.getCoordinates();
         place.address = placeCreateVo.getAddress();
         place.openingHours.addAll(placeCreateVo.getOpeningHours());
+        place.seatCount = placeCreateVo.getSeatCount();
+        place.electricOutletCount = placeCreateVo.getElectricOutletCount();
         return place;
     }
 
@@ -57,9 +65,15 @@ public class Place {
         address = placeUpdateVo.getAddress();
         openingHours.clear();
         openingHours.addAll(placeUpdateVo.getOpeningHours());
+        seatCount = placeUpdateVo.getSeatCount();
+        electricOutletCount = placeUpdateVo.getElectricOutletCount();
     }
 
     public void delete() {
         deleted = true;
+    }
+
+    public ElectricOutletLevel getElectricOutletLevel() {
+        return ElectricOutletLevel.of(electricOutletCount, seatCount);
     }
 }
