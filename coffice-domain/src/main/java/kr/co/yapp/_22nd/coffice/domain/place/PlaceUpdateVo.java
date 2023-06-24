@@ -14,4 +14,5 @@ public class PlaceUpdateVo {
     SeatCount seatCount;
     TableCount tableCount;
     CommunalTableCount communalTableCount;
+    List<String> imageUrls;
 }

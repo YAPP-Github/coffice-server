@@ -14,13 +14,13 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements PlaceRepositoryCustom {
-    private final QPlace place = QPlace.place;
-    private final QOpeningHour openingHour = QOpeningHour.openingHour;
+    private final QPlace qPlace = QPlace.place;
+    private final QOpeningHour qOpeningHour = QOpeningHour.openingHour;
 
     public PlaceRepositoryImpl() {
         super(Place.class);
@@ -42,36 +42,27 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 Double.class,
                 "(6371 * acos(cos(radians({0})) * cos(radians({1}.latitude)) * cos(radians({1}.longitude) - radians({2})) + sin(radians({0})) * sin(radians({1}.latitude))))",
                 coordinates.getLatitude(),
-                place.coordinates,
+                qPlace.coordinates,
                 coordinates.getLongitude()
         );
         BooleanExpression booleanExpression = distanceExpression.loe(distance.toKilometerValue());
         if (StringUtils.hasText(name)) {
-            booleanExpression = booleanExpression.and(place.name.contains(name));
+            booleanExpression = booleanExpression.and(qPlace.name.contains(name));
         }
         if (open == Boolean.TRUE) {
             booleanExpression = booleanExpression.and(getOpenCondition());
         }
         if (hasCommunalTable == Boolean.TRUE) {
-            booleanExpression = booleanExpression.and(place.communalTableCount.value.gt(0));
+            booleanExpression = booleanExpression.and(qPlace.communalTableCount.value.gt(0));
         }
         if (!CollectionUtils.isEmpty(capacityLevels)) {
             booleanExpression = booleanExpression.and(getCapacityConditions(capacityLevels));
         }
-        var queryResults = from(place)
-                .leftJoin(place.openingHours, openingHour)
+        var queryResults = from(qPlace)
+                .leftJoin(qPlace.openingHours, qOpeningHour).fetchJoin()
+                .leftJoin(qPlace.imageUrls)
                 .select(
-                        place.placeId,
-                        place.name,
-                        place.coordinates.latitude,
-                        place.coordinates.longitude,
-                        place.address.streetAddress,
-                        place.address.landAddress,
-                        place.address.postalCode,
-                        place.electricOutletCount,
-                        place.seatCount,
-                        place.tableCount,
-                        place.communalTableCount,
+                        qPlace,
                         distanceExpression
                 )
                 .where(booleanExpression)
@@ -80,32 +71,24 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 .fetchResults();
         List<PlaceSearchResponseVo> placeSearchResponseVos = queryResults.getResults()
                 .stream()
-                .map(it -> PlaceSearchResponseVo.of(
-                                it.get(place.placeId),
-                                it.get(place.name),
-                                Coordinates.of(
-                                        it.get(place.coordinates.latitude),
-                                        it.get(place.coordinates.longitude)
-                                ),
-                                Address.builder()
-                                        .streetAddress(it.get(place.address.streetAddress))
-                                        .landAddress(it.get(place.address.landAddress))
-                                        .postalCode(it.get(place.address.postalCode))
-                                        .build(),
-                                it.get(place.openingHours) != null
-                                        ? it.get(place.openingHours)
-                                        : Collections.emptyList(),
-                                ElectricOutletLevel.of(
-                                        it.get(place.electricOutletCount),
-                                        it.get(place.seatCount)
-                                ),
-                                it.get(place.communalTableCount) != null && it.get(place.communalTableCount).isPositive(),
-                                CapacityLevel.from(it.get(place.tableCount)),
-                                Distance.of(
-                                        it.get(distanceExpression),
-                                        DistanceUnit.KILOMETER
-                                )
-                        )
+                .map(it -> {
+                            Place place = Objects.requireNonNull(it.get(qPlace));
+                            return PlaceSearchResponseVo.of(
+                                    place.getPlaceId(),
+                                    place.getName(),
+                                    place.getCoordinates(),
+                                    place.getAddress(),
+                                    place.getOpeningHours(),
+                                    place.getElectricOutletLevel(),
+                                    place.hasCommunalTable(),
+                                    place.getCapacityLevel(),
+                                    place.getImageUrls(),
+                                    Distance.of(
+                                            it.get(distanceExpression),
+                                            DistanceUnit.KILOMETER
+                                    )
+                            );
+                        }
                 )
                 .toList();
         return PageableExecutionUtils.getPage(
@@ -126,17 +109,17 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
      */
     private BooleanExpression getOpenCondition() {
         LocalDateTime now = LocalDateTime.now();
-        BooleanExpression isOpeningDay = openingHour.openingHoursType.eq(OpeningHourType.OPEN);
-        BooleanExpression isOnOpeningHours = openingHour.openedAt.lt(now.toLocalTime())
-                .and(openingHour.closedAt.goe(now.toLocalTime()));
-        BooleanExpression isOpen24Hours = openingHour.openAroundTheClock.isTrue();
+        BooleanExpression isOpeningDay = qOpeningHour.openingHoursType.eq(OpeningHourType.OPEN);
+        BooleanExpression isOnOpeningHours = qOpeningHour.openedAt.lt(now.toLocalTime())
+                .and(qOpeningHour.closedAt.goe(now.toLocalTime()));
+        BooleanExpression isOpen24Hours = qOpeningHour.openAroundTheClock.isTrue();
         return isOpeningDay.and(isOnOpeningHours.or(isOpen24Hours));
     }
 
     private Predicate getCapacityConditions(Collection<CapacityLevel> capacityLevels) {
         Collection<Predicate> predicates = capacityLevels.stream()
                 .filter(it -> it != CapacityLevel.UNKNOWN)
-                .map(it -> place.tableCount.value.between(it.getFrom(), it.getTo()))
+                .map(it -> qPlace.tableCount.value.between(it.getFrom(), it.getTo()))
                 .collect(Collectors.toList());
         return ExpressionUtils.anyOf(predicates);
     }

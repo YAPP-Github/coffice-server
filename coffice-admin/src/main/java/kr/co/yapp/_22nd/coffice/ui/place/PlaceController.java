@@ -62,7 +62,8 @@ public class PlaceController {
                         ElectricOutletCount.from(placeAddRequest.getElectricOutletCount()),
                         SeatCount.from(placeAddRequest.getSeatCount()),
                         TableCount.from(placeAddRequest.getTableCount()),
-                        CommunalTableCount.from(placeAddRequest.getCommunalTableCount())
+                        CommunalTableCount.from(placeAddRequest.getCommunalTableCount()),
+                        Collections.emptyList()
                 )
         );
         model.addAttribute("place", place);
@@ -115,7 +116,8 @@ public class PlaceController {
                         ElectricOutletCount.from(placeEditRequest.getElectricOutletCount()),
                         SeatCount.from(placeEditRequest.getSeatCount()),
                         TableCount.from(placeEditRequest.getTableCount()),
-                        CommunalTableCount.from(placeEditRequest.getCommunalTableCount())
+                        CommunalTableCount.from(placeEditRequest.getCommunalTableCount()),
+                        Collections.emptyList()
                 )
         );
         model.addAttribute("place", place);

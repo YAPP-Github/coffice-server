@@ -46,6 +46,10 @@ public class Place {
     @Embedded
     private CommunalTableCount communalTableCount;
 
+    @ElementCollection
+    @CollectionTable(name = "place_image_url", joinColumns = @JoinColumn(name = "placeId"))
+    private final List<String> imageUrls = new ArrayList<>();
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -64,6 +68,7 @@ public class Place {
         place.seatCount = placeCreateVo.getSeatCount();
         place.tableCount = placeCreateVo.getTableCount();
         place.communalTableCount = placeCreateVo.getCommunalTableCount();
+        place.imageUrls.addAll(placeCreateVo.getImageUrls());
         return place;
     }
 
@@ -77,6 +82,8 @@ public class Place {
         seatCount = placeUpdateVo.getSeatCount();
         tableCount = placeUpdateVo.getTableCount();
         communalTableCount = placeUpdateVo.getCommunalTableCount();
+        imageUrls.clear();
+        imageUrls.addAll(placeUpdateVo.getImageUrls());
     }
 
     public void delete() {

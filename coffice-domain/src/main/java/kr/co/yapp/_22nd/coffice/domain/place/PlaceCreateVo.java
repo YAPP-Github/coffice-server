@@ -14,4 +14,5 @@ public class PlaceCreateVo {
     SeatCount seatCount;
     TableCount tableCount;
     CommunalTableCount communalTableCount;
+    List<String> imageUrls;
 }
