@@ -14,5 +14,6 @@ public class PlaceSearchResponseVo {
     ElectricOutletLevel electricOutletLevel;
     Boolean hasCommunalTable;
     CapacityLevel capacityLevel;
+    List<String> imageUrls;
     Distance distance;
 }

@@ -25,7 +25,8 @@ public class PlaceAssembler {
                         .collect(Collectors.toList()),
                 place.getElectricOutletLevel().name(),
                 place.hasCommunalTable(),
-                place.getCapacityLevel().name()
+                place.getCapacityLevel().name(),
+                place.getImageUrls()
         );
     }
 
@@ -41,7 +42,8 @@ public class PlaceAssembler {
                         .collect(Collectors.toList()),
                 placeSearchResponseVo.getElectricOutletLevel().name(),
                 placeSearchResponseVo.getHasCommunalTable(),
-                placeSearchResponseVo.getCapacityLevel().name()
+                placeSearchResponseVo.getCapacityLevel().name(),
+                placeSearchResponseVo.getImageUrls()
         );
     }
 }

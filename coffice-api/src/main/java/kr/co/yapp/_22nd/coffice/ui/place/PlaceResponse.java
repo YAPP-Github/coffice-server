@@ -19,4 +19,5 @@ public class PlaceResponse {
     private final String electricOutletLevel;
     private final Boolean hasCommunalTable;
     private final String capacityLevel;
+    private final List<String> imageUrls;
 }
