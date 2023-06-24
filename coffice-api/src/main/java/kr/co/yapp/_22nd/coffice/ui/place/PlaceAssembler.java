@@ -24,7 +24,8 @@ public class PlaceAssembler {
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
                 place.getElectricOutletLevel().name(),
-                place.hasCommunalTable()
+                place.hasCommunalTable(),
+                place.getCapacityLevel().name()
         );
     }
 
@@ -39,7 +40,8 @@ public class PlaceAssembler {
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
                 placeSearchResponseVo.getElectricOutletLevel().name(),
-                placeSearchResponseVo.getHasCommunalTable()
+                placeSearchResponseVo.getHasCommunalTable(),
+                placeSearchResponseVo.getCapacityLevel().name()
         );
     }
 }

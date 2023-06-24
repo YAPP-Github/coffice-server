@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class ElectricOutletCount implements Comparable<ElectricOutletCount> {
+public class ElectricOutletCount implements Countable<ElectricOutletCount, Integer> {
     /**
      * 콘센트 개수
      */
@@ -26,12 +26,18 @@ public class ElectricOutletCount implements Comparable<ElectricOutletCount> {
         return electricOutletCount;
     }
 
+    @Override
+    public int compareTo(ElectricOutletCount o) {
+        return this.value.compareTo(o.value);
+    }
+
+    @Override
     public boolean hasValue() {
         return value != null;
     }
 
     @Override
-    public int compareTo(ElectricOutletCount o) {
-        return this.value.compareTo(o.value);
+    public boolean isPositive() {
+        return value != null && value > 0;
     }
 }

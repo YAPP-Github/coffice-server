@@ -22,7 +22,8 @@ public class PlaceSearchAssembler {
                         DistanceUnit.METER
                 ),
                 placeSearchRequest.getOpen(),
-                placeSearchRequest.getHasCommunalTable()
+                placeSearchRequest.getHasCommunalTable(),
+                placeSearchRequest.getCapacityLevels()
         );
     }
 }
