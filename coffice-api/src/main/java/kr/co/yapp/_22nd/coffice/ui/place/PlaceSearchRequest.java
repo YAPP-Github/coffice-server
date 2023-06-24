@@ -20,6 +20,10 @@ public class PlaceSearchRequest {
      * 영업중
      */
     private Boolean open;
+    /**
+     * 단체 테이블 있는지
+     */
+    private Boolean hasCommunalTable;
     @Min(1)
     @NotNull
     private Integer pageSize;

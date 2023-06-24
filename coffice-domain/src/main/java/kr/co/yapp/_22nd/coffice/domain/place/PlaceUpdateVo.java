@@ -12,4 +12,5 @@ public class PlaceUpdateVo {
     List<OpeningHour> openingHours;
     SeatCount seatCount;
     ElectricOutletCount electricOutletCount;
+    CommunalTableCount communalTableCount;
 }

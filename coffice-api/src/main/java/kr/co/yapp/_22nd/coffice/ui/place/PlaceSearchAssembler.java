@@ -21,7 +21,8 @@ public class PlaceSearchAssembler {
                         placeSearchRequest.getDistance(),
                         DistanceUnit.METER
                 ),
-                placeSearchRequest.getOpen()
+                placeSearchRequest.getOpen(),
+                placeSearchRequest.getHasCommunalTable()
         );
     }
 }

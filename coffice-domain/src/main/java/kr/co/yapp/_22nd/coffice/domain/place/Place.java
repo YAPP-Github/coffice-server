@@ -40,6 +40,9 @@ public class Place {
     @Embedded
     private SeatCount seatCount;
 
+    @Embedded
+    private CommunalTableCount communalTableCount;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -56,6 +59,7 @@ public class Place {
         place.openingHours.addAll(placeCreateVo.getOpeningHours());
         place.seatCount = placeCreateVo.getSeatCount();
         place.electricOutletCount = placeCreateVo.getElectricOutletCount();
+        place.communalTableCount = placeCreateVo.getCommunalTableCount();
         return place;
     }
 
@@ -67,6 +71,7 @@ public class Place {
         openingHours.addAll(placeUpdateVo.getOpeningHours());
         seatCount = placeUpdateVo.getSeatCount();
         electricOutletCount = placeUpdateVo.getElectricOutletCount();
+        communalTableCount = placeUpdateVo.getCommunalTableCount();
     }
 
     public void delete() {
@@ -75,5 +80,9 @@ public class Place {
 
     public ElectricOutletLevel getElectricOutletLevel() {
         return ElectricOutletLevel.of(electricOutletCount, seatCount);
+    }
+
+    public boolean hasCommunalTable() {
+        return communalTableCount.isPositive();
     }
 }

@@ -12,5 +12,6 @@ public class PlaceSearchResponseVo {
     Address address;
     List<OpeningHour> openingHours;
     ElectricOutletLevel electricOutletLevel;
+    Boolean hasCommunalTable;
     Distance distance;
 }

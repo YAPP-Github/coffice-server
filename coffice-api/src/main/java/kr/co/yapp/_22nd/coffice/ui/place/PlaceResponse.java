@@ -17,4 +17,5 @@ public class PlaceResponse {
     private final AddressResponse address;
     private final List<OpeningHourResponse> openingHours;
     private final String electricOutletLevel;
+    private final Boolean hasCommunalTable;
 }
