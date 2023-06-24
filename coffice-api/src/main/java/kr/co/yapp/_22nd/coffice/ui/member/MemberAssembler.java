@@ -8,7 +8,9 @@ public class MemberAssembler {
     public MemberResponse toMemberResponse(Member member) {
         return new MemberResponse(
                 member.getMemberId(),
-                member.getName()
+                member.getName(),
+                member.getStatus(),
+                member.getAuthProviderType()
         );
     }
 }
