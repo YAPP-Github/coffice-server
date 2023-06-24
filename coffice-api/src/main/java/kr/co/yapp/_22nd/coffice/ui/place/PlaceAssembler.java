@@ -22,7 +22,8 @@ public class PlaceAssembler {
                 place.getOpeningHours()
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                place.getElectricOutletLevel().name()
         );
     }
 
@@ -35,7 +36,8 @@ public class PlaceAssembler {
                 placeSearchResponseVo.getOpeningHours()
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                placeSearchResponseVo.getElectricOutletLevel().name()
         );
     }
 }

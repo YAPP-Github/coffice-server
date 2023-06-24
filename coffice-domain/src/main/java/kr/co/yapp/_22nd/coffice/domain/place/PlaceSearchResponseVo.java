@@ -11,5 +11,6 @@ public class PlaceSearchResponseVo {
     Coordinates coordinates;
     Address address;
     List<OpeningHour> openingHours;
+    ElectricOutletLevel electricOutletLevel;
     Distance distance;
 }

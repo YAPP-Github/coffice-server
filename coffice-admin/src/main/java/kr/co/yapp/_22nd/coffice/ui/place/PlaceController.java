@@ -58,7 +58,9 @@ public class PlaceController {
                                 .landAddress(placeAddRequest.getLandAddress())
                                 .postalCode(placeAddRequest.getPostalCode())
                                 .build(),
-                        Collections.emptyList()
+                        Collections.emptyList(),
+                        SeatCount.from(placeAddRequest.getSeatCount()),
+                        ElectricOutletCount.from(placeAddRequest.getElectricOutletCount())
                 )
         );
         model.addAttribute("place", place);
@@ -107,7 +109,9 @@ public class PlaceController {
                                 .landAddress(placeEditRequest.getLandAddress())
                                 .postalCode(placeEditRequest.getPostalCode())
                                 .build(),
-                        Collections.emptyList()
+                        Collections.emptyList(),
+                        SeatCount.from(placeEditRequest.getSeatCount()),
+                        ElectricOutletCount.from(placeEditRequest.getElectricOutletCount())
                 )
         );
         model.addAttribute("place", place);
