@@ -13,5 +13,6 @@ public class PlaceSearchResponseVo {
     List<OpeningHour> openingHours;
     ElectricOutletLevel electricOutletLevel;
     Boolean hasCommunalTable;
+    CapacityLevel capacityLevel;
     Distance distance;
 }

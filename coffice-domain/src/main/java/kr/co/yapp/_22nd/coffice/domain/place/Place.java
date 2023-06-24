@@ -41,6 +41,9 @@ public class Place {
     private SeatCount seatCount;
 
     @Embedded
+    private TableCount tableCount;
+
+    @Embedded
     private CommunalTableCount communalTableCount;
 
     @CreatedDate
@@ -57,8 +60,9 @@ public class Place {
         place.coordinates = placeCreateVo.getCoordinates();
         place.address = placeCreateVo.getAddress();
         place.openingHours.addAll(placeCreateVo.getOpeningHours());
-        place.seatCount = placeCreateVo.getSeatCount();
         place.electricOutletCount = placeCreateVo.getElectricOutletCount();
+        place.seatCount = placeCreateVo.getSeatCount();
+        place.tableCount = placeCreateVo.getTableCount();
         place.communalTableCount = placeCreateVo.getCommunalTableCount();
         return place;
     }
@@ -69,8 +73,9 @@ public class Place {
         address = placeUpdateVo.getAddress();
         openingHours.clear();
         openingHours.addAll(placeUpdateVo.getOpeningHours());
-        seatCount = placeUpdateVo.getSeatCount();
         electricOutletCount = placeUpdateVo.getElectricOutletCount();
+        seatCount = placeUpdateVo.getSeatCount();
+        tableCount = placeUpdateVo.getTableCount();
         communalTableCount = placeUpdateVo.getCommunalTableCount();
     }
 
@@ -83,6 +88,10 @@ public class Place {
     }
 
     public boolean hasCommunalTable() {
-        return communalTableCount.isPositive();
+        return communalTableCount != null && communalTableCount.isPositive();
+    }
+
+    public CapacityLevel getCapacityLevel() {
+        return CapacityLevel.from(tableCount);
     }
 }

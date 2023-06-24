@@ -1,5 +1,7 @@
 package kr.co.yapp._22nd.coffice.domain.place;
 
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -7,11 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements PlaceRepositoryCustom {
     private final QPlace place = QPlace.place;
@@ -31,6 +36,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         var distance = placeSearchRequestVo.getDistance();
         var open = placeSearchRequestVo.getOpen();
         var hasCommunalTable = placeSearchRequestVo.getHasCommunalTable();
+        var capacityLevels = placeSearchRequestVo.getCapacityLevels();
 
         NumberExpression<Double> distanceExpression = Expressions.numberTemplate(
                 Double.class,
@@ -49,6 +55,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         if (hasCommunalTable == Boolean.TRUE) {
             booleanExpression = booleanExpression.and(place.communalTableCount.value.gt(0));
         }
+        if (!CollectionUtils.isEmpty(capacityLevels)) {
+            booleanExpression = booleanExpression.and(getCapacityConditions(capacityLevels));
+        }
         var queryResults = from(place)
                 .leftJoin(place.openingHours, openingHour)
                 .select(
@@ -59,13 +68,18 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                         place.address.streetAddress,
                         place.address.landAddress,
                         place.address.postalCode,
+                        place.electricOutletCount,
+                        place.seatCount,
+                        place.tableCount,
+                        place.communalTableCount,
                         distanceExpression
                 )
                 .where(booleanExpression)
                 .orderBy(distanceExpression.asc())
                 .distinct()
                 .fetchResults();
-        List<PlaceSearchResponseVo> placeSearchResponseVos = queryResults.getResults().stream()
+        List<PlaceSearchResponseVo> placeSearchResponseVos = queryResults.getResults()
+                .stream()
                 .map(it -> PlaceSearchResponseVo.of(
                                 it.get(place.placeId),
                                 it.get(place.name),
@@ -86,6 +100,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                         it.get(place.seatCount)
                                 ),
                                 it.get(place.communalTableCount) != null && it.get(place.communalTableCount).isPositive(),
+                                CapacityLevel.from(it.get(place.tableCount)),
                                 Distance.of(
                                         it.get(distanceExpression),
                                         DistanceUnit.KILOMETER
@@ -116,5 +131,13 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 .and(openingHour.closedAt.goe(now.toLocalTime()));
         BooleanExpression isOpen24Hours = openingHour.openAroundTheClock.isTrue();
         return isOpeningDay.and(isOnOpeningHours.or(isOpen24Hours));
+    }
+
+    private Predicate getCapacityConditions(Collection<CapacityLevel> capacityLevels) {
+        Collection<Predicate> predicates = capacityLevels.stream()
+                .filter(it -> it != CapacityLevel.UNKNOWN)
+                .map(it -> place.tableCount.value.between(it.getFrom(), it.getTo()))
+                .collect(Collectors.toList());
+        return ExpressionUtils.anyOf(predicates);
     }
 }

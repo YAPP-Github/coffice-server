@@ -9,24 +9,19 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SeatCount implements Countable<SeatCount, Integer> {
-
-    @Column(name = "seatCount")
+public class TableCount implements Countable<TableCount, Integer> {
+    @Column(name = "tableCount")
     private Integer value;
 
-    public static SeatCount from(Integer count) {
-        SeatCount seatCount = new SeatCount();
-        seatCount.value = count;
-        return seatCount;
-    }
-
-    public boolean isZero() {
-        return value == 0;
+    public static TableCount from(Integer count) {
+        TableCount tableCount = new TableCount();
+        tableCount.value = count;
+        return tableCount;
     }
 
     @Override
-    public int compareTo(SeatCount o) {
-        return this.value.compareTo(o.value);
+    public int compareTo(TableCount o) {
+        return value.compareTo(o.value);
     }
 
     @Override

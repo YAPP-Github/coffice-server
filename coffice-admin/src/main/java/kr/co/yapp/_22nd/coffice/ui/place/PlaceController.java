@@ -59,8 +59,9 @@ public class PlaceController {
                                 .postalCode(placeAddRequest.getPostalCode())
                                 .build(),
                         Collections.emptyList(),
-                        SeatCount.from(placeAddRequest.getSeatCount()),
                         ElectricOutletCount.from(placeAddRequest.getElectricOutletCount()),
+                        SeatCount.from(placeAddRequest.getSeatCount()),
+                        TableCount.from(placeAddRequest.getTableCount()),
                         CommunalTableCount.from(placeAddRequest.getCommunalTableCount())
                 )
         );
@@ -111,8 +112,9 @@ public class PlaceController {
                                 .postalCode(placeEditRequest.getPostalCode())
                                 .build(),
                         Collections.emptyList(),
-                        SeatCount.from(placeEditRequest.getSeatCount()),
                         ElectricOutletCount.from(placeEditRequest.getElectricOutletCount()),
+                        SeatCount.from(placeEditRequest.getSeatCount()),
+                        TableCount.from(placeEditRequest.getTableCount()),
                         CommunalTableCount.from(placeEditRequest.getCommunalTableCount())
                 )
         );

@@ -10,7 +10,8 @@ public class PlaceAddRequest {
     private String streetAddress;
     private String landAddress;
     private String postalCode;
-    private Integer seatCount;
     private Integer electricOutletCount;
+    private Integer seatCount;
+    private Integer tableCount;
     private Integer communalTableCount;
 }

@@ -65,6 +65,10 @@
             <td th:text="${place.getSeatCount() == null ? '' : place.getSeatCount().getValue()}"></td>
         </tr>
         <tr>
+            <th th:text="'tableCount'" scope="row"></th>
+            <td th:text="${place.getTableCount() == null ? '' : place.getTableCount().getValue()}"></td>
+        </tr>
+        <tr>
             <th th:text="'communalTableCount'" scope="row"></th>
             <td th:text="${place.getCommunalTableCount() == null ? '' : place.getCommunalTableCount().getValue()}"></td>
         </tr>

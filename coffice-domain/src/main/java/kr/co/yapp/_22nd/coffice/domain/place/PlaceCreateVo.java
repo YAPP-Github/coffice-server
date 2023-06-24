@@ -10,7 +10,8 @@ public class PlaceCreateVo {
     Coordinates coordinates;
     Address address;
     List<OpeningHour> openingHours;
-    SeatCount seatCount;
     ElectricOutletCount electricOutletCount;
+    SeatCount seatCount;
+    TableCount tableCount;
     CommunalTableCount communalTableCount;
 }

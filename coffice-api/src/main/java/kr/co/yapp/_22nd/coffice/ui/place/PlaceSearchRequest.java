@@ -4,7 +4,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import kr.co.yapp._22nd.coffice.domain.place.CapacityLevel;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class PlaceSearchRequest {
@@ -24,6 +27,7 @@ public class PlaceSearchRequest {
      * 단체 테이블 있는지
      */
     private Boolean hasCommunalTable;
+    private Set<CapacityLevel> capacityLevels;
     @Min(1)
     @NotNull
     private Integer pageSize;
