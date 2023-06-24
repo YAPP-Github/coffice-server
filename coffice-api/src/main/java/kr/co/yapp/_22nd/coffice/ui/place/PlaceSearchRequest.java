@@ -16,10 +16,14 @@ public class PlaceSearchRequest {
     @PositiveOrZero
     @NotNull
     private Double distance;
-    @Min(0)
+    /**
+     * 영업중
+     */
+    private Boolean open;
+    @Min(1)
     @NotNull
     private Integer pageSize;
-    @Min(1)
+    @Min(0)
     @NotNull
     private Integer pageNumber;
 }

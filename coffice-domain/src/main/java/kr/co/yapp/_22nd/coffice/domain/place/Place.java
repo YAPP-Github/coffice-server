@@ -9,6 +9,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +30,10 @@ public class Place {
     @Embedded
     private Address address;
 
+    @ElementCollection
+    @CollectionTable(name = "place_opening_hour", joinColumns = @JoinColumn(name = "placeId"))
+    private final List<OpeningHour> openingHours = new ArrayList<>();
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -41,6 +47,7 @@ public class Place {
         place.name = placeCreateVo.getName();
         place.coordinates = placeCreateVo.getCoordinates();
         place.address = placeCreateVo.getAddress();
+        place.openingHours.addAll(placeCreateVo.getOpeningHours());
         return place;
     }
 
@@ -48,6 +55,8 @@ public class Place {
         name = placeUpdateVo.getName();
         coordinates = placeUpdateVo.getCoordinates();
         address = placeUpdateVo.getAddress();
+        openingHours.clear();
+        openingHours.addAll(placeUpdateVo.getOpeningHours());
     }
 
     public void delete() {

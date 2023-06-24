@@ -26,7 +26,8 @@ public class HomeController {
                                 37.5015587,
                                 127.026319
                         ),
-                        Distance.of(1.0, DistanceUnit.KILOMETER)
+                        Distance.of(1.0, DistanceUnit.KILOMETER),
+                        null
                 ),
                 Pageable.unpaged()
         );

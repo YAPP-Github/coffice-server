@@ -6,9 +6,7 @@ import org.springframework.data.domain.Pageable;
 public interface PlaceRepositoryCustom {
 
     Page<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
-            String name,
-            Coordinates coordinates,
-            Distance distance,
+            PlaceSearchRequestVo placeSearchRequestVo,
             Pageable pageable
     );
 }

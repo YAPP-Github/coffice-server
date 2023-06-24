@@ -7,4 +7,5 @@ public class PlaceSearchRequestVo {
     String searchText;
     Coordinates coordinates;
     Distance distance;
+    Boolean open;
 }

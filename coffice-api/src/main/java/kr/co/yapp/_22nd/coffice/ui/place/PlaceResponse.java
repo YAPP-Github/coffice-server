@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PlaceResponse {
     @NotNull
@@ -13,4 +15,5 @@ public class PlaceResponse {
     @NotNull
     private final CoordinatesResponse coordinates;
     private final AddressResponse address;
+    private final List<OpeningHourResponse> openingHours;
 }
