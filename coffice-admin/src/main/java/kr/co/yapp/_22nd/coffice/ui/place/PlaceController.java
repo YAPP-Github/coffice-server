@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RequestMapping("/place")
 @Controller
 @RequiredArgsConstructor
@@ -55,7 +57,8 @@ public class PlaceController {
                                 .streetAddress(placeAddRequest.getStreetAddress())
                                 .landAddress(placeAddRequest.getLandAddress())
                                 .postalCode(placeAddRequest.getPostalCode())
-                                .build()
+                                .build(),
+                        Collections.emptyList()
                 )
         );
         model.addAttribute("place", place);
@@ -103,7 +106,8 @@ public class PlaceController {
                                 .streetAddress(placeEditRequest.getStreetAddress())
                                 .landAddress(placeEditRequest.getLandAddress())
                                 .postalCode(placeEditRequest.getPostalCode())
-                                .build()
+                                .build(),
+                        Collections.emptyList()
                 )
         );
         model.addAttribute("place", place);

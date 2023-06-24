@@ -35,11 +35,6 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
             PlaceSearchRequestVo placeSearchRequestVo,
             Pageable pageable
     ) {
-        return placeRepository.findByCoordinatesAndDistanceLessThan(
-                placeSearchRequestVo.getSearchText(),
-                placeSearchRequestVo.getCoordinates(),
-                placeSearchRequestVo.getDistance(),
-                pageable
-        );
+        return placeRepository.findByCoordinatesAndDistanceLessThan(placeSearchRequestVo, pageable);
     }
 }

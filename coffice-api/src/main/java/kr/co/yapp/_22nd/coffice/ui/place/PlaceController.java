@@ -4,11 +4,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
 import kr.co.yapp._22nd.coffice.application.PlaceFolderPlaceApplicationService;
-import kr.co.yapp._22nd.coffice.domain.place.*;
+import kr.co.yapp._22nd.coffice.domain.place.PlaceNotFoundException;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -111,36 +110,5 @@ public class PlaceController {
                 placeId
         );
         return ApiResponse.success();
-    }
-
-    @PostMapping("/search")
-    public ApiResponse<List<PlaceResponse>> search(
-            @AuthenticationPrincipal Long memberId,
-            @RequestBody @Valid PlaceSearchRequest placeSearchRequest
-    ) {
-        // FIXME: pagination
-        return ApiResponse.success(
-                placeApplicationService.search(
-                                memberId,
-                                PlaceSearchRequestVo.of(
-                                        placeSearchRequest.getSearchText(),
-                                        Coordinates.of(
-                                                placeSearchRequest.getLatitude(),
-                                                placeSearchRequest.getLongitude()
-                                        ),
-                                        Distance.of(
-                                                placeSearchRequest.getDistance(),
-                                                DistanceUnit.METER
-                                        )
-                                ),
-                                PageRequest.of(
-                                        placeSearchRequest.getPageNumber(),
-                                        placeSearchRequest.getPageSize()
-                                )
-                        )
-                        .map(placeAssembler::toPlaceResponse)
-                        .stream()
-                        .toList()
-        );
     }
 }
