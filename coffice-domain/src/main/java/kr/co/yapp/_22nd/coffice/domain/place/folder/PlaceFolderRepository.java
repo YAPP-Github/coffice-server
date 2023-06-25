@@ -13,4 +13,6 @@ public interface PlaceFolderRepository extends JpaRepository<PlaceFolder, Long> 
     Optional<PlaceFolder> findByMember_memberIdAndPlaceFolderIdAndDeletedFalse(Long memberId, Long placeFolderId);
 
     Optional<PlaceFolder> findByMember_memberIdAndNameContainsAndDeletedFalse(Long memberId, String name);
+
+    PlaceFolder findByMember_memberIdAndPlaceFolderTypeAndDeletedFalse(Long memberId, PlaceFolderType placeFolderType);
 }

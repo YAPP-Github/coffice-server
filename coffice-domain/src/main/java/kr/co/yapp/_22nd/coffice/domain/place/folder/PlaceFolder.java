@@ -26,6 +26,8 @@ public class PlaceFolder {
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
+    @Enumerated(EnumType.STRING)
+    private PlaceFolderType placeFolderType;
     private String name;
     @Enumerated(EnumType.STRING)
     private PlaceFolderColors color;
@@ -43,6 +45,7 @@ public class PlaceFolder {
     ) {
         PlaceFolder placeFolder = new PlaceFolder();
         placeFolder.member = member;
+        placeFolder.placeFolderType = PlaceFolderType.DEFAULT;
         placeFolder.name = placeFolderCreateVo.getName();
         placeFolder.color = placeFolderCreateVo.getColor();
         return placeFolder;

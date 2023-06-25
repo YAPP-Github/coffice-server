@@ -91,4 +91,9 @@ public class PlaceFolderServiceImpl implements PlaceFolderService {
         return placeFolderRepository.findById(placeFolderId)
                 .orElseThrow(() -> new PlaceFolderNotFoundException(placeFolderId));
     }
+
+    @Override
+    public PlaceFolder getDefaultPlaceFolder(Long memberId) {
+        return placeFolderRepository.findByMember_memberIdAndPlaceFolderTypeAndDeletedFalse(memberId, PlaceFolderType.DEFAULT);
+    }
 }

@@ -3,6 +3,7 @@ package kr.co.yapp._22nd.coffice.domain.place;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PlaceQueryService {
@@ -13,6 +14,8 @@ public interface PlaceQueryService {
     Place getPlace(Long placeId);
 
     Page<PlaceSearchResponseVo> search(PlaceSearchRequestVo placeSearchVo, Pageable pageable);
+
+    List<Place> findByPlaceFolderId(Long memberId, Long placeFolderId);
 }
 
 
