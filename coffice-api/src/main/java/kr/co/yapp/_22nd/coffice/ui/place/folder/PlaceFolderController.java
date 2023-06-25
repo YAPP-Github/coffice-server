@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Deprecated
 @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
 @RequestMapping("/api/v1/place-folders")
 @RestController
