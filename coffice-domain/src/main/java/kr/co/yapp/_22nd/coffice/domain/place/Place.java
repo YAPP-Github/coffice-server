@@ -35,6 +35,9 @@ public class Place {
     private final List<OpeningHour> openingHours = new ArrayList<>();
 
     @Embedded
+    private PhoneNumber phoneNumber;
+
+    @Embedded
     private ElectricOutletCount electricOutletCount;
 
     @Embedded
@@ -64,6 +67,7 @@ public class Place {
         place.coordinates = placeCreateVo.getCoordinates();
         place.address = placeCreateVo.getAddress();
         place.openingHours.addAll(placeCreateVo.getOpeningHours());
+        place.phoneNumber = placeCreateVo.getPhoneNumber();
         place.electricOutletCount = placeCreateVo.getElectricOutletCount();
         place.seatCount = placeCreateVo.getSeatCount();
         place.tableCount = placeCreateVo.getTableCount();
@@ -78,6 +82,7 @@ public class Place {
         address = placeUpdateVo.getAddress();
         openingHours.clear();
         openingHours.addAll(placeUpdateVo.getOpeningHours());
+        phoneNumber = placeUpdateVo.getPhoneNumber();
         electricOutletCount = placeUpdateVo.getElectricOutletCount();
         seatCount = placeUpdateVo.getSeatCount();
         tableCount = placeUpdateVo.getTableCount();

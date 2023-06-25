@@ -54,6 +54,13 @@
             <small class="form-text text-muted">ex) 06134</small>
         </div>
         <div class="form-group">
+            <label for="placePhoneNumberId" class="control-label" th:text="'Phone Number'"></label>
+            <input id="placePhoneNumberId" class="form-control" name="phoneNumber" type="tel"
+                   th:value="${place.getPhoneNumber() == null ? '' : place.getPhoneNumber().getValue()}"
+                   placeholder="전화번호를 입력하세요. ">
+            <small class="form-text text-muted">ex) 02-555-0890</small>
+        </div>
+        <div class="form-group">
             <label for="placeElectricOutletCountId" class="control-label" th:text="'Electric Outlet Count'"></label>
             <input id="placeElectricOutletCountId" class="form-control" name="electricOutletCount" type="number"
                    th:value="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"

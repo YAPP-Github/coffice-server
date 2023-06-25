@@ -23,6 +23,7 @@ public class PlaceAssembler {
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
+                place.getPhoneNumber() != null ? place.getPhoneNumber().getValue() : null,
                 place.getElectricOutletLevel().name(),
                 place.hasCommunalTable(),
                 place.getCapacityLevel().name(),
@@ -40,6 +41,7 @@ public class PlaceAssembler {
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
+                placeSearchResponseVo.getPhoneNumber().getValue(),
                 placeSearchResponseVo.getElectricOutletLevel().name(),
                 placeSearchResponseVo.getHasCommunalTable(),
                 placeSearchResponseVo.getCapacityLevel().name(),

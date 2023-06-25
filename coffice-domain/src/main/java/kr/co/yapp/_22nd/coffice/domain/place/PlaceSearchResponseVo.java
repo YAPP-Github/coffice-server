@@ -11,6 +11,7 @@ public class PlaceSearchResponseVo {
     Coordinates coordinates;
     Address address;
     List<OpeningHour> openingHours;
+    PhoneNumber phoneNumber;
     ElectricOutletLevel electricOutletLevel;
     Boolean hasCommunalTable;
     CapacityLevel capacityLevel;

@@ -59,6 +59,7 @@ public class PlaceController {
                                 .postalCode(placeAddRequest.getPostalCode())
                                 .build(),
                         Collections.emptyList(),
+                        PhoneNumber.from(placeAddRequest.getPhoneNumber()),
                         ElectricOutletCount.from(placeAddRequest.getElectricOutletCount()),
                         SeatCount.from(placeAddRequest.getSeatCount()),
                         TableCount.from(placeAddRequest.getTableCount()),
@@ -113,6 +114,7 @@ public class PlaceController {
                                 .postalCode(placeEditRequest.getPostalCode())
                                 .build(),
                         Collections.emptyList(),
+                        PhoneNumber.from(placeEditRequest.getPhoneNumber()),
                         ElectricOutletCount.from(placeEditRequest.getElectricOutletCount()),
                         SeatCount.from(placeEditRequest.getSeatCount()),
                         TableCount.from(placeEditRequest.getTableCount()),
