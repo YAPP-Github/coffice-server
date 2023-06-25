@@ -16,6 +16,7 @@ public class PlaceResponse {
     private final CoordinatesResponse coordinates;
     private final AddressResponse address;
     private final List<OpeningHourResponse> openingHours;
+    private final String phoneNumber;
     private final String electricOutletLevel;
     private final Boolean hasCommunalTable;
     private final String capacityLevel;

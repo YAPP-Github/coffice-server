@@ -10,6 +10,7 @@ public class PlaceEditRequest {
     private String streetAddress;
     private String landAddress;
     private String postalCode;
+    private String phoneNumber;
     private Integer electricOutletCount;
     private Integer seatCount;
     private Integer tableCount;
