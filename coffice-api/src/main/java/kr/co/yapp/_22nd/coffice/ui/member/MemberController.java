@@ -1,9 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import kr.co.yapp._22nd.coffice.domain.member.Member;
-import kr.co.yapp._22nd.coffice.domain.member.MemberCreateVo;
-import kr.co.yapp._22nd.coffice.domain.member.MemberRepository;
+import kr.co.yapp._22nd.coffice.domain.member.*;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +22,13 @@ public class MemberController {
      */
     @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
     @GetMapping("/me")
-    public Object getMyInfo(
+    public ApiResponse<MemberResponse> getMyInfo(
             @AuthenticationPrincipal Long memberId
     ) {
-        return null;
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+        MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
+        return ApiResponse.success(memberResponse);
     }
 
     /**
@@ -42,7 +43,7 @@ public class MemberController {
     ) {
         Long testMemberId = 1L;
         Member member = memberRepository.findById(testMemberId)
-                .orElseGet(() -> Member.from(MemberCreateVo.of("test")));
+                .orElseGet(() -> Member.from(MemberCreateVo.of("test", MemberStatus.ACTIVE, AuthProviderType.ANONYMOUS)));
         MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
         LoginResponse loginResponse = new LoginResponse();
         String testAccessToken = "accessToken";

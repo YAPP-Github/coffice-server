@@ -21,6 +21,14 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
+    private String authProviderUserId;
+    @Enumerated(EnumType.STRING)
+    private AuthProviderType authProviderType;
+
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
@@ -29,6 +37,8 @@ public class Member {
     public static Member from(MemberCreateVo memberCreateVo) {
         Member member = new Member();
         member.name = memberCreateVo.getName();
+        member.status = memberCreateVo.getStatus();
+        member.authProviderType = memberCreateVo.getAuthProviderType();
         return member;
     }
 }
