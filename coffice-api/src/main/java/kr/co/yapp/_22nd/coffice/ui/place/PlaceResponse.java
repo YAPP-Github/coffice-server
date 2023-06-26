@@ -15,6 +15,7 @@ public class PlaceResponse {
     @NotNull
     private final CoordinatesResponse coordinates;
     private final AddressResponse address;
+    private final String homepageUrl;
     private final List<OpeningHourResponse> openingHours;
     private final String phoneNumber;
     private final String electricOutletLevel;

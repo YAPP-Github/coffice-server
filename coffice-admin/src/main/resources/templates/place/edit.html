@@ -61,6 +61,13 @@
             <small class="form-text text-muted">ex) 02-555-0890</small>
         </div>
         <div class="form-group">
+            <label for="placeHomepageUrlId" class="control-label" th:text="'HomepageUrl'"></label>
+            <input id="placeHomepageUrlId" class="form-control" name="homepageUrl" type="url"
+                   th:value="${place.getHomepageUrl()}"
+                   placeholder="홈페이지 주소를 입력하세요. ">
+            <small class="form-text text-muted">ex) https://www.hollys.co.kr/</small>
+        </div>
+        <div class="form-group">
             <label for="placeElectricOutletCountId" class="control-label" th:text="'Electric Outlet Count'"></label>
             <input id="placeElectricOutletCountId" class="form-control" name="electricOutletCount" type="number"
                    th:value="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"
