@@ -1,17 +1,25 @@
 package kr.co.yapp._22nd.coffice.ui.review;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import kr.co.yapp._22nd.coffice.application.ReportApplicationService;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
+import kr.co.yapp._22nd.coffice.ui.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
 @RequestMapping("/api/v1")
 @RestController
+@RequiredArgsConstructor
 public class ReviewController {
+    private final ReportApplicationService reportApplicationService;
+
     /**
      * 특정 장소의 리뷰 목록 조회
      *
@@ -20,13 +28,13 @@ public class ReviewController {
      * @return 리뷰 목록
      */
     @GetMapping("/places/{placeId}/reviews")
-    public Object getReviews(
+    public ApiResponse<List<Object>> getReviews(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long placeId,
             @PageableDefault Pageable pageable
     ) {
         // TODO: 특정 장소의 리뷰 목록 조회
-        return null;
+        return ApiResponse.success();
     }
 
     /**
@@ -36,12 +44,12 @@ public class ReviewController {
      * @return 리뷰 목록
      */
     @GetMapping("/members/me/reviews")
-    public Object getMyReviews(
+    public ApiResponse<Object> getMyReviews(
             @AuthenticationPrincipal Long memberId,
             @PageableDefault Pageable pageable
     ) {
         // TODO: 내가 쓴 리뷰 목록 조회
-        return null;
+        return ApiResponse.success();
     }
 
     /**
@@ -52,13 +60,13 @@ public class ReviewController {
      * @return 작성된 리뷰
      */
     @PostMapping("/places/{placeId}/reviews")
-    public Object createReview(
+    public ApiResponse<List<Object>> createReview(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long placeId,
             @RequestBody ReviewCreateRequest reviewCreateRequest
     ) {
         // TODO: 리뷰 작성
-        return null;
+        return ApiResponse.success();
     }
 
     /**
@@ -69,13 +77,13 @@ public class ReviewController {
      * @return 수정된 리뷰
      */
     @PutMapping("/reviews/{reviewId}")
-    public Object updateReview(
+    public ApiResponse<Object> updateReview(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long reviewId,
             @RequestBody ReviewUpdateRequest reviewUpdateRequest
     ) {
         // TODO: 리뷰 수정
-        return null;
+        return ApiResponse.success();
     }
 
     /**
@@ -85,28 +93,23 @@ public class ReviewController {
      */
     @DeleteMapping("/reviews/{reviewId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReview(
+    public ApiResponse<Object> deleteReview(
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long reviewId
     ) {
         // TODO: 리뷰 삭제
+        return ApiResponse.success();
     }
-
 
     /**
      * 리뷰 신고
-     *
-     * @param reviewId            리뷰 식별자
-     * @param reviewReportRequest 리뷰 신고 정보
-     * @return 신고된 리뷰
      */
     @PostMapping("/reviews/{reviewId}/report")
-    public Object reportReview(
+    public ApiResponse<Object> reportReview(
             @AuthenticationPrincipal Long memberId,
-            @PathVariable Long reviewId,
-            @RequestBody ReviewReportRequest reviewReportRequest
+            @PathVariable Long reviewId
     ) {
-        // TODO: 리뷰 신고
-        return null;
+        reportApplicationService.reportReview(memberId, reviewId);
+        return ApiResponse.success();
     }
 }
