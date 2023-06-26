@@ -21,6 +21,7 @@ public class PlaceAssembler {
                 place.getName(),
                 CoordinatesResponse.from(place.getCoordinates()),
                 place.getAddress() == null ? null : AddressResponse.from(place.getAddress()),
+                place.getHomepageUrl(),
                 place.getOpeningHours()
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
@@ -40,6 +41,7 @@ public class PlaceAssembler {
                 placeSearchResponseVo.getName(),
                 CoordinatesResponse.from(placeSearchResponseVo.getCoordinates()),
                 placeSearchResponseVo.getAddress() == null ? null : AddressResponse.from(placeSearchResponseVo.getAddress()),
+                placeSearchResponseVo.getHomepageUrl(),
                 placeSearchResponseVo.getOpeningHours()
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))

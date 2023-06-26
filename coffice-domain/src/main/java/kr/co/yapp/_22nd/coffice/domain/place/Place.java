@@ -37,6 +37,8 @@ public class Place {
     @Embedded
     private PhoneNumber phoneNumber;
 
+    private String homepageUrl;
+
     @Embedded
     private ElectricOutletCount electricOutletCount;
 
@@ -72,6 +74,7 @@ public class Place {
         place.address = placeCreateVo.getAddress();
         place.openingHours.addAll(placeCreateVo.getOpeningHours());
         place.phoneNumber = placeCreateVo.getPhoneNumber();
+        place.homepageUrl = placeCreateVo.getHomepageUrl();
         place.electricOutletCount = placeCreateVo.getElectricOutletCount();
         place.seatCount = placeCreateVo.getSeatCount();
         place.tableCount = placeCreateVo.getTableCount();
@@ -88,6 +91,7 @@ public class Place {
         openingHours.clear();
         openingHours.addAll(placeUpdateVo.getOpeningHours());
         phoneNumber = placeUpdateVo.getPhoneNumber();
+        homepageUrl = placeUpdateVo.getHomepageUrl();
         electricOutletCount = placeUpdateVo.getElectricOutletCount();
         seatCount = placeUpdateVo.getSeatCount();
         tableCount = placeUpdateVo.getTableCount();

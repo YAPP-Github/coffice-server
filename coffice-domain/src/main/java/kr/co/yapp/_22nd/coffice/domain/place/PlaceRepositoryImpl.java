@@ -80,6 +80,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                     place.getAddress(),
                                     place.getOpeningHours(),
                                     place.getPhoneNumber(),
+                                    place.getHomepageUrl(),
                                     place.getElectricOutletLevel(),
                                     place.hasCommunalTable(),
                                     place.getCapacityLevel(),

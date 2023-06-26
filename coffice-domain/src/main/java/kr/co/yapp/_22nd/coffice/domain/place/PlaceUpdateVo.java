@@ -11,6 +11,7 @@ public class PlaceUpdateVo {
     Address address;
     List<OpeningHour> openingHours;
     PhoneNumber phoneNumber;
+    String homepageUrl;
     ElectricOutletCount electricOutletCount;
     SeatCount seatCount;
     TableCount tableCount;
