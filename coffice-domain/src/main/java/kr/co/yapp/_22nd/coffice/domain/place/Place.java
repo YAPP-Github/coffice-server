@@ -59,6 +59,21 @@ public class Place {
     @CollectionTable(name = "place_crowdedness", joinColumns = @JoinColumn(name = "placeId"))
     private final List<Crowdedness> crowdednessList = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(name = "place_drink_type", joinColumns = @JoinColumn(name = "placeId"))
+    private final List<DrinkType> drinkTypes = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(name = "place_food_type", joinColumns = @JoinColumn(name = "placeId"))
+    private final List<FoodType> foodTypes = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(name = "place_restroom_type", joinColumns = @JoinColumn(name = "placeId"))
+    private final List<RestroomType> restroomTypes = new ArrayList<>();
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -81,6 +96,9 @@ public class Place {
         place.communalTableCount = placeCreateVo.getCommunalTableCount();
         place.imageUrls.addAll(placeCreateVo.getImageUrls());
         place.crowdednessList.addAll(placeCreateVo.getCrowdednessList());
+        place.drinkTypes.addAll(placeCreateVo.getDrinkTypes());
+        place.foodTypes.addAll(placeCreateVo.getFoodTypes());
+        place.restroomTypes.addAll(placeCreateVo.getRestroomTypes());
         return place;
     }
 
@@ -98,7 +116,14 @@ public class Place {
         communalTableCount = placeUpdateVo.getCommunalTableCount();
         imageUrls.clear();
         imageUrls.addAll(placeUpdateVo.getImageUrls());
+        crowdednessList.clear();
         crowdednessList.addAll(placeUpdateVo.getCrowdednessList());
+        drinkTypes.clear();
+        drinkTypes.addAll(placeUpdateVo.getDrinkTypes());
+        foodTypes.clear();
+        foodTypes.addAll(placeUpdateVo.getFoodTypes());
+        restroomTypes.clear();
+        restroomTypes.addAll(placeUpdateVo.getRestroomTypes());
     }
 
     public void delete() {

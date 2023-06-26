@@ -23,4 +23,7 @@ public class PlaceResponse {
     private final String capacityLevel;
     private final List<String> imageUrls;
     private final List<CrowdednessResponse> crowdednessList;
+    private final List<String> drinkTypes;
+    private final List<String> foodTypes;
+    private final List<String> restroomTypes;
 }

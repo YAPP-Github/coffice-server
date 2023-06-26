@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements PlaceRepositoryCustom {
@@ -37,6 +38,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         var open = placeSearchRequestVo.getOpen();
         var hasCommunalTable = placeSearchRequestVo.getHasCommunalTable();
         var capacityLevels = placeSearchRequestVo.getCapacityLevels();
+        var drinkTypes = placeSearchRequestVo.getDrinkTypes();
+        var foodTypes = placeSearchRequestVo.getFoodTypes();
+        var restroomTypes = placeSearchRequestVo.getRestroomTypes();
 
         NumberExpression<Double> distanceExpression = Expressions.numberTemplate(
                 Double.class,
@@ -58,9 +62,21 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         if (!CollectionUtils.isEmpty(capacityLevels)) {
             booleanExpression = booleanExpression.and(getCapacityConditions(capacityLevels));
         }
+        if (!CollectionUtils.isEmpty(drinkTypes)) {
+            booleanExpression = booleanExpression.and(getDrinkTypeCondition(drinkTypes));
+        }
+        if (!CollectionUtils.isEmpty(foodTypes)) {
+            booleanExpression = booleanExpression.and(getFoodTypeCondition(foodTypes));
+        }
+        if (!CollectionUtils.isEmpty(restroomTypes)) {
+            booleanExpression = booleanExpression.and(getRestroomTypeCondition(restroomTypes));
+        }
         var queryResults = from(qPlace)
                 .leftJoin(qPlace.openingHours, qOpeningHour).fetchJoin()
                 .leftJoin(qPlace.imageUrls)
+                .leftJoin(qPlace.drinkTypes)
+                .leftJoin(qPlace.foodTypes)
+                .leftJoin(qPlace.restroomTypes)
                 .select(
                         qPlace,
                         distanceExpression
@@ -86,6 +102,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                     place.getCapacityLevel(),
                                     place.getImageUrls(),
                                     place.getCrowdednessList(),
+                                    place.getDrinkTypes(),
+                                    place.getFoodTypes(),
+                                    place.getRestroomTypes(),
                                     Distance.of(
                                             it.get(distanceExpression),
                                             DistanceUnit.KILOMETER
@@ -125,5 +144,29 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 .map(it -> qPlace.tableCount.value.between(it.getFrom(), it.getTo()))
                 .collect(Collectors.toList());
         return ExpressionUtils.anyOf(predicates);
+    }
+
+    private Predicate getDrinkTypeCondition(Set<DrinkType> drinkTypes) {
+        List<Predicate> predicates = drinkTypes.stream()
+                .map(qPlace.drinkTypes::contains)
+                .map(it -> (Predicate) it)
+                .toList();
+        return ExpressionUtils.allOf(predicates);
+    }
+
+    private Predicate getFoodTypeCondition(Set<FoodType> foodTypes) {
+        List<Predicate> predicates = foodTypes.stream()
+                .map(qPlace.foodTypes::contains)
+                .map(it -> (Predicate) it)
+                .toList();
+        return ExpressionUtils.allOf(predicates);
+    }
+
+    private Predicate getRestroomTypeCondition(Set<RestroomType> restroomTypes) {
+        List<Predicate> predicates = restroomTypes.stream()
+                .map(qPlace.restroomTypes::contains)
+                .map(it -> (Predicate) it)
+                .toList();
+        return ExpressionUtils.allOf(predicates);
     }
 }

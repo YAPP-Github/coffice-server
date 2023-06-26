@@ -31,7 +31,10 @@ public class PlaceAssembler {
                 place.hasCommunalTable(),
                 place.getCapacityLevel().name(),
                 place.getImageUrls(),
-                toDTO(place.getCrowdednessList())
+                toDTO(place.getCrowdednessList()),
+                place.getFoodTypes().stream().map(Enum::name).collect(Collectors.toList()),
+                place.getRestroomTypes().stream().map(Enum::name).collect(Collectors.toList()),
+                place.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList())
         );
     }
 
@@ -51,7 +54,10 @@ public class PlaceAssembler {
                 placeSearchResponseVo.getHasCommunalTable(),
                 placeSearchResponseVo.getCapacityLevel().name(),
                 placeSearchResponseVo.getImageUrls(),
-                toDTO(placeSearchResponseVo.getCrowdednessList())
+                toDTO(placeSearchResponseVo.getCrowdednessList()),
+                placeSearchResponseVo.getFoodTypes().stream().map(Enum::name).collect(Collectors.toList()),
+                placeSearchResponseVo.getRestroomTypes().stream().map(Enum::name).collect(Collectors.toList()),
+                placeSearchResponseVo.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList())
         );
     }
 
