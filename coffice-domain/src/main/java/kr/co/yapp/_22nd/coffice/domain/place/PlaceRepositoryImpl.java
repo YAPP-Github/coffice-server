@@ -83,6 +83,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                     place.hasCommunalTable(),
                                     place.getCapacityLevel(),
                                     place.getImageUrls(),
+                                    place.getCrowdednessList(),
                                     Distance.of(
                                             it.get(distanceExpression),
                                             DistanceUnit.KILOMETER

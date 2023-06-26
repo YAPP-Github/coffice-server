@@ -15,4 +15,5 @@ public class PlaceCreateVo {
     TableCount tableCount;
     CommunalTableCount communalTableCount;
     List<String> imageUrls;
+    List<Crowdedness> crowdednessList;
 }

@@ -15,4 +15,5 @@ public class PlaceUpdateVo {
     TableCount tableCount;
     CommunalTableCount communalTableCount;
     List<String> imageUrls;
+    List<Crowdedness> crowdednessList;
 }

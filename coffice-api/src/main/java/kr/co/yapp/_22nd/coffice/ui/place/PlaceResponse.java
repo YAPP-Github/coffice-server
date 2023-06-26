@@ -20,4 +20,5 @@ public class PlaceResponse {
     private final Boolean hasCommunalTable;
     private final String capacityLevel;
     private final List<String> imageUrls;
+    private final List<CrowdednessResponse> crowdednessList;
 }

@@ -50,6 +50,10 @@ public class Place {
     @CollectionTable(name = "place_image_url", joinColumns = @JoinColumn(name = "placeId"))
     private final List<String> imageUrls = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "place_crowdedness", joinColumns = @JoinColumn(name = "placeId"))
+    private final List<Crowdedness> crowdednessList = new ArrayList<>();
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -69,6 +73,7 @@ public class Place {
         place.tableCount = placeCreateVo.getTableCount();
         place.communalTableCount = placeCreateVo.getCommunalTableCount();
         place.imageUrls.addAll(placeCreateVo.getImageUrls());
+        place.crowdednessList.addAll(placeCreateVo.getCrowdednessList());
         return place;
     }
 
@@ -84,6 +89,7 @@ public class Place {
         communalTableCount = placeUpdateVo.getCommunalTableCount();
         imageUrls.clear();
         imageUrls.addAll(placeUpdateVo.getImageUrls());
+        crowdednessList.addAll(placeUpdateVo.getCrowdednessList());
     }
 
     public void delete() {
