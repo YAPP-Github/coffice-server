@@ -12,4 +12,7 @@ public class PlaceSearchRequestVo {
     Boolean open;
     Boolean hasCommunalTable;
     Set<CapacityLevel> capacityLevels;
+    Set<DrinkType> drinkTypes;
+    Set<FoodType> foodTypes;
+    Set<RestroomType> restroomTypes;
 }

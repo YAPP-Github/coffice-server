@@ -76,6 +76,9 @@ public class PlaceController {
                         TableCount.from(placeAddRequest.getTableCount()),
                         CommunalTableCount.from(placeAddRequest.getCommunalTableCount()),
                         Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList(),
                         Collections.emptyList()
                 )
         );
@@ -132,6 +135,9 @@ public class PlaceController {
                         SeatCount.from(placeEditRequest.getSeatCount()),
                         TableCount.from(placeEditRequest.getTableCount()),
                         CommunalTableCount.from(placeEditRequest.getCommunalTableCount()),
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList(),
                         Collections.emptyList(),
                         Collections.emptyList()
                 )

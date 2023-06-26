@@ -18,4 +18,7 @@ public class PlaceCreateVo {
     CommunalTableCount communalTableCount;
     List<String> imageUrls;
     List<Crowdedness> crowdednessList;
+    List<DrinkType> drinkTypes;
+    List<FoodType> foodTypes;
+    List<RestroomType> restroomTypes;
 }

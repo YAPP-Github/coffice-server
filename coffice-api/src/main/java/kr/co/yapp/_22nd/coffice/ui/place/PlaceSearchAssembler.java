@@ -23,7 +23,10 @@ public class PlaceSearchAssembler {
                 ),
                 placeSearchRequest.getOpen(),
                 placeSearchRequest.getHasCommunalTable(),
-                placeSearchRequest.getCapacityLevels()
+                placeSearchRequest.getCapacityLevels(),
+                placeSearchRequest.getDrinkTypes(),
+                placeSearchRequest.getFoodTypes(),
+                placeSearchRequest.getRestroomTypes()
         );
     }
 }
