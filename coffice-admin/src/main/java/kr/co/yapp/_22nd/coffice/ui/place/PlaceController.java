@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @RequestMapping("/place")
 @Controller
@@ -40,7 +42,15 @@ public class PlaceController {
     }
 
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(
+            Model model
+    ) {
+        model.addAttribute("dayTimeTypes", DayTimeType.values());
+        model.addAttribute("weekDayTypes", WeekDayType.values());
+        List<CrowdednessLevel> crowdednessLevels = Arrays.stream(CrowdednessLevel.values())
+                .filter(it -> it != CrowdednessLevel.UNKNOWN)
+                .toList();
+        model.addAttribute("crowdednessLevels", crowdednessLevels);
         return "place/add";
     }
 
@@ -64,6 +74,7 @@ public class PlaceController {
                         SeatCount.from(placeAddRequest.getSeatCount()),
                         TableCount.from(placeAddRequest.getTableCount()),
                         CommunalTableCount.from(placeAddRequest.getCommunalTableCount()),
+                        Collections.emptyList(),
                         Collections.emptyList()
                 )
         );
@@ -119,6 +130,7 @@ public class PlaceController {
                         SeatCount.from(placeEditRequest.getSeatCount()),
                         TableCount.from(placeEditRequest.getTableCount()),
                         CommunalTableCount.from(placeEditRequest.getCommunalTableCount()),
+                        Collections.emptyList(),
                         Collections.emptyList()
                 )
         );

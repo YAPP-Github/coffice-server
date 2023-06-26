@@ -16,5 +16,6 @@ public class PlaceSearchResponseVo {
     Boolean hasCommunalTable;
     CapacityLevel capacityLevel;
     List<String> imageUrls;
+    List<Crowdedness> crowdednessList;
     Distance distance;
 }
