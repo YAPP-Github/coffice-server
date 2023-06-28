@@ -8,4 +8,5 @@ public interface MemberService {
 
     Page<Member> findAll(Pageable pageable);
 
+    Member join(String authProviderType, String authProviderUserId);
 }

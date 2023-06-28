@@ -9,8 +9,7 @@ public class MemberAssembler {
         return new MemberResponse(
                 member.getMemberId(),
                 member.getName(),
-                member.getStatus(),
-                member.getAuthProviderType()
+                member.getAuthProviders()
         );
     }
 }

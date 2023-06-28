@@ -1,5 +1,6 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO: 상태, 인증 제공자, 인증 제공자의 사용자 식별자, 권한, fcmToken
 @Entity
@@ -25,9 +28,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    private String authProviderUserId;
-    @Enumerated(EnumType.STRING)
-    private AuthProviderType authProviderType;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    @JsonManagedReference
+    private List<AuthProvider> authProviders = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -38,7 +42,6 @@ public class Member {
         Member member = new Member();
         member.name = memberCreateVo.getName();
         member.status = memberCreateVo.getStatus();
-        member.authProviderType = memberCreateVo.getAuthProviderType();
         return member;
     }
 }

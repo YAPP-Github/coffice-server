@@ -1,6 +1,8 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
+import kr.co.yapp._22nd.coffice.application.login.LoginRequestVo;
 import kr.co.yapp._22nd.coffice.domain.member.*;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberAssembler memberAssembler;
+    private final LoginApplicationService loginApplicationService;
 
     /**
      * 내 정보 조회
@@ -41,9 +44,12 @@ public class MemberController {
     public ApiResponse<LoginResponse> login(
             @RequestBody LoginRequest loginRequest
     ) {
-        Long testMemberId = 1L;
-        Member member = memberRepository.findById(testMemberId)
-                .orElseGet(() -> Member.from(MemberCreateVo.of("test", MemberStatus.ACTIVE, AuthProviderType.ANONYMOUS)));
+        /* TODO : authProvider 생성, activeAuthProvider 설정 */
+        Member member = loginApplicationService.login(
+                LoginRequestVo.of(
+                        loginRequest.getProviderType(),
+                        loginRequest.getProviderUserId()
+                ));
         MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
         LoginResponse loginResponse = new LoginResponse();
         String testAccessToken = "accessToken";
