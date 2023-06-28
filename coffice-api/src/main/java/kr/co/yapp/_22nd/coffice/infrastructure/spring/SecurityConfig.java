@@ -25,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final HandlerExceptionResolver handlerExceptionResolver;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -68,8 +69,8 @@ public class SecurityConfig {
         // TODO: jwt 검증, 회원번호 조회
         return (authentication -> {
             Object principal = authentication.getPrincipal(); // accessToken
-            if ("accessToken".equals(principal)) {
-                Long memberId = 1L;
+            if (principal instanceof String && jwtTokenProvider.validateToken((String) principal)) {
+                Long memberId = jwtTokenProvider.getMemberIdFromToken((String) principal);
                 PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(memberId, principal);
                 token.setAuthenticated(true);
                 return token;
