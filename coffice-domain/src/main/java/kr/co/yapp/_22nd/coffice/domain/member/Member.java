@@ -1,7 +1,7 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 상태, 인증 제공자, 인증 제공자의 사용자 식별자, 권한, fcmToken
+// TODO: 권한, fcmToken
 @Entity
 @Getter
 @ToString
@@ -29,8 +29,7 @@ public class Member {
     private MemberStatus status;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    @JsonManagedReference
+    @JoinColumn(name = "memberId")
     private List<AuthProvider> authProviders = new ArrayList<>();
 
     @CreatedDate
@@ -41,7 +40,7 @@ public class Member {
     public static Member from(MemberCreateVo memberCreateVo) {
         Member member = new Member();
         member.name = memberCreateVo.getName();
-        member.status = memberCreateVo.getStatus();
+        member.status = MemberStatus.ACTIVE;
         return member;
     }
 }

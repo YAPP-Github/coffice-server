@@ -5,5 +5,4 @@ import lombok.Value;
 @Value(staticConstructor = "of")
 public class MemberCreateVo {
     String name;
-    MemberStatus status;
 }
