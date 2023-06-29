@@ -5,37 +5,46 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-    @Value("${jwt.secret}")
-    private String secretKey;
-    private final long INFINITE_EXPIRATION = 1000L * 60L * 60L * 24L * 365L * 100L; // 100년
+    static int EXPIRATION_DURATION_IN_YEAR = 100;
+    private final Algorithm algorithm;
+
+    @Autowired
+    public JwtTokenProvider(@Value("${coffice.jwt.secret}") String secretKey) {
+        this.algorithm = Algorithm.HMAC256(secretKey);
+    }
 
     public String generateToken(Long memberId) {
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + INFINITE_EXPIRATION);
-
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expiresAt = now.plusYears(EXPIRATION_DURATION_IN_YEAR);
         return JWT.create()
                 .withSubject(memberId.toString())
-                .withIssuedAt(now)
-                .withExpiresAt(validity)
-                .sign(Algorithm.HMAC256(secretKey));
+                .withIssuedAt(java.sql.Timestamp.valueOf(now))
+                .withExpiresAt(java.sql.Timestamp.valueOf(expiresAt))
+                .sign(algorithm);
     }
 
     public Long getMemberIdFromToken(String token) {
-        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
-        return Long.parseLong(decodedJWT.getSubject());
+        DecodedJWT decodedJWT = JWT.require(algorithm).build().verify(token);
+        try {
+            return Long.parseLong(decodedJWT.getSubject());
+        } catch (NumberFormatException e) {
+            throw new BadCredentialsException("Invalid subject: " + decodedJWT.getSubject());
+        }
     }
 
-    public boolean validateToken(String token) {
+    public boolean isValidToken(String token) {
         try {
-            JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+            JWT.require(algorithm).build().verify(token);
             return true;
         } catch (JWTVerificationException e) {
             return false;
