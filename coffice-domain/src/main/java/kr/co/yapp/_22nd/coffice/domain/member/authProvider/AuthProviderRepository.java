@@ -1,4 +1,4 @@
-package kr.co.yapp._22nd.coffice.domain.member;
+package kr.co.yapp._22nd.coffice.domain.member.authProvider;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

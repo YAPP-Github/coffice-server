@@ -1,10 +1,9 @@
-package kr.co.yapp._22nd.coffice.domain.member;
+package kr.co.yapp._22nd.coffice.domain.member.authProvider;
 
 import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class AuthProviderCreateVo {
-    Member member;
+    AuthProviderType authProviderType;
     String authProviderUserId;
-    String authProviderType;
 }
