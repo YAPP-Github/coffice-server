@@ -66,10 +66,9 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager jwtTokenAuthenticationManager() {
-        // TODO: jwt 검증, 회원번호 조회
         return (authentication -> {
             Object principal = authentication.getPrincipal(); // accessToken
-            if (principal instanceof String && jwtTokenProvider.validateToken((String) principal)) {
+            if (principal instanceof String && jwtTokenProvider.isValidToken((String) principal)) {
                 Long memberId = jwtTokenProvider.getMemberIdFromToken((String) principal);
                 PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(memberId, principal);
                 token.setAuthenticated(true);
