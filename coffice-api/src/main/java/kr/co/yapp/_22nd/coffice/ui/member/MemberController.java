@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
 import kr.co.yapp._22nd.coffice.application.login.LoginRequestVo;
 import kr.co.yapp._22nd.coffice.domain.member.*;
-import kr.co.yapp._22nd.coffice.infrastructure.spring.JwtTokenProvider;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberAssembler memberAssembler;
     private final LoginApplicationService loginApplicationService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final LoginAssembler loginAssembler;
 
     /**
      * 내 정보 조회
@@ -46,18 +46,14 @@ public class MemberController {
     public ApiResponse<LoginResponse> login(
             @RequestBody LoginRequest loginRequest
     ) {
-        /* TODO : Token 생성 */
-        Member member = loginApplicationService.login(
-                LoginRequestVo.of(
-                        loginRequest.getProviderType(),
-                        loginRequest.getProviderUserId()
-                ));
-        MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
-        LoginResponse loginResponse = new LoginResponse();
-        String token = jwtTokenProvider.generateToken(member.getMemberId());
-        loginResponse.setAccessToken(token);
-        loginResponse.setMember(memberResponse);
-        return ApiResponse.success(loginResponse);
+        return ApiResponse.success(loginAssembler.toLoginResponse(
+                loginApplicationService.login(
+                        LoginRequestVo.of(
+                                AuthProviderType.valueOf(loginRequest.getAuthProviderType()),
+                                loginRequest.getAuthProviderUserId()
+                        )
+                )
+        ));
     }
 
     /**
