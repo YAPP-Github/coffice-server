@@ -1,10 +1,12 @@
 package kr.co.yapp._22nd.coffice.domain.place;
 
+import kr.co.yapp._22nd.coffice.domain.CursorPageable;
 import kr.co.yapp._22nd.coffice.domain.place.folder.place.PlaceFolderPlace;
 import kr.co.yapp._22nd.coffice.domain.place.folder.place.PlaceFolderPlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +38,9 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
     }
 
     @Override
-    public Page<PlaceSearchResponseVo> search(
+    public Slice<PlaceSearchResponseVo> search(
             PlaceSearchRequestVo placeSearchRequestVo,
-            Pageable pageable
+            CursorPageable<Long> pageable
     ) {
         return placeRepository.findByCoordinatesAndDistanceLessThan(placeSearchRequestVo, pageable);
     }

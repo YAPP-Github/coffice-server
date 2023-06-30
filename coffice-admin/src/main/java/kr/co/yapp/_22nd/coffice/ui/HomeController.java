@@ -1,9 +1,9 @@
 package kr.co.yapp._22nd.coffice.ui;
 
+import kr.co.yapp._22nd.coffice.domain.LongCursorPageable;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class HomeController {
     public String index(
             Model model
     ) {
-        Page<PlaceSearchResponseVo> placeSearchResponseVoPage = placeQueryService.search(
+        Slice<PlaceSearchResponseVo> placeSearchResponseVoPage = placeQueryService.search(
                 PlaceSearchRequestVo.of(
                         "",
                         Coordinates.of(
@@ -36,7 +36,7 @@ public class HomeController {
                         Collections.emptySet(),
                         Collections.emptySet()
                 ),
-                Pageable.unpaged()
+                LongCursorPageable.initial(200)
         );
         model.addAttribute("places", placeSearchResponseVoPage.getContent());
         model.addAttribute("message", "hello");

@@ -1,10 +1,12 @@
 package kr.co.yapp._22nd.coffice.application;
 
+import kr.co.yapp._22nd.coffice.domain.CursorPageable;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import kr.co.yapp._22nd.coffice.domain.search.SearchRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,10 +26,10 @@ public class PlaceApplicationService {
         return placeCommandService.update(placeId, placeUpdateVo);
     }
 
-    public Page<PlaceSearchResponseVo> search(
+    public Slice<PlaceSearchResponseVo> search(
             Long memberId,
             PlaceSearchRequestVo placeSearchRequestVo,
-            Pageable pageable
+            CursorPageable<Long> cursorPageable
     ) {
         searchRequestedEventPublisher.publish(
                 new SearchRequestedEvent(
@@ -37,7 +39,7 @@ public class PlaceApplicationService {
         );
         return placeQueryService.search(
                 placeSearchRequestVo,
-                pageable
+                cursorPageable
         );
     }
 
