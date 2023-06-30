@@ -2,9 +2,7 @@ package kr.co.yapp._22nd.coffice.ui.member;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
-import kr.co.yapp._22nd.coffice.application.login.LoginRequestVo;
 import kr.co.yapp._22nd.coffice.domain.member.*;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +36,6 @@ public class MemberController {
 
     /**
      * 회원 가입 또는 로그인
-     * 실제 구현 전까지는 1번 회원 및 'accessToken' 으로 응답
      *
      * @return accessToken, 회원 정보
      */
@@ -48,10 +45,7 @@ public class MemberController {
     ) {
         return ApiResponse.success(loginAssembler.toLoginResponse(
                 loginApplicationService.login(
-                        LoginRequestVo.of(
-                                AuthProviderType.valueOf(loginRequest.getAuthProviderType()),
-                                loginRequest.getAuthProviderUserId()
-                        )
+                        loginAssembler.toLoginRequestVo(loginRequest)
                 )
         ));
     }

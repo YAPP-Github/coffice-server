@@ -41,6 +41,7 @@ public class Member {
         Member member = new Member();
         member.name = memberCreateVo.getName();
         member.status = MemberStatus.ACTIVE;
+        member.authProviders.add(AuthProvider.from(memberCreateVo.getAuthProviderCreateVo()));
         return member;
     }
 }

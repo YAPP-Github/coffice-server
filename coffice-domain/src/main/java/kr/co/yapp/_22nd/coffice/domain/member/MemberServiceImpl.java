@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +36,7 @@ public class MemberServiceImpl implements MemberService {
     public Member join(String authProviderUserId) {
         /* TODO : 닉네임 정책 구현 */
         String testName = "test";
-        Member newMember = Member.from(MemberCreateVo.of(testName));
-        AuthProvider authProvider = AuthProvider.from(AuthProviderCreateVo.of(AuthProviderType.ANONYMOUS, authProviderUserId));
-        newMember.getAuthProviders().add(authProvider);
+        Member newMember = Member.from(MemberCreateVo.of(testName, AuthProviderCreateVo.of(AuthProviderType.ANONYMOUS, authProviderUserId)));
         return memberRepository.save(newMember);
     }
 }
