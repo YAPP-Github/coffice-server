@@ -15,3 +15,6 @@ cafe:
     sqs:
       access-key: accessKey
       secret-key: secretKey
+coffice:
+  jwt:
+    secret: secret

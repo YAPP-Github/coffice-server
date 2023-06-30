@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
 import kr.co.yapp._22nd.coffice.domain.member.*;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberAssembler memberAssembler;
+    private final LoginApplicationService loginApplicationService;
+    private final LoginAssembler loginAssembler;
 
     /**
      * 내 정보 조회
@@ -33,7 +36,6 @@ public class MemberController {
 
     /**
      * 회원 가입 또는 로그인
-     * 실제 구현 전까지는 1번 회원 및 'accessToken' 으로 응답
      *
      * @return accessToken, 회원 정보
      */
@@ -41,15 +43,11 @@ public class MemberController {
     public ApiResponse<LoginResponse> login(
             @RequestBody LoginRequest loginRequest
     ) {
-        Long testMemberId = 1L;
-        Member member = memberRepository.findById(testMemberId)
-                .orElseGet(() -> Member.from(MemberCreateVo.of("test", MemberStatus.ACTIVE, AuthProviderType.ANONYMOUS)));
-        MemberResponse memberResponse = memberAssembler.toMemberResponse(member);
-        LoginResponse loginResponse = new LoginResponse();
-        String testAccessToken = "accessToken";
-        loginResponse.setAccessToken(testAccessToken);
-        loginResponse.setMember(memberResponse);
-        return ApiResponse.success(loginResponse);
+        return ApiResponse.success(loginAssembler.toLoginResponse(
+                loginApplicationService.login(
+                        loginAssembler.toLoginRequestVo(loginRequest)
+                )
+        ));
     }
 
     /**
