@@ -7,7 +7,7 @@ import lombok.Value;
 
 import java.util.stream.Collectors;
 
-@Value(staticConstructor = "of")
+@Value
 public class LoginResponseVo {
     String accessToken;
     MemberVo member;
@@ -23,7 +23,7 @@ public class LoginResponseVo {
                         member.getName(),
                         member.getAuthProviders()
                                 .stream()
-                                .map(it -> AuthProviderVo.of(it))
+                                .map(AuthProviderVo::of)
                                 .collect(Collectors.toList())
                 )
         );
