@@ -1,13 +1,12 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
-import jakarta.validation.constraints.NotNull;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class LoginRequest {
-    @NotNull
+    @NotBlank
     private final String authProviderType;
-    @NotNull
+    @NotBlank
     private final String authProviderUserId;
 }
