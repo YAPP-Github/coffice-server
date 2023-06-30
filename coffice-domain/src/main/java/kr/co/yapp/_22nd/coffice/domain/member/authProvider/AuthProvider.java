@@ -4,13 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 
-@Entity
 @Getter
 @ToString
+@Embeddable
 public class AuthProvider {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authProviderId;
     @Enumerated(EnumType.STRING)
     private AuthProviderType authProviderType;
     private String authProviderUserId;

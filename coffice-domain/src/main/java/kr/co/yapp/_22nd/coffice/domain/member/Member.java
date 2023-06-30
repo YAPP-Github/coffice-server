@@ -28,8 +28,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "memberId")
+    @ElementCollection
+    @CollectionTable(name = "member_auth_provider", joinColumns = @JoinColumn(name = "memberId"))
     private List<AuthProvider> authProviders = new ArrayList<>();
 
     @CreatedDate
