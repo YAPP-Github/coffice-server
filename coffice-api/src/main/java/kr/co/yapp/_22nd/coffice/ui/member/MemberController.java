@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
 import kr.co.yapp._22nd.coffice.domain.member.*;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
@@ -41,7 +42,7 @@ public class MemberController {
      */
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(
-            @RequestBody LoginRequest loginRequest
+            @Valid @RequestBody LoginRequest loginRequest
     ) {
         return ApiResponse.success(loginAssembler.toLoginResponse(
                 loginApplicationService.login(
