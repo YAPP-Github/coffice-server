@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderVo;
 import kr.co.yapp._22nd.coffice.domain.member.Member;
 import kr.co.yapp._22nd.coffice.domain.member.MemberVo;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ public class MemberAssembler {
                 member.getName(),
                 member.getAuthProviders()
                         .stream()
-                        .map(it -> AuthProviderResponse.of(it))
+                        .map(AuthProviderResponse::of)
                         .collect(Collectors.toList())
         );
     }
@@ -25,18 +24,7 @@ public class MemberAssembler {
                 member.getName(),
                 member.getAuthProviders()
                         .stream()
-                        .map(it -> AuthProviderResponse.of(it))
-                        .collect(Collectors.toList())
-        );
-    }
-
-    public MemberVo toMemberVo(Member member) {
-        return MemberVo.of(
-                member.getMemberId(),
-                member.getName(),
-                member.getAuthProviders()
-                        .stream()
-                        .map(it -> AuthProviderVo.of(it))
+                        .map(AuthProviderResponse::of)
                         .collect(Collectors.toList())
         );
     }
