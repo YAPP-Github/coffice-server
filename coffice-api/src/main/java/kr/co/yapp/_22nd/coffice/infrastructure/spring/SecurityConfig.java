@@ -67,7 +67,14 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager jwtTokenAuthenticationManager() {
         return (authentication -> {
-            Object principal = authentication.getPrincipal(); // accessToken
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof String && principal.equals("accessToken")) {
+                /* 개발 Test용 accessToken */
+                Long testMemberId = 1L;
+                PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(testMemberId, principal);
+                token.setAuthenticated(true);
+                return token;
+            }
             if (principal instanceof String && jwtTokenProvider.isValidToken((String) principal)) {
                 Long memberId = jwtTokenProvider.getMemberIdFromToken((String) principal);
                 PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(memberId, principal);
