@@ -41,6 +41,6 @@ public class PlaceSearchRequest {
     @Min(1)
     @NotNull
     private Integer pageSize;
-    @Min(0)
+    @Positive
     private Double lastSeenDistance;
 }
