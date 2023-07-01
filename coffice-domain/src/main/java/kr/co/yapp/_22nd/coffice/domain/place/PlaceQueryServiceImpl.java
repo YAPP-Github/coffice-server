@@ -40,7 +40,7 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
     @Override
     public Slice<PlaceSearchResponseVo> search(
             PlaceSearchRequestVo placeSearchRequestVo,
-            CursorPageable<Long> pageable
+            CursorPageable<Double> pageable
     ) {
         return placeRepository.findByCoordinatesAndDistanceLessThan(placeSearchRequestVo, pageable);
     }

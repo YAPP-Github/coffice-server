@@ -15,7 +15,7 @@ public interface PlaceQueryService {
 
     Place getPlace(Long placeId);
 
-    Slice<PlaceSearchResponseVo> search(PlaceSearchRequestVo placeSearchVo, CursorPageable<Long> cursorPageable);
+    Slice<PlaceSearchResponseVo> search(PlaceSearchRequestVo placeSearchVo, CursorPageable<Double> cursorPageable);
 
     List<Place> findByPlaceFolderId(Long memberId, Long placeFolderId);
 }

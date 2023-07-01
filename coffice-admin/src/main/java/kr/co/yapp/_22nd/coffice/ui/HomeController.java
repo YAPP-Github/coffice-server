@@ -1,6 +1,6 @@
 package kr.co.yapp._22nd.coffice.ui;
 
-import kr.co.yapp._22nd.coffice.domain.LongCursorPageable;
+import kr.co.yapp._22nd.coffice.domain.DoubleCursorPageable;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
@@ -36,7 +36,7 @@ public class HomeController {
                         Collections.emptySet(),
                         Collections.emptySet()
                 ),
-                LongCursorPageable.initial(200)
+                DoubleCursorPageable.initial(200)
         );
         model.addAttribute("places", placeSearchResponseVoPage.getContent());
         model.addAttribute("message", "hello");

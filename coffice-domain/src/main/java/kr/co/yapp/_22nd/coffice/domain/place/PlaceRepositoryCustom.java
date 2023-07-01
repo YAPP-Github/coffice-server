@@ -7,6 +7,6 @@ public interface PlaceRepositoryCustom {
 
     Slice<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
             PlaceSearchRequestVo placeSearchRequestVo,
-            CursorPageable<Long> cursorPageable
+            CursorPageable<Double> cursorPageable
     );
 }

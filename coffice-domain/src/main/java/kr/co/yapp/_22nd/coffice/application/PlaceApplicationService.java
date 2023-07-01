@@ -29,7 +29,7 @@ public class PlaceApplicationService {
     public Slice<PlaceSearchResponseVo> search(
             Long memberId,
             PlaceSearchRequestVo placeSearchRequestVo,
-            CursorPageable<Long> cursorPageable
+            CursorPageable<Double> cursorPageable
     ) {
         searchRequestedEventPublisher.publish(
                 new SearchRequestedEvent(

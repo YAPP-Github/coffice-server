@@ -3,7 +3,7 @@ package kr.co.yapp._22nd.coffice.ui.place;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
-import kr.co.yapp._22nd.coffice.domain.LongCursorPageable;
+import kr.co.yapp._22nd.coffice.domain.DoubleCursorPageable;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlaceSearchController {
     private final PlaceApplicationService placeApplicationService;
-    private final PlaceAssembler placeAssembler;
     private final PlaceSearchAssembler placeSearchAssembler;
 
     @PostMapping
-    public ApiResponse<List<PlaceResponse>> search(
+    public ApiResponse<List<PlaceSearchResponse>> search(
             @AuthenticationPrincipal Long memberId,
             @RequestBody @Valid PlaceSearchRequest placeSearchRequest
     ) {
@@ -33,11 +32,11 @@ public class PlaceSearchController {
                 placeApplicationService.search(
                         memberId,
                         placeSearchAssembler.toPlaceSearchRequestVo(placeSearchRequest),
-                        LongCursorPageable.of(
-                                placeSearchRequest.getLastSeenKey(),
+                        DoubleCursorPageable.of(
+                                placeSearchRequest.getLastSeenDistance(),
                                 placeSearchRequest.getPageSize()
                         )
-                ).map(placeAssembler::toPlaceResponse)
+                ).map(placeSearchAssembler::toPlaceSearchResponse)
         );
     }
 }

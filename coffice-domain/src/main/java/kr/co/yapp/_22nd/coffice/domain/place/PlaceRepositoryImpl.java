@@ -30,7 +30,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
     @Override
     public Slice<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
             PlaceSearchRequestVo placeSearchRequestVo,
-            CursorPageable<Long> cursorPageable
+            CursorPageable<Double> cursorPageable
     ) {
         var name = placeSearchRequestVo.getSearchText();
         var coordinates = placeSearchRequestVo.getCoordinates();
@@ -50,6 +50,10 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 coordinates.getLongitude()
         );
         BooleanExpression booleanExpression = distanceExpression.loe(distance.toKilometerValue());
+        if (!cursorPageable.isInitial()) {
+            Distance lastSeenDistance = Distance.of(cursorPageable.getLastSeenKey(), DistanceUnit.METER);
+            booleanExpression = booleanExpression.and(distanceExpression.gt(lastSeenDistance.toKilometerValue()));
+        }
         if (StringUtils.hasText(name)) {
             booleanExpression = booleanExpression.and(qPlace.name.contains(name));
         }
@@ -70,10 +74,6 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         }
         if (!CollectionUtils.isEmpty(restroomTypes)) {
             booleanExpression = booleanExpression.and(getRestroomTypeCondition(restroomTypes));
-        }
-        if (!cursorPageable.isInitial()) {
-            Long placeId = cursorPageable.getLastSeenKey();
-            booleanExpression = booleanExpression.and(qPlace.placeId.gt(placeId));
         }
         var queryResults = from(qPlace)
                 .leftJoin(qPlace.openingHours, qOpeningHour).fetchJoin()
@@ -120,7 +120,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 .toList();
         boolean hasNext = placeSearchResponseVos.size() > cursorPageable.getPageSize();
         return new SliceImpl<>(
-                placeSearchResponseVos,
+                hasNext ? placeSearchResponseVos.subList(0, cursorPageable.getPageSize()) : placeSearchResponseVos,
                 cursorPageable.toPageable(),
                 hasNext
         );

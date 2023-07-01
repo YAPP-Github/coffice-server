@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 public interface CursorPageable<T> {
     T getLastSeenKey();
 
-    Integer getPageSize();
+    int getPageSize();
 
     default boolean isInitial() {
         return getLastSeenKey() == null;
