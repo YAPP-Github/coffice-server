@@ -47,6 +47,7 @@ public class PlaceController {
         );
     }
 
+    @Deprecated
     @PutMapping("/{placeId}/place-folders")
     public ApiResponse<List<PlaceFolderPlaceResponse>> updatePlaceToPlaceFolderMapping(
             @AuthenticationPrincipal Long memberId,
@@ -73,6 +74,7 @@ public class PlaceController {
      * @param placeAddToFolderRequest 장소 저장 정보
      * @return 폴더, 장소 정보
      */
+    @Deprecated
     @PostMapping("/{placeId}/save-to-folder")
     public ApiResponse<PlaceFolderPlaceResponse> savePlace(
             @AuthenticationPrincipal Long memberId,
@@ -98,6 +100,7 @@ public class PlaceController {
      * @param placeDeleteFromFolderRequest 정소 삭제 정보
      * @return 없음
      */
+    @Deprecated
     @PostMapping("/{placeId}/delete-from-folder")
     public ApiResponse<?> deletePlace(
             @AuthenticationPrincipal Long memberId,
