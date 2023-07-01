@@ -38,30 +38,7 @@ public class PlaceAssembler {
         );
     }
 
-    public PlaceResponse toPlaceResponse(PlaceSearchResponseVo placeSearchResponseVo) {
-        return new PlaceResponse(
-                placeSearchResponseVo.getPlaceId(),
-                placeSearchResponseVo.getName(),
-                CoordinatesResponse.from(placeSearchResponseVo.getCoordinates()),
-                placeSearchResponseVo.getAddress() == null ? null : AddressResponse.from(placeSearchResponseVo.getAddress()),
-                placeSearchResponseVo.getHomepageUrl(),
-                placeSearchResponseVo.getOpeningHours()
-                        .stream()
-                        .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
-                        .collect(Collectors.toList()),
-                placeSearchResponseVo.getPhoneNumber().getValue(),
-                placeSearchResponseVo.getElectricOutletLevel().name(),
-                placeSearchResponseVo.getHasCommunalTable(),
-                placeSearchResponseVo.getCapacityLevel().name(),
-                placeSearchResponseVo.getImageUrls(),
-                toDTO(placeSearchResponseVo.getCrowdednessList()),
-                placeSearchResponseVo.getFoodTypes().stream().map(Enum::name).collect(Collectors.toList()),
-                placeSearchResponseVo.getRestroomTypes().stream().map(Enum::name).collect(Collectors.toList()),
-                placeSearchResponseVo.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList())
-        );
-    }
-
-    private List<CrowdednessResponse> toDTO(List<Crowdedness> crowdednessList) {
+    public List<CrowdednessResponse> toDTO(List<Crowdedness> crowdednessList) {
         if (CollectionUtils.isEmpty(crowdednessList)) {
             return unknown();
         }

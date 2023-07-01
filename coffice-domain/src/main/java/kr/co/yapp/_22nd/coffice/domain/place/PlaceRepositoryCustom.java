@@ -1,12 +1,12 @@
 package kr.co.yapp._22nd.coffice.domain.place;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import kr.co.yapp._22nd.coffice.domain.CursorPageable;
+import org.springframework.data.domain.Slice;
 
 public interface PlaceRepositoryCustom {
 
-    Page<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
+    Slice<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
             PlaceSearchRequestVo placeSearchRequestVo,
-            Pageable pageable
+            CursorPageable<Double> cursorPageable
     );
 }

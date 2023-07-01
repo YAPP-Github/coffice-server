@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -17,23 +18,29 @@ public class ApiResponse<T> {
     @NotNull
     private final String message;
     private final T data;
+    private final PageResponse page;
 
-    private ApiResponse(ResultCode code, String message, T data) {
+    private ApiResponse(ResultCode code, String message, T data, PageResponse page) {
         this.code = code.name();
         this.message = message;
         this.data = data;
+        this.page = page;
+    }
+
+    private ApiResponse(ResultCode code, T data, PageResponse pageResponse) {
+        this(code, code.getMessage(), data, pageResponse);
     }
 
     private ApiResponse(ResultCode code, T data) {
-        this(code, code.getMessage(), data);
+        this(code, code.getMessage(), data, null);
     }
 
     private ApiResponse(ResultCode code, String message) {
-        this(code, message, null);
+        this(code, message, null, null);
     }
 
     private ApiResponse(ResultCode code) {
-        this(code, code.getMessage(), null);
+        this(code, code.getMessage(), null, null);
     }
 
     public static <T> ApiResponse<T> success() {
@@ -48,7 +55,14 @@ public class ApiResponse<T> {
         return new ApiResponse<>(ResultCode.SUCCESS, list);
     }
 
-    // TODO: 무한스크롤 대응 위한 id 기반 페이징 필요
+    public static <T> ApiResponse<List<T>> success(Slice<T> slice) {
+        return new ApiResponse<>(
+                ResultCode.SUCCESS,
+                slice.getContent(),
+                PageResponse.from(slice)
+        );
+    }
+
     public static <T> ApiResponse<List<T>> success(Page<T> page) {
         return new ApiResponse<>(ResultCode.SUCCESS, page.getContent());
     }

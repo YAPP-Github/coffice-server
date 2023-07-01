@@ -5,10 +5,10 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import kr.co.yapp._22nd.coffice.domain.CursorPageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -28,9 +28,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
     }
 
     @Override
-    public Page<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
+    public Slice<PlaceSearchResponseVo> findByCoordinatesAndDistanceLessThan(
             PlaceSearchRequestVo placeSearchRequestVo,
-            Pageable pageable
+            CursorPageable<Double> cursorPageable
     ) {
         var name = placeSearchRequestVo.getSearchText();
         var coordinates = placeSearchRequestVo.getCoordinates();
@@ -50,6 +50,10 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 coordinates.getLongitude()
         );
         BooleanExpression booleanExpression = distanceExpression.loe(distance.toKilometerValue());
+        if (!cursorPageable.isInitial()) {
+            Distance lastSeenDistance = Distance.of(cursorPageable.getLastSeenKey(), DistanceUnit.METER);
+            booleanExpression = booleanExpression.and(distanceExpression.gt(lastSeenDistance.toKilometerValue()));
+        }
         if (StringUtils.hasText(name)) {
             booleanExpression = booleanExpression.and(qPlace.name.contains(name));
         }
@@ -82,8 +86,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                         distanceExpression
                 )
                 .where(booleanExpression)
-                .orderBy(distanceExpression.asc())
+                .orderBy(distanceExpression.asc(), qPlace.placeId.asc())
                 .distinct()
+                .limit(cursorPageable.getPageSize() + 1)
                 .fetchResults();
         List<PlaceSearchResponseVo> placeSearchResponseVos = queryResults.getResults()
                 .stream()
@@ -113,10 +118,11 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                         }
                 )
                 .toList();
-        return PageableExecutionUtils.getPage(
-                placeSearchResponseVos,
-                pageable,
-                queryResults::getTotal
+        boolean hasNext = placeSearchResponseVos.size() > cursorPageable.getPageSize();
+        return new SliceImpl<>(
+                hasNext ? placeSearchResponseVos.subList(0, cursorPageable.getPageSize()) : placeSearchResponseVos,
+                cursorPageable.toPageable(),
+                hasNext
         );
     }
 
