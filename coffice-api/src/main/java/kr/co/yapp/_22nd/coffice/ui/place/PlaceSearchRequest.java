@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -38,7 +37,6 @@ public class PlaceSearchRequest {
     @Min(1)
     @NotNull
     private Integer pageSize;
-    @Nullable
     @Min(0)
     private Double lastSeenDistance;
 }
