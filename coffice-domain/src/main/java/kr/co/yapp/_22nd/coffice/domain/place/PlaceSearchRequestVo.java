@@ -10,6 +10,7 @@ public class PlaceSearchRequestVo {
     Coordinates coordinates;
     Distance distance;
     Boolean open;
+    Boolean openAroundTheClock;
     Boolean hasCommunalTable;
     Set<CapacityLevel> capacityLevels;
     Set<DrinkType> drinkTypes;

@@ -27,6 +27,7 @@ public class PlaceSearchAssembler {
                         DistanceUnit.METER
                 ),
                 placeSearchRequest.getOpen(),
+                placeSearchRequest.getOpenAroundTheClock(),
                 placeSearchRequest.getHasCommunalTable(),
                 placeSearchRequest.getCapacityLevels(),
                 placeSearchRequest.getDrinkTypes(),

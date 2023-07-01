@@ -27,6 +27,10 @@ public class PlaceSearchRequest {
      */
     private Boolean open;
     /**
+     * 24시간
+     */
+    private Boolean openAroundTheClock;
+    /**
      * 단체 테이블 있는지
      */
     private Boolean hasCommunalTable;
