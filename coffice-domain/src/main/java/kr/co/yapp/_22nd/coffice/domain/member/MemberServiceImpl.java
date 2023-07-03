@@ -2,11 +2,14 @@ package kr.co.yapp._22nd.coffice.domain.member;
 
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,9 +24,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMember(AuthProviderType authProviderType, String authProviderUserId) {
-        return memberRepository.findByAuthProviders_AuthProviderTypeAndAuthProviders_AuthProviderUserId(authProviderType, authProviderUserId)
-                .orElseThrow(() -> new MemberNotFoundException(authProviderType, authProviderUserId));
+    public Optional<Member> getMember(AuthProviderVo authProviderVo) {
+        return memberRepository.findByAuthProviders_AuthProviderTypeAndAuthProviders_AuthProviderUserIdAndAuthProviders_AuthProviderStatus(
+                authProviderVo.getAuthProviderType(),
+                authProviderVo.getAuthProviderUserId(),
+                authProviderVo.getAuthProviderStatus()
+        );
     }
 
     @Override
