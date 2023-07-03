@@ -27,7 +27,9 @@ public class PlaceSearchAssembler {
                         DistanceUnit.METER
                 ),
                 placeSearchRequest.getOpen(),
+                placeSearchRequest.getOpenAroundTheClock(),
                 placeSearchRequest.getHasCommunalTable(),
+                placeSearchRequest.getElectricOutletLevels(),
                 placeSearchRequest.getCapacityLevels(),
                 placeSearchRequest.getDrinkTypes(),
                 placeSearchRequest.getFoodTypes(),
@@ -49,7 +51,7 @@ public class PlaceSearchAssembler {
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
                 placeSearchResponseVo.getPhoneNumber().getValue(),
-                placeSearchResponseVo.getElectricOutletLevel().name(),
+                placeSearchResponseVo.getElectricOutlet().getLevel().name(),
                 placeSearchResponseVo.getHasCommunalTable(),
                 placeSearchResponseVo.getCapacityLevel().name(),
                 placeSearchResponseVo.getImageUrls(),

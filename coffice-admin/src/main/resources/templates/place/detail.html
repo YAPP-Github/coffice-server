@@ -68,7 +68,7 @@
         </tr>
         <tr>
             <th th:text="'electricOutletCount'" scope="row"></th>
-            <td th:text="${place.getElectricOutletCount() == null ? '' : place.getElectricOutletCount().getValue()}"></td>
+            <td th:text="${place.electricOutlet.count == null ? '' : place.electricOutlet.count.value}"></td>
         </tr>
         <tr>
             <th th:text="'seatCount'" scope="row"></th>

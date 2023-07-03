@@ -27,7 +27,7 @@ public class PlaceAssembler {
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
                 place.getPhoneNumber() != null ? place.getPhoneNumber().getValue() : null,
-                place.getElectricOutletLevel().name(),
+                place.getElectricOutlet().getLevel().name(),
                 place.hasCommunalTable(),
                 place.getCapacityLevel().name(),
                 place.getImageUrls(),

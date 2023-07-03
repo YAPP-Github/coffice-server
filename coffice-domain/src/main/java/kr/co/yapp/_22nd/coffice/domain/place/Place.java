@@ -40,7 +40,7 @@ public class Place {
     private String homepageUrl;
 
     @Embedded
-    private ElectricOutletCount electricOutletCount;
+    private ElectricOutlet electricOutlet;
 
     @Embedded
     private SeatCount seatCount;
@@ -90,7 +90,10 @@ public class Place {
         place.openingHours.addAll(placeCreateVo.getOpeningHours());
         place.phoneNumber = placeCreateVo.getPhoneNumber();
         place.homepageUrl = placeCreateVo.getHomepageUrl();
-        place.electricOutletCount = placeCreateVo.getElectricOutletCount();
+        place.electricOutlet = ElectricOutlet.of(
+                placeCreateVo.getElectricOutletCount(),
+                placeCreateVo.getSeatCount()
+        );
         place.seatCount = placeCreateVo.getSeatCount();
         place.tableCount = placeCreateVo.getTableCount();
         place.communalTableCount = placeCreateVo.getCommunalTableCount();
@@ -110,7 +113,10 @@ public class Place {
         openingHours.addAll(placeUpdateVo.getOpeningHours());
         phoneNumber = placeUpdateVo.getPhoneNumber();
         homepageUrl = placeUpdateVo.getHomepageUrl();
-        electricOutletCount = placeUpdateVo.getElectricOutletCount();
+        electricOutlet = ElectricOutlet.of(
+                placeUpdateVo.getElectricOutletCount(),
+                placeUpdateVo.getSeatCount()
+        );
         seatCount = placeUpdateVo.getSeatCount();
         tableCount = placeUpdateVo.getTableCount();
         communalTableCount = placeUpdateVo.getCommunalTableCount();
@@ -131,7 +137,7 @@ public class Place {
     }
 
     public ElectricOutletLevel getElectricOutletLevel() {
-        return ElectricOutletLevel.of(electricOutletCount, seatCount);
+        return electricOutlet.getLevel();
     }
 
     public boolean hasCommunalTable() {

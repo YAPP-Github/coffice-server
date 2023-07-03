@@ -31,6 +31,8 @@ public class HomeController {
                         Distance.of(1.0, DistanceUnit.KILOMETER),
                         null,
                         null,
+                        null,
+                        Collections.emptySet(),
                         Collections.emptySet(),
                         Collections.emptySet(),
                         Collections.emptySet(),

@@ -36,7 +36,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         var coordinates = placeSearchRequestVo.getCoordinates();
         var distance = placeSearchRequestVo.getDistance();
         var open = placeSearchRequestVo.getOpen();
+        var openAroundTheClock = placeSearchRequestVo.getOpenAroundTheClock();
         var hasCommunalTable = placeSearchRequestVo.getHasCommunalTable();
+        var electricOutletLevels = placeSearchRequestVo.getElectricOutletLevels();
         var capacityLevels = placeSearchRequestVo.getCapacityLevels();
         var drinkTypes = placeSearchRequestVo.getDrinkTypes();
         var foodTypes = placeSearchRequestVo.getFoodTypes();
@@ -60,8 +62,14 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         if (open == Boolean.TRUE) {
             booleanExpression = booleanExpression.and(getOpenCondition());
         }
+        if (openAroundTheClock == Boolean.TRUE) {
+            booleanExpression = booleanExpression.and(getOpenAroundTheClockCondition());
+        }
         if (hasCommunalTable == Boolean.TRUE) {
             booleanExpression = booleanExpression.and(qPlace.communalTableCount.value.gt(0));
+        }
+        if (!CollectionUtils.isEmpty(electricOutletLevels)) {
+            booleanExpression = booleanExpression.and(getElectricOutletLevelCondition(electricOutletLevels));
         }
         if (!CollectionUtils.isEmpty(capacityLevels)) {
             booleanExpression = booleanExpression.and(getCapacityConditions(capacityLevels));
@@ -102,7 +110,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                     place.getOpeningHours(),
                                     place.getPhoneNumber(),
                                     place.getHomepageUrl(),
-                                    place.getElectricOutletLevel(),
+                                    place.getElectricOutlet(),
                                     place.hasCommunalTable(),
                                     place.getCapacityLevel(),
                                     place.getImageUrls(),
@@ -137,11 +145,27 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
      */
     private BooleanExpression getOpenCondition() {
         LocalDateTime now = LocalDateTime.now();
-        BooleanExpression isOpeningDay = qOpeningHour.openingHoursType.eq(OpeningHourType.OPEN);
+        BooleanExpression isOpeningDay = qOpeningHour.openingHoursType.eq(OpeningHourType.OPEN)
+                .and(qOpeningHour.dayOfWeek.eq(now.getDayOfWeek()));
         BooleanExpression isOnOpeningHours = qOpeningHour.openedAt.lt(now.toLocalTime())
                 .and(qOpeningHour.closedAt.goe(now.toLocalTime()));
         BooleanExpression isOpen24Hours = qOpeningHour.openAroundTheClock.isTrue();
         return isOpeningDay.and(isOnOpeningHours.or(isOpen24Hours));
+    }
+
+    private BooleanExpression getOpenAroundTheClockCondition() {
+        LocalDateTime now = LocalDateTime.now();
+        BooleanExpression isToday = qOpeningHour.dayOfWeek.eq(now.getDayOfWeek());
+        BooleanExpression isOpen24Hours = qOpeningHour.openAroundTheClock.isTrue();
+        return isToday.and(isOpen24Hours);
+    }
+
+    private Predicate getElectricOutletLevelCondition(Set<ElectricOutletLevel> electricOutletLevels) {
+        Collection<Predicate> predicates = electricOutletLevels.stream()
+                .map(qPlace.electricOutlet.level::eq)
+                .map(it -> (Predicate) it)
+                .toList();
+        return ExpressionUtils.anyOf(predicates);
     }
 
     private Predicate getCapacityConditions(Collection<CapacityLevel> capacityLevels) {
