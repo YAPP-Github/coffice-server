@@ -38,6 +38,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         var open = placeSearchRequestVo.getOpen();
         var openAroundTheClock = placeSearchRequestVo.getOpenAroundTheClock();
         var hasCommunalTable = placeSearchRequestVo.getHasCommunalTable();
+        var electricOutletLevels = placeSearchRequestVo.getElectricOutletLevels();
         var capacityLevels = placeSearchRequestVo.getCapacityLevels();
         var drinkTypes = placeSearchRequestVo.getDrinkTypes();
         var foodTypes = placeSearchRequestVo.getFoodTypes();
@@ -66,6 +67,9 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         }
         if (hasCommunalTable == Boolean.TRUE) {
             booleanExpression = booleanExpression.and(qPlace.communalTableCount.value.gt(0));
+        }
+        if (!CollectionUtils.isEmpty(electricOutletLevels)) {
+            booleanExpression = booleanExpression.and(getElectricOutletLevelCondition(electricOutletLevels));
         }
         if (!CollectionUtils.isEmpty(capacityLevels)) {
             booleanExpression = booleanExpression.and(getCapacityConditions(capacityLevels));
@@ -106,7 +110,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                     place.getOpeningHours(),
                                     place.getPhoneNumber(),
                                     place.getHomepageUrl(),
-                                    place.getElectricOutletLevel(),
+                                    place.getElectricOutlet(),
                                     place.hasCommunalTable(),
                                     place.getCapacityLevel(),
                                     place.getImageUrls(),
@@ -154,6 +158,14 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
         BooleanExpression isToday = qOpeningHour.dayOfWeek.eq(now.getDayOfWeek());
         BooleanExpression isOpen24Hours = qOpeningHour.openAroundTheClock.isTrue();
         return isToday.and(isOpen24Hours);
+    }
+
+    private Predicate getElectricOutletLevelCondition(Set<ElectricOutletLevel> electricOutletLevels) {
+        Collection<Predicate> predicates = electricOutletLevels.stream()
+                .map(qPlace.electricOutlet.level::eq)
+                .map(it -> (Predicate) it)
+                .toList();
+        return ExpressionUtils.anyOf(predicates);
     }
 
     private Predicate getCapacityConditions(Collection<CapacityLevel> capacityLevels) {

@@ -4,10 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import kr.co.yapp._22nd.coffice.domain.place.CapacityLevel;
-import kr.co.yapp._22nd.coffice.domain.place.DrinkType;
-import kr.co.yapp._22nd.coffice.domain.place.FoodType;
-import kr.co.yapp._22nd.coffice.domain.place.RestroomType;
+import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.Data;
 
 import java.util.Set;
@@ -35,6 +32,7 @@ public class PlaceSearchRequest {
      */
     private Boolean hasCommunalTable;
     private Set<CapacityLevel> capacityLevels;
+    private Set<ElectricOutletLevel> electricOutletLevels;
     private Set<DrinkType> drinkTypes;
     private Set<FoodType> foodTypes;
     private Set<RestroomType> restroomTypes;
