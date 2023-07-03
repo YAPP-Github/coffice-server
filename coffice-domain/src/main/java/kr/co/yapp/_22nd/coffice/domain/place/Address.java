@@ -54,7 +54,7 @@ public class Address {
     }
 
     /**
-     * 서울특별시 강남구 길이름/번지 -> 서울 강남
+     * 서울특별시 강남구 길이름/번지 -> 서울 강남구
      */
     public String simpleValue() {
         String fullAddress = resolveAddress();
