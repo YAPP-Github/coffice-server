@@ -1,7 +1,7 @@
 package kr.co.yapp._22nd.coffice.domain.place.folder.place;
 
 import kr.co.yapp._22nd.coffice.domain.member.Member;
-import kr.co.yapp._22nd.coffice.domain.member.MemberService;
+import kr.co.yapp._22nd.coffice.domain.member.MemberQueryService;
 import kr.co.yapp._22nd.coffice.domain.place.Place;
 import kr.co.yapp._22nd.coffice.domain.place.PlaceQueryService;
 import kr.co.yapp._22nd.coffice.domain.place.folder.PlaceFolder;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
     private final PlaceQueryService placeQueryService;
     private final PlaceFolderService placeFolderService;
     private final PlaceFolderPlaceRepository placeFolderPlaceRepository;
@@ -29,7 +29,7 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
             Long placeId,
             List<Long> placeFolderIds
     ) {
-        Member member = memberService.getMember(memberId);
+        Member member = memberQueryService.getMember(memberId);
         List<PlaceFolder> placeFolders = placeFolderService.getPlaceFolders(memberId, placeFolderIds);
         Place place = placeQueryService.getPlace(placeId);
 
@@ -47,7 +47,7 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
             Long placeFolderId,
             Long placeId
     ) {
-        Member member = memberService.getMember(memberId);
+        Member member = memberQueryService.getMember(memberId);
         PlaceFolder placeFolder = placeFolderService.getPlaceFolder(memberId, placeFolderId);
         Place place = placeQueryService.getPlace(placeId);
 
@@ -64,7 +64,7 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
             Long placeFolderId,
             Long placeId
     ) {
-        Member member = memberService.getMember(memberId);
+        Member member = memberQueryService.getMember(memberId);
         PlaceFolder placeFolder = placeFolderService.getPlaceFolder(memberId, placeFolderId);
         Place place = placeQueryService.getPlace(placeId);
 

@@ -6,12 +6,10 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-public interface MemberService {
+public interface MemberQueryService {
     Member getMember(Long memberId);
 
     Optional<Member> getMember(AuthProviderVo authProviderVo);
 
     Page<Member> findAll(Pageable pageable);
-
-    Member join(String authProviderUserId);
 }
