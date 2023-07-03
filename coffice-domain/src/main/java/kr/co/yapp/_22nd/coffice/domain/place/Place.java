@@ -137,6 +137,9 @@ public class Place {
     }
 
     public ElectricOutletLevel getElectricOutletLevel() {
+        if (electricOutlet == null) {
+            return ElectricOutletLevel.UNKNOWN;
+        }
         return electricOutlet.getLevel();
     }
 
