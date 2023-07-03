@@ -11,10 +11,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 // TODO: 권한, fcmToken
 @Entity
@@ -49,7 +49,7 @@ public class Member {
     }
 
     public static String generateRandomName() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
+        SecureRandom random = new SecureRandom();
         return Determiner.values()[random.nextInt(Determiner.values().length)].getValue() +
                 " " +
                 Noun.values()[random.nextInt(Noun.values().length)].getValue() +
