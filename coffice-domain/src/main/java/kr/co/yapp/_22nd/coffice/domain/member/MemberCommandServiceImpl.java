@@ -18,9 +18,11 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     @Override
     @Transactional
     public Member join(String authProviderUserId) {
-        /* TODO : 닉네임 정책 구현 */
-        String testName = "test";
-        Member newMember = Member.from(MemberCreateVo.of(testName, AuthProviderCreateVo.of(AuthProviderType.ANONYMOUS, authProviderUserId)));
+        String name;
+        do {
+            name = Member.generateRandomName();
+        } while (memberRepository.existsByName(name));
+        Member newMember = Member.from(MemberCreateVo.of(name, AuthProviderCreateVo.of(AuthProviderType.ANONYMOUS, authProviderUserId)));
         memberRepository.save(newMember);
         placeFolderService.create(newMember.getMemberId(), PlaceFolderCreateVo.defaultFolder());
         return newMember;

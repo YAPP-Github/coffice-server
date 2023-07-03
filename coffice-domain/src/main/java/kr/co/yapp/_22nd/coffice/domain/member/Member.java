@@ -2,6 +2,8 @@ package kr.co.yapp._22nd.coffice.domain.member;
 
 import jakarta.persistence.*;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
+import kr.co.yapp._22nd.coffice.domain.member.name.Determiner;
+import kr.co.yapp._22nd.coffice.domain.member.name.Noun;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 // TODO: 권한, fcmToken
 @Entity
@@ -43,5 +46,13 @@ public class Member {
         member.status = MemberStatus.ACTIVE;
         member.authProviders.add(AuthProvider.from(memberCreateVo.getAuthProviderCreateVo()));
         return member;
+    }
+
+    public static String generateRandomName() {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        return Determiner.values()[random.nextInt(Determiner.values().length)].getValue() +
+                " " +
+                Noun.values()[random.nextInt(Noun.values().length)].getValue() +
+                random.nextInt(1000000);
     }
 }
