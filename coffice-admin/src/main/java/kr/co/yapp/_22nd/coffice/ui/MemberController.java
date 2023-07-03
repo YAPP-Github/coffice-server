@@ -1,6 +1,6 @@
 package kr.co.yapp._22nd.coffice.ui;
 
-import kr.co.yapp._22nd.coffice.domain.member.MemberService;
+import kr.co.yapp._22nd.coffice.domain.member.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
 
     @GetMapping
     public String list(
             @PageableDefault Pageable pageable,
             Model model
     ) {
-        model.addAttribute("memberPage", memberService.findAll(pageable));
+        model.addAttribute("memberPage", memberQueryService.findAll(pageable));
         return "member/list";
     }
 
@@ -30,7 +30,7 @@ public class MemberController {
             @PathVariable Long memberId,
             Model model
     ) {
-        model.addAttribute("member", memberService.getMember(memberId));
+        model.addAttribute("member", memberQueryService.getMember(memberId));
         return "member/detail";
     }
 

@@ -1,6 +1,9 @@
 package kr.co.yapp._22nd.coffice.application.login;
 
-import kr.co.yapp._22nd.coffice.domain.member.*;
+import kr.co.yapp._22nd.coffice.domain.member.Member;
+import kr.co.yapp._22nd.coffice.domain.member.MemberCommandService;
+import kr.co.yapp._22nd.coffice.domain.member.MemberNotFoundException;
+import kr.co.yapp._22nd.coffice.domain.member.MemberQueryService;
 import kr.co.yapp._22nd.coffice.infrastructure.spring.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginApplicationService {
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
+    private final MemberCommandService memberCommandService;
     private final JwtTokenProvider jwtTokenProvider;
 
     public LoginResponseVo login(LoginRequestVo loginRequestVo) {
@@ -19,9 +23,9 @@ public class LoginApplicationService {
 
     private Member findOrCreateMember(LoginRequestVo loginRequestVo) {
         try {
-            return memberService.getMember(loginRequestVo.getAuthProviderType(), loginRequestVo.getAuthProviderUserId());
+            return memberQueryService.getMember(loginRequestVo.getAuthProviderType(), loginRequestVo.getAuthProviderUserId());
         } catch (MemberNotFoundException e) {
-            return memberService.join(loginRequestVo.getAuthProviderUserId());
+            return memberCommandService.join(loginRequestVo.getAuthProviderUserId());
         }
     }
 }

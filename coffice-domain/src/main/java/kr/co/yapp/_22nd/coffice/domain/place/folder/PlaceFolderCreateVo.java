@@ -6,4 +6,11 @@ import lombok.Value;
 public class PlaceFolderCreateVo {
     String name;
     PlaceFolderColors color;
+
+    public static PlaceFolderCreateVo defaultFolder() {
+        return new PlaceFolderCreateVo(
+                "기본 폴더",
+                PlaceFolderColors.COLOR_01
+        );
+    }
 }

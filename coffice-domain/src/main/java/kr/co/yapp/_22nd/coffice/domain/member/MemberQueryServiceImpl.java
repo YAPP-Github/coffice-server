@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService {
+public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberRepository memberRepository;
 
     @Override
@@ -29,14 +28,5 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Page<Member> findAll(Pageable pageable) {
         return memberRepository.findAll(pageable);
-    }
-
-    @Override
-    @Transactional
-    public Member join(String authProviderUserId) {
-        /* TODO : 닉네임 정책 구현 */
-        String testName = "test";
-        Member newMember = Member.from(MemberCreateVo.of(testName, AuthProviderCreateVo.of(AuthProviderType.ANONYMOUS, authProviderUserId)));
-        return memberRepository.save(newMember);
     }
 }
