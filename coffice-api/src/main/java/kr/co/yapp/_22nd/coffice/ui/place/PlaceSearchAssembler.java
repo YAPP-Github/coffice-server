@@ -61,6 +61,7 @@ public class PlaceSearchAssembler {
                 placeSearchResponseVo.getFoodTypes().stream().map(Enum::name).collect(Collectors.toList()),
                 placeSearchResponseVo.getRestroomTypes().stream().map(Enum::name).collect(Collectors.toList()),
                 placeSearchResponseVo.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList()),
+                placeSearchResponseVo.getArchived(),
                 placeSearchResponseVo.getDistance().getValue().doubleValue()
         );
     }

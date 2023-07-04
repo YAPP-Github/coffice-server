@@ -26,5 +26,6 @@ public class PlaceSearchResponse {
     private final List<String> drinkTypes;
     private final List<String> foodTypes;
     private final List<String> restroomTypes;
+    private final Boolean archived;
     private final Double distance;
 }

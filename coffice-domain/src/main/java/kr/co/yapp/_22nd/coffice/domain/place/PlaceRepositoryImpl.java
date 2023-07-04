@@ -118,6 +118,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                                     place.getDrinkTypes(),
                                     place.getFoodTypes(),
                                     place.getRestroomTypes(),
+                                    false,
                                     Distance.of(
                                             it.get(distanceExpression),
                                             DistanceUnit.KILOMETER
