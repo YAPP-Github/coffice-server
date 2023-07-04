@@ -10,12 +10,15 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PlaceApplicationService {
     private final PlaceCommandService placeCommandService;
     private final PlaceQueryService placeQueryService;
+    private final PlaceArchiveApplicationService placeArchiveApplicationService;
     private final SearchRequestedEventPublisher searchRequestedEventPublisher;
 
     public Place create(PlaceCreateVo placeCreateVo) {
@@ -37,10 +40,14 @@ public class PlaceApplicationService {
                         placeSearchRequestVo.getSearchText()
                 )
         );
+        Set<Long> archivedPlaceIds = placeArchiveApplicationService.getArchivedPlaces(memberId)
+                .stream()
+                .map(Place::getPlaceId)
+                .collect(Collectors.toSet());
         return placeQueryService.search(
                 placeSearchRequestVo,
                 cursorPageable
-        );
+        ).map(it -> it.copyOf(archivedPlaceIds.contains(it.getPlaceId())));
     }
 
     public Page<Place> findAll(Pageable pageable) {

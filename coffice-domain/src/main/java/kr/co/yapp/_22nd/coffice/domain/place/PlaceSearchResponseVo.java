@@ -21,5 +21,28 @@ public class PlaceSearchResponseVo {
     List<DrinkType> drinkTypes;
     List<FoodType> foodTypes;
     List<RestroomType> restroomTypes;
+    Boolean archived;
     Distance distance;
+
+    public PlaceSearchResponseVo copyOf(boolean archived) {
+        return new PlaceSearchResponseVo(
+                placeId,
+                name,
+                coordinates,
+                address,
+                openingHours,
+                phoneNumber,
+                homepageUrl,
+                electricOutlet,
+                hasCommunalTable,
+                capacityLevel,
+                imageUrls,
+                crowdednessList,
+                drinkTypes,
+                foodTypes,
+                restroomTypes,
+                archived,
+                distance
+        );
+    }
 }
