@@ -1,19 +1,16 @@
 package kr.co.yapp._22nd.coffice.domain.member.name;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
+@Entity
 @Getter
-public enum Determiner {
-    /* 관형사 */
-    똑똑한("똑똑한"),
-    멋진("멋진"),
-    착한("착한"),
-    지적인("지적인")
-    ;
-
-    private final String value;
-
-    Determiner(String value) {
-        this.value = value;
-    }
+public class Determiner {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long determinerId;
+    private String value;
 }
