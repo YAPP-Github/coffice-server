@@ -9,6 +9,7 @@ import kr.co.yapp._22nd.coffice.domain.place.folder.place.PlaceFolderPlaceServic
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -32,6 +33,11 @@ public class PlaceArchiveApplicationService {
     public void removeArchivedPlace(Long memberId, Long placeId) {
         PlaceFolder defaultPlaceFolder = placeFolderService.getDefaultPlaceFolder(memberId);
         placeFolderPlaceService.remove(memberId, defaultPlaceFolder.getPlaceFolderId(), placeId);
+    }
+
+    public void removeArchivedPlaces(Long memberId, Collection<Long> placeIds) {
+        PlaceFolder defaultPlaceFolder = placeFolderService.getDefaultPlaceFolder(memberId);
+        placeFolderPlaceService.removeAll(memberId, defaultPlaceFolder.getPlaceFolderId(), placeIds);
     }
 
 }
