@@ -84,7 +84,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
             booleanExpression = booleanExpression.and(getRestroomTypeCondition(restroomTypes));
         }
         var queryResults = from(qPlace)
-                .leftJoin(qPlace.openingHours, qOpeningHour).fetchJoin()
+                .leftJoin(qPlace.openingHours, qOpeningHour)
                 .leftJoin(qPlace.imageUrls)
                 .leftJoin(qPlace.drinkTypes)
                 .leftJoin(qPlace.foodTypes)

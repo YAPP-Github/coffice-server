@@ -44,14 +44,16 @@ public class PlaceSearchAssembler {
                 placeSearchResponseVo.getPlaceId(),
                 placeSearchResponseVo.getName(),
                 CoordinatesResponse.from(placeSearchResponseVo.getCoordinates()),
-                placeSearchResponseVo.getAddress() == null ? null : AddressResponse.from(placeSearchResponseVo.getAddress()),
+                placeSearchResponseVo.getAddress() != null ? AddressResponse.from(placeSearchResponseVo.getAddress()) : null,
                 placeSearchResponseVo.getHomepageUrl(),
                 placeSearchResponseVo.getOpeningHours()
                         .stream()
                         .map(it -> OpeningHourResponse.of(it, dateTimeAssembler))
                         .collect(Collectors.toList()),
-                placeSearchResponseVo.getPhoneNumber().getValue(),
-                placeSearchResponseVo.getElectricOutlet().getLevel().name(),
+                placeSearchResponseVo.getPhoneNumber() != null ? placeSearchResponseVo.getPhoneNumber().getValue() : null,
+                placeSearchResponseVo.getElectricOutlet() != null
+                        ? placeSearchResponseVo.getElectricOutlet().getLevel().name()
+                        : ElectricOutletLevel.UNKNOWN.name(),
                 placeSearchResponseVo.getHasCommunalTable(),
                 placeSearchResponseVo.getCapacityLevel().name(),
                 placeSearchResponseVo.getImageUrls(),

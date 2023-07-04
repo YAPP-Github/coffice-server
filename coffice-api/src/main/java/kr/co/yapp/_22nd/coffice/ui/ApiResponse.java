@@ -52,7 +52,7 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<List<T>> success(List<T> list) {
-        return new ApiResponse<>(ResultCode.SUCCESS, list);
+        return new ApiResponse<>(ResultCode.SUCCESS, list, PageResponse.unpaged());
     }
 
     public static <T> ApiResponse<List<T>> success(Slice<T> slice) {
@@ -64,7 +64,7 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<List<T>> success(Page<T> page) {
-        return new ApiResponse<>(ResultCode.SUCCESS, page.getContent());
+        return new ApiResponse<>(ResultCode.SUCCESS, page.getContent(), PageResponse.from(page));
     }
 
     public static <T> ApiResponse<T> failure() {
