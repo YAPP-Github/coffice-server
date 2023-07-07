@@ -22,7 +22,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     public Member join(String authProviderUserId) {
         String name;
         do {
-            name = nameGenerationService.generateRandonName();
+            name = nameGenerationService.generateRandomName();
         } while (memberRepository.existsByName(name));
         Member newMember = Member.from(MemberCreateVo.of(name, AuthProviderCreateVo.of(AuthProviderType.ANONYMOUS, authProviderUserId)));
         memberRepository.save(newMember);
