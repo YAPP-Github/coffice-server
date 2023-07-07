@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Embeddable
 @Builder
 @Getter
@@ -37,6 +40,10 @@ public class Address {
     }
 
     public String value() {
+        return resolveAddress();
+    }
+
+    private String resolveAddress() {
         if (StringUtils.hasText(streetAddress)) {
             return streetAddress;
         }
@@ -44,5 +51,28 @@ public class Address {
             return landAddress;
         }
         return null;
+    }
+
+    /**
+     * 서울특별시 강남구 길이름/번지 -> 서울 강남구
+     */
+    public String simpleValue() {
+        String fullAddress = resolveAddress();
+        if (fullAddress == null) {
+            return null;
+        }
+        String[] split = fullAddress.split("\\s");
+        List<String> candidates = new ArrayList<>();
+        if (split.length >= 1) {
+            String city = split[0].replace("서울특별시", "서울").trim();
+            candidates.add(city);
+        }
+        if (split.length >= 2) {
+            String district = split[1].trim();
+            if (district.endsWith("구")) {
+                candidates.add(district);
+            }
+        }
+        return String.join(" ", candidates);
     }
 }

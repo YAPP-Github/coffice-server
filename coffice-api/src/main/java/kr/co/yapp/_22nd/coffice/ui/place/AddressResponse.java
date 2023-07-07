@@ -6,11 +6,13 @@ import lombok.Data;
 @Data
 public class AddressResponse {
     private final String value;
+    private final String simpleValue;
     private final String postalCode;
 
     public static AddressResponse from(Address address) {
         return new AddressResponse(
                 address.value(),
+                address.simpleValue(),
                 address.getPostalCode()
         );
     }

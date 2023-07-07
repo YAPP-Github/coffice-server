@@ -52,4 +52,13 @@ public class PlaceArchiveController {
         placeArchiveApplicationService.removeArchivedPlace(memberId, placeId);
         return ApiResponse.success();
     }
+
+    @DeleteMapping
+    public ApiResponse<Object> remove(
+            @AuthenticationPrincipal Long memberId,
+            @RequestBody ArchivedPostDeleteRequest archivedPostDeleteRequest
+    ) {
+        placeArchiveApplicationService.removeArchivedPlaces(memberId, archivedPostDeleteRequest.getPostIds());
+        return ApiResponse.success();
+    }
 }

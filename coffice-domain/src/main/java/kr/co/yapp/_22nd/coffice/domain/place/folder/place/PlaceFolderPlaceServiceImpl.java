@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,5 +71,19 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
 
         placeFolderPlaceRepository.findByMemberAndPlaceFolderAndPlace(member, placeFolder, place)
                 .ifPresent(placeFolderPlaceRepository::delete);
+    }
+
+    @Override
+    @Transactional
+    public void removeAll(
+            Long memberId,
+            Long placeFolderId,
+            Collection<Long> placeIds
+    ) {
+        Member member = memberQueryService.getMember(memberId);
+        PlaceFolder placeFolder = placeFolderService.getPlaceFolder(memberId, placeFolderId);
+
+        List<PlaceFolderPlace> placeFolderPlaces = placeFolderPlaceRepository.findByMemberAndPlaceFolderAndPlace_placeIdIn(member, placeFolder, placeIds);
+        placeFolderPlaceRepository.deleteAll(placeFolderPlaces);
     }
 }
