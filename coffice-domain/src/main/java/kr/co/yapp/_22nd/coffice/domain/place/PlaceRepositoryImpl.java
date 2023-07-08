@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import kr.co.yapp._22nd.coffice.domain.CursorPageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -199,5 +200,26 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 .map(it -> (Predicate) it)
                 .toList();
         return ExpressionUtils.allOf(predicates);
+    }
+
+    @Override
+    public Slice<Place> findByName(
+            PlaceQueryRequestVo placeQueryRequestVo,
+            Pageable pageable
+    ) {
+        BooleanExpression booleanExpression = qPlace.deleted.isFalse();
+        if (StringUtils.hasText(placeQueryRequestVo.getName())) {
+            booleanExpression = qPlace.name.contains(placeQueryRequestVo.getName());
+        }
+        List<Place> places = from(qPlace)
+                .where(booleanExpression)
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
+        boolean hasNext = places.size() > pageable.getPageSize();
+        return new SliceImpl<>(
+                hasNext ? places.subList(0, pageable.getPageSize()) : places,
+                pageable,
+                hasNext
+        );
     }
 }

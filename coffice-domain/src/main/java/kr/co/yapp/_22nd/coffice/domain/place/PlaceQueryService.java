@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlaceQueryService {
+    Slice<Place> findAll(PlaceQueryRequestVo placeQueryRequestVo, Pageable pageable);
+
     Page<Place> findAll(Pageable pageable);
 
     Optional<Place> findById(Long placeId);

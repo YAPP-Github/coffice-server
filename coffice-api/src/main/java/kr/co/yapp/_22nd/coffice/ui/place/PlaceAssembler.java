@@ -15,6 +15,12 @@ import java.util.stream.Collectors;
 public class PlaceAssembler {
     private final DateTimeAssembler dateTimeAssembler;
 
+    public PlaceQueryRequestVo toPlaceQueryRequestVo(
+            String name
+    ) {
+        return PlaceQueryRequestVo.of(name);
+    }
+
     public PlaceResponse toPlaceResponse(Place place) {
         return new PlaceResponse(
                 place.getPlaceId(),

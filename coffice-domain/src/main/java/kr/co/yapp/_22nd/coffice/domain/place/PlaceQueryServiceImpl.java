@@ -22,6 +22,14 @@ public class PlaceQueryServiceImpl implements PlaceQueryService {
     private final PlaceFolderPlaceRepository placeFolderPlaceRepository;
 
     @Override
+    public Slice<Place> findAll(
+            PlaceQueryRequestVo placeQueryRequestVo,
+            Pageable pageable
+    ) {
+        return placeRepository.findByName(placeQueryRequestVo, pageable);
+    }
+
+    @Override
     public Page<Place> findAll(Pageable pageable) {
         return placeRepository.findByDeletedFalse(pageable);
     }
