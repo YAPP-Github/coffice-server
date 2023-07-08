@@ -11,15 +11,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NameGenerationService {
     private static final int RANDOM_NUMBER_BOUNDARY = 1000000;
-    private final ModifierRepository determinerRepository;
-    private final SubjectRepository nounRepository;
+    private final ModifierRepository modifierRepository;
+    private final SubjectRepository subjectRepository;
 
     public String generateRandomName() {
         SecureRandom random = new SecureRandom();
-        List<Modifier> determiners = determinerRepository.findAll();
-        List<Subject> nouns = nounRepository.findAll();
-        String determiner = getRandomElement(random, determiners).getValue();
-        String noun = getRandomElement(random, nouns).getValue();
+        List<Modifier> modifiers = modifierRepository.findAll();
+        List<Subject> subjects = subjectRepository.findAll();
+        String determiner = getRandomElement(random, modifiers).getValue();
+        String noun = getRandomElement(random, subjects).getValue();
         return determiner + " " + noun + random.nextInt(RANDOM_NUMBER_BOUNDARY);
     }
 
@@ -27,6 +27,6 @@ public class NameGenerationService {
         return Optional.ofNullable(list)
                 .filter(it -> !it.isEmpty())
                 .map(it -> it.get(random.nextInt(list.size())))
-                .orElseThrow(() -> new ListElementNotFoundException());
+                .orElseThrow(ListElementNotFoundException::new);
     }
 }
