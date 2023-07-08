@@ -15,7 +15,7 @@ public class SearchEventHandler implements CofficeDomainEvent {
     @Async
     @EventListener(SearchRequestedEvent.class)
     public void handleSearchRequested(SearchRequestedEvent event) {
-        searchWordApplicationService.create(
+        searchWordApplicationService.add(
                 event.getMemberId(),
                 event.getText()
         );
