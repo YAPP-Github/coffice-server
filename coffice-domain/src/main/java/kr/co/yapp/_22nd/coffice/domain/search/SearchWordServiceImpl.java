@@ -16,6 +16,8 @@ public class SearchWordServiceImpl implements SearchWordService {
     @Override
     @Transactional
     public SearchWord create(Long memberId, String text) {
+        searchWordRepository.findByMemberIdAndTextAndDeletedFalse(memberId, text)
+                .forEach(SearchWord::delete);
         SearchWord searchWord = SearchWord.of(memberId, text);
         return searchWordRepository.save(searchWord);
     }

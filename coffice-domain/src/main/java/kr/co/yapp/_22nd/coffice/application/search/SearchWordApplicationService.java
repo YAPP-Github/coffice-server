@@ -12,7 +12,7 @@ import java.util.List;
 public class SearchWordApplicationService {
     private final SearchWordService searchWordService;
 
-    public SearchWord create(Long memberId, String text) {
+    public SearchWord add(Long memberId, String text) {
         return searchWordService.create(memberId, text);
     }
 
