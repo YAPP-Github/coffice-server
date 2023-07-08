@@ -34,12 +34,15 @@ public class PlaceApplicationService {
             PlaceSearchRequestVo placeSearchRequestVo,
             CursorPageable<Double> cursorPageable
     ) {
-        searchRequestedEventPublisher.publish(
-                new SearchRequestedEvent(
-                        memberId,
-                        placeSearchRequestVo.getSearchText()
-                )
-        );
+        if (cursorPageable.isInitial()) {
+            searchRequestedEventPublisher.publish(
+                    new SearchRequestedEvent(
+                            memberId,
+                            placeSearchRequestVo.getSearchText()
+                    )
+            );
+        }
+
         Set<Long> archivedPlaceIds = placeArchiveApplicationService.getArchivedPlaces(memberId)
                 .stream()
                 .map(Place::getPlaceId)
