@@ -5,9 +5,10 @@ import kr.co.yapp._22nd.coffice.application.login.ValidAuthProviderType;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class OAuthLoginRequest {
     @ValidAuthProviderType
-    private final String authProviderType;
+    private String authProviderType;
+
     @NotBlank
-    private final String authProviderUserId;
+    private String authProviderIdToken;
 }
