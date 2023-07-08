@@ -3,6 +3,7 @@ package kr.co.yapp._22nd.coffice.domain.search;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class SearchWordServiceImpl implements SearchWordService {
     @Override
     @Transactional
     public SearchWord create(Long memberId, String text) {
+        if (!StringUtils.hasText(text)) {
+            throw new IllegalArgumentException("'text' must not be empty or blank. text: " + text);
+        }
         searchWordRepository.findByMemberIdAndTextAndDeletedFalse(memberId, text)
                 .forEach(SearchWord::delete);
         SearchWord searchWord = SearchWord.of(memberId, text);
