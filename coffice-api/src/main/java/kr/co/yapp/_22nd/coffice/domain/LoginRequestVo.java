@@ -1,4 +1,4 @@
-package kr.co.yapp._22nd.coffice.application.login;
+package kr.co.yapp._22nd.coffice.domain;
 
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import lombok.Value;

@@ -15,4 +15,12 @@ public class AuthProviderVo {
                 authProvider.getAuthProviderStatus()
         );
     }
+
+    public static AuthProviderVo active(AuthProviderCreateVo authProviderCreateVo) {
+        return new AuthProviderVo(
+                authProviderCreateVo.getAuthProviderType(),
+                authProviderCreateVo.getAuthProviderUserId(),
+                AuthProviderStatus.ACTIVE
+        );
+    }
 }
