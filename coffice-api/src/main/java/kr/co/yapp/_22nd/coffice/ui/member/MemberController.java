@@ -36,7 +36,7 @@ public class MemberController {
     }
 
     /**
-     * 회원 가입 또는 로그인
+     *  회원 가입 또는 로그인
      *
      * @return accessToken, 회원 정보
      */

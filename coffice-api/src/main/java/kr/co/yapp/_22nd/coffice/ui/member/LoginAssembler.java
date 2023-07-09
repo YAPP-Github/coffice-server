@@ -1,7 +1,7 @@
 package kr.co.yapp._22nd.coffice.ui.member;
 
-import kr.co.yapp._22nd.coffice.application.login.LoginRequestVo;
-import kr.co.yapp._22nd.coffice.application.login.LoginResponseVo;
+import kr.co.yapp._22nd.coffice.domain.LoginRequestVo;
+import kr.co.yapp._22nd.coffice.domain.LoginResponseVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

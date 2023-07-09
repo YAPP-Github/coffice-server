@@ -16,7 +16,7 @@ public class AuthProvider {
 
     public static AuthProvider from(AuthProviderCreateVo authProviderCreateVo) {
         AuthProvider authProvider = new AuthProvider();
-        authProvider.authProviderType = AuthProviderType.ANONYMOUS;
+        authProvider.authProviderType = authProviderCreateVo.getAuthProviderType();
         authProvider.authProviderUserId = authProviderCreateVo.getAuthProviderUserId();
         authProvider.authProviderStatus = AuthProviderStatus.ACTIVE;
         return authProvider;
