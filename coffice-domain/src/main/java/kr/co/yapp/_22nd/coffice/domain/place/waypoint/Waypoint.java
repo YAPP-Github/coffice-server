@@ -1,13 +1,11 @@
 package kr.co.yapp._22nd.coffice.domain.place.waypoint;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import kr.co.yapp._22nd.coffice.domain.place.Coordinates;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -17,13 +15,14 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "waypointId")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class Waypoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long waypointId;
-    
+
     private String name;
 
     private Coordinates coordinates;
@@ -32,6 +31,5 @@ public class Waypoint {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-
     private LocalDateTime updatedAt;
 }
