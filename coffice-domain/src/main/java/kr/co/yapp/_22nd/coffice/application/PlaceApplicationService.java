@@ -53,8 +53,17 @@ public class PlaceApplicationService {
         ).map(it -> it.copyOf(archivedPlaceIds.contains(it.getPlaceId())));
     }
 
-    public Page<Place> findAll(Pageable pageable) {
+    public Page<Place> findAll(
+            Pageable pageable
+    ) {
         return placeQueryService.findAll(pageable);
+    }
+
+    public Slice<Place> findAll(
+            PlaceQueryRequestVo placeQueryRequestVo,
+            Pageable pageable
+    ) {
+        return placeQueryService.findAll(placeQueryRequestVo, pageable);
     }
 
     public Optional<Place> findById(Long placeId) {

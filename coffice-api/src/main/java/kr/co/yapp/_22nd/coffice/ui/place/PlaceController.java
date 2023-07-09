@@ -28,11 +28,14 @@ public class PlaceController {
     @GetMapping
     public ApiResponse<List<PlaceResponse>> getPlaces(
             @AuthenticationPrincipal Long memberId,
-            @PageableDefault Pageable pageable
+            @PageableDefault Pageable pageable,
+            @RequestParam(required = false) String name
     ) {
         return ApiResponse.success(
-                placeApplicationService.findAll(pageable)
-                        .map(placeAssembler::toPlaceResponse)
+                placeApplicationService.findAll(
+                        placeAssembler.toPlaceQueryRequestVo(name),
+                        pageable
+                ).map(placeAssembler::toPlaceResponse)
         );
     }
 
