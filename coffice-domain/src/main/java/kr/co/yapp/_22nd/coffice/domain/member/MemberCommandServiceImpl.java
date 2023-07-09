@@ -17,15 +17,19 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final NameGenerationService nameGenerationService;
 
     @Override
-    @Transactional
-    public Member join(MemberJoinVo memberJoinVo) {
+    public Member join(AuthProviderCreateVo authProviderCreateVo) {
+        String name = generateName();
+        Member newMember = Member.from(MemberCreateVo.of(name, authProviderCreateVo));
+        memberRepository.save(newMember);
+        placeFolderService.create(newMember.getMemberId(), PlaceFolderCreateVo.defaultFolder());
+        return newMember;
+    }
+
+    private String generateName() {
         String name;
         do {
             name = nameGenerationService.generateRandomName();
         } while (memberRepository.existsByName(name));
-        Member newMember = Member.from(MemberCreateVo.of(name, AuthProviderCreateVo.of(memberJoinVo.getAuthProviderType(), memberJoinVo.getAuthProviderUserId())));
-        memberRepository.save(newMember);
-        placeFolderService.create(newMember.getMemberId(), PlaceFolderCreateVo.defaultFolder());
-        return newMember;
+        return name;
     }
 }

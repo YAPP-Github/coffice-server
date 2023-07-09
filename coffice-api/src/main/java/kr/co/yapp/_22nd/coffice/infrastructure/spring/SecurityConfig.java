@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/members/login/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/members/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout().disable()
@@ -47,18 +47,14 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> {
-                    handlerExceptionResolver.resolveException(request, response, null, authException);
-                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
-                })
+                .authenticationEntryPoint((request, response, authException) -> handlerExceptionResolver.resolveException(request, response, null, authException))
+                .accessDeniedHandler((request, response, accessDeniedException) -> handlerExceptionResolver.resolveException(request, response, null, accessDeniedException))
                 .and()
                 .build();
     }
 
     @Bean
-    public AbstractPreAuthenticatedProcessingFilter generateAuthenticationFilter() throws Exception {
+    public AbstractPreAuthenticatedProcessingFilter generateAuthenticationFilter() {
         JwtAuthenticationProcessingFilter authenticationFilter = new JwtAuthenticationProcessingFilter();
         authenticationFilter.setAuthenticationManager(jwtTokenAuthenticationManager());
         return authenticationFilter;
@@ -67,7 +63,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager jwtTokenAuthenticationManager() {
         return (authentication -> {
-            Object principal = authentication.getPrincipal(); // accessToken
+            Object principal = authentication.getPrincipal();
             if (principal instanceof String && jwtTokenProvider.isValidToken((String) principal)) {
                 Long memberId = jwtTokenProvider.getMemberIdFromToken((String) principal);
                 PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(memberId, principal);

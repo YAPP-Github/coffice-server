@@ -3,9 +3,7 @@ package kr.co.yapp._22nd.coffice.ui.member;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
-import kr.co.yapp._22nd.coffice.application.login.OAuthLoginRequestVo;
 import kr.co.yapp._22nd.coffice.domain.member.*;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,34 +36,19 @@ public class MemberController {
     }
 
     /**
-     * 익명 회원 가입 또는 로그인
+     *  회원 가입 또는 로그인
      *
      * @return accessToken, 회원 정보
      */
-    @PostMapping("/login/anonymous")
-    public ApiResponse<LoginResponse> anonymousLogin(
-            @Valid @RequestBody AnonymousLoginRequest anonymousLoginRequest
+    @PostMapping("/login")
+    public ApiResponse<LoginResponse> login(
+            @Valid @RequestBody LoginRequest loginRequest
     ) {
         return ApiResponse.success(loginAssembler.toLoginResponse(
-                loginApplicationService.anonymousLogin(anonymousLoginRequest.getUuid())
-        ));
-    }
-
-    /**
-     * KAKAO, APPLE 가입 또는 로그인
-     *
-     * @return accessToken, 회원 정보
-     */
-    @PostMapping("/login/oauth")
-    public ApiResponse<LoginResponse> oAuthLogin(
-            @Valid @RequestBody OAuthLoginRequest oAuthLoginRequest
-    ) {
-        return ApiResponse.success(loginAssembler.toLoginResponse(
-                loginApplicationService.oAuthLogin(OAuthLoginRequestVo.of(
-                        AuthProviderType.valueOf(oAuthLoginRequest.getAuthProviderType()),
-                        oAuthLoginRequest.getAuthProviderIdToken()
+                loginApplicationService.login(
+                        loginAssembler.toLoginRequestVo(loginRequest)
                 )
-        )));
+        ));
     }
 
     /**
