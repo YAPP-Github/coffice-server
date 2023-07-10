@@ -2,6 +2,7 @@ package kr.co.yapp._22nd.coffice.domain.member;
 
 import jakarta.persistence.*;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -43,5 +44,9 @@ public class Member {
         member.status = MemberStatus.ACTIVE;
         member.authProviders.add(AuthProvider.from(memberCreateVo.getAuthProviderCreateVo()));
         return member;
+    }
+
+    public void addAuthProvider(AuthProviderCreateVo authProviderCreateVo) {
+        this.authProviders.add(AuthProvider.from(authProviderCreateVo));
     }
 }

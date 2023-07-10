@@ -15,6 +15,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final MemberRepository memberRepository;
     private final PlaceFolderService placeFolderService;
     private final NameGenerationService nameGenerationService;
+    private final MemberQueryService memberQueryService;
 
     @Override
     public Member join(AuthProviderCreateVo authProviderCreateVo) {
@@ -23,6 +24,13 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         memberRepository.save(newMember);
         placeFolderService.create(newMember.getMemberId(), PlaceFolderCreateVo.defaultFolder());
         return newMember;
+    }
+
+    @Override
+    public Member connectAuthProvider(Long memberId, AuthProviderCreateVo authProviderCreateVo) {
+        Member member = memberQueryService.getMember(memberId);
+        member.addAuthProvider(authProviderCreateVo);
+        return memberRepository.save(member);
     }
 
     private String generateName() {

@@ -52,6 +52,25 @@ public class MemberController {
     }
 
     /**
+     * 인증 제공자 연결
+     *
+     * @return 회원 정보
+     */
+    @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
+    @PostMapping("/auth-providers")
+    public ApiResponse<LoginResponse> connectAuthProvider(
+            @AuthenticationPrincipal Long memberId,
+            @Valid @RequestBody LoginRequest loginRequest
+    ) {
+        return ApiResponse.success(loginAssembler.toLoginResponse(
+                loginApplicationService.connectAuthProvider(
+                        memberId,
+                        loginAssembler.toLoginRequestVo(loginRequest)
+                )
+        ));
+    }
+
+    /**
      * 로그아웃
      */
     @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
