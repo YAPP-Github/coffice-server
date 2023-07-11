@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 public class AppleLoginService implements LoginService {
     @Override
     public AuthProviderCreateVo login(LoginRequestVo loginRequestVo) {
-        return null;
+        String appleUserId = "testAppleUserId";
+        return AuthProviderCreateVo.of(
+                AuthProviderType.APPLE,
+                appleUserId
+        );
     }
 
     @Override
