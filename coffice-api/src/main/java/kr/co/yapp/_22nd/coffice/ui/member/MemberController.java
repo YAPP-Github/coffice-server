@@ -57,12 +57,12 @@ public class MemberController {
      * @return 회원 정보
      */
     @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
-    @PostMapping("/auth-providers")
-    public ApiResponse<LoginResponse> connectAuthProvider(
+    @PostMapping("/connect")
+    public ApiResponse<MemberResponse> connectAuthProvider(
             @AuthenticationPrincipal Long memberId,
             @Valid @RequestBody LoginRequest loginRequest
     ) {
-        return ApiResponse.success(loginAssembler.toLoginResponse(
+        return ApiResponse.success(memberAssembler.toMemberResponse(
                 loginApplicationService.connectAuthProvider(
                         memberId,
                         loginAssembler.toLoginRequestVo(loginRequest)

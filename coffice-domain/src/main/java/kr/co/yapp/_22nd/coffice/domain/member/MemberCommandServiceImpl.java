@@ -15,7 +15,6 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final MemberRepository memberRepository;
     private final PlaceFolderService placeFolderService;
     private final NameGenerationService nameGenerationService;
-    private final MemberQueryService memberQueryService;
 
     @Override
     public Member join(AuthProviderCreateVo authProviderCreateVo) {
@@ -27,8 +26,9 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     }
 
     @Override
-    public Member connectAuthProvider(Long memberId, AuthProviderCreateVo authProviderCreateVo) {
-        Member member = memberQueryService.getMember(memberId);
+    public Member connect(Long memberId, AuthProviderCreateVo authProviderCreateVo) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
         member.addAuthProvider(authProviderCreateVo);
         return memberRepository.save(member);
     }

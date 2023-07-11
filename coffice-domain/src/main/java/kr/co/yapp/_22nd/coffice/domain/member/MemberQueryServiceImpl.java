@@ -1,5 +1,8 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
+import kr.co.yapp._22nd.coffice.domain.BadRequestException;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderStatus;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderVo;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +37,19 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     @Override
     public Page<Member> findAll(Pageable pageable) {
         return memberRepository.findAll(pageable);
+    }
+
+    @Override
+    public void validate(AuthProviderCreateVo authProviderCreateVo) {
+        if (authProviderCreateVo.getAuthProviderType() == AuthProviderType.ANONYMOUS) {
+            throw new BadRequestException("잘못된 인증 제공자 연결 요청입니다. AuthProviderType: " + authProviderCreateVo.getAuthProviderType());
+        }
+        memberRepository.findByAuthProviders_AuthProviderTypeAndAuthProviders_AuthProviderUserIdAndAuthProviders_AuthProviderStatus(
+                authProviderCreateVo.getAuthProviderType(),
+                authProviderCreateVo.getAuthProviderUserId(),
+                AuthProviderStatus.ACTIVE
+        ).ifPresent(member -> {
+            throw new BadRequestException("이미 인증 제공자가 연결되어 있습니다. member: " + member);
+        });
     }
 }
