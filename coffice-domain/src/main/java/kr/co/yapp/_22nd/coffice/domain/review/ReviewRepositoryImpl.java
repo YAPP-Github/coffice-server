@@ -16,13 +16,11 @@ public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements R
     }
 
     @Override
-    public Slice<Review> findByMemberIdAndPlaceIdOrderByReviewIdDesc(
-            Long memberId,
+    public Slice<Review> findByPlaceIdOrderByReviewIdDesc(
             Long placeId,
             CursorPageable<Long> cursorPageable
     ) {
-        BooleanExpression booleanExpression = qReview.member.memberId.eq(memberId)
-                .and(qReview.place.placeId.eq(placeId))
+        BooleanExpression booleanExpression = qReview.place.placeId.eq(placeId)
                 .and(qReview.deleted.isFalse());
         if (!cursorPageable.isInitial()) {
             booleanExpression = booleanExpression.and(qReview.reviewId.lt(cursorPageable.getLastSeenKey()));

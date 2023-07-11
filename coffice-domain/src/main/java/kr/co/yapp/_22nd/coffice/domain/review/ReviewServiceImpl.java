@@ -19,12 +19,11 @@ public class ReviewServiceImpl implements ReviewService {
     private final PlaceQueryService placeQueryService;
 
     @Override
-    public Slice<Review> findByMemberIdAndPlaceId(
-            Long memberId,
+    public Slice<Review> findByPlaceId(
             Long placeId,
             CursorPageable<Long> cursorPageable
     ) {
-        return reviewRepository.findByMemberIdAndPlaceIdOrderByReviewIdDesc(memberId, placeId, cursorPageable);
+        return reviewRepository.findByPlaceIdOrderByReviewIdDesc(placeId, cursorPageable);
     }
 
     @Override

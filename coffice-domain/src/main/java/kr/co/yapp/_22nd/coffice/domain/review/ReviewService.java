@@ -4,7 +4,7 @@ import kr.co.yapp._22nd.coffice.domain.CursorPageable;
 import org.springframework.data.domain.Slice;
 
 public interface ReviewService {
-    Slice<Review> findByMemberIdAndPlaceId(Long memberId, Long placeId, CursorPageable<Long> cursorPageable);
+    Slice<Review> findByPlaceId(Long placeId, CursorPageable<Long> cursorPageable);
 
     Review getByReviewId(Long reviewId);
 
