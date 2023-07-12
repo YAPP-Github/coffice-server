@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public enum ElectricOutletLevel {
     UNKNOWN,
-    NONE,
     FEW,
     SEVERAL,
     MANY,
