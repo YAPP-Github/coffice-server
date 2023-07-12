@@ -31,7 +31,6 @@ public class LoginApplicationService {
     public MemberResponseVo connectAuthProvider(Long memberId, LoginRequestVo loginRequestVo) {
         LoginService loginService = resolveLoginService(loginRequestVo);
         AuthProviderCreateVo authProviderCreateVo = loginService.login(loginRequestVo);
-        memberQueryService.validate(authProviderCreateVo);
         return MemberResponseVo.of(memberCommandService.connect(memberId, authProviderCreateVo));
     }
 

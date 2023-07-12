@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +12,4 @@ public interface MemberQueryService {
     Optional<Member> getMember(AuthProviderVo authProviderVo);
 
     Page<Member> findAll(Pageable pageable);
-
-    void validate(AuthProviderCreateVo authProviderCreateVo);
 }
