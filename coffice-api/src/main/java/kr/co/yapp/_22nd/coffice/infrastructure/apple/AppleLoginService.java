@@ -8,9 +8,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AppleLoginService implements LoginService {
+    /* TODO: Apple api로 유저 조회 */
     @Override
     public AuthProviderCreateVo login(LoginRequestVo loginRequestVo) {
-        return null;
+        String appleUserId = "testAppleUserId";
+        return AuthProviderCreateVo.of(
+                AuthProviderType.APPLE,
+                appleUserId
+        );
     }
 
     @Override

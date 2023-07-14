@@ -1,6 +1,5 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
