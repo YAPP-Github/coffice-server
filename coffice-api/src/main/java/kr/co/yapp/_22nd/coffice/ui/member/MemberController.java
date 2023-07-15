@@ -3,6 +3,8 @@ package kr.co.yapp._22nd.coffice.ui.member;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.login.LoginApplicationService;
+import kr.co.yapp._22nd.coffice.application.withdrawal.WithdrawalApplicationService;
+import kr.co.yapp._22nd.coffice.domain.DisconnectRequestVo;
 import kr.co.yapp._22nd.coffice.domain.member.*;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
@@ -18,6 +20,7 @@ public class MemberController {
     private final MemberAssembler memberAssembler;
     private final LoginApplicationService loginApplicationService;
     private final LoginAssembler loginAssembler;
+    private final WithdrawalApplicationService withdrawalApplicationService;
 
     /**
      * 내 정보 조회
@@ -86,11 +89,24 @@ public class MemberController {
      */
     @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
     @PostMapping("/withdraw")
-    public void withdraw(
+    public ApiResponse<?> withdraw(
             @AuthenticationPrincipal Long memberId
     ) {
-        // TODO: 회원탈퇴
+        withdrawalApplicationService.withdraw(memberId);
+        return ApiResponse.success();
     }
 
-    // TODO: 카카오 연결 끊기 (https://developers.kakao.com/docs/latest/ko/kakaologin/callback#unlink)
+
+    /**
+     * 연결 끊기
+     */
+    @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
+    @PostMapping("/disconnect")
+    public ApiResponse<?> disconnect(
+            @AuthenticationPrincipal Long memberId,
+            @Valid @RequestBody DisconnectReqeust disconnectReqeust
+    ) {
+        withdrawalApplicationService.disconnectAuthProvider(memberId, DisconnectRequestVo.of(disconnectReqeust.getAuthProviderType()));
+        return ApiResponse.success();
+    }
 }

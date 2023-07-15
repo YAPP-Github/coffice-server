@@ -3,6 +3,8 @@ package kr.co.yapp._22nd.coffice.domain.member;
 import jakarta.persistence.*;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderDeleteVo;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -13,6 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // TODO: 권한, fcmToken
 @Entity
@@ -48,5 +51,30 @@ public class Member {
 
     public void addAuthProvider(AuthProviderCreateVo authProviderCreateVo) {
         this.authProviders.add(AuthProvider.from(authProviderCreateVo));
+    }
+
+    public void deleteAuthProvider(AuthProviderDeleteVo authProviderDeleteVo) {
+        if (this.authProviders == null || this.authProviders.isEmpty()) {
+            return;
+        }
+        this.authProviders = this.authProviders.stream()
+                .peek(authProvider -> {
+                    if(authProvider.getAuthProviderType() == authProviderDeleteVo.getAuthProviderType() && authProvider.getAuthProviderStatus() == AuthProviderStatus.ACTIVE) {
+                        authProvider.delete();
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    public boolean activeAuthProviderExists() {
+        if (this.authProviders == null || this.authProviders.isEmpty()) {
+            return false;
+        }
+        return this.authProviders.stream()
+                .anyMatch(authProvider -> authProvider.getAuthProviderStatus() == AuthProviderStatus.ACTIVE);
+    }
+
+    public void withdraw() {
+        this.status = MemberStatus.WITHDRAWAL;
     }
 }
