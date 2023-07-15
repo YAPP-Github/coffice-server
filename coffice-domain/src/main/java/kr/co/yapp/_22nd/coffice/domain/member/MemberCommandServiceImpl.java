@@ -54,7 +54,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
                 authProviderCreateVo.getAuthProviderUserId(),
                 AuthProviderStatus.ACTIVE
         ).ifPresent(member -> {
-            throw new BadRequestException("이미 인증 제공자가 연결되어 있습니다. member: " + member);
+            throw new BadRequestException("이미 인증 제공자가 연결되어 있습니다. memberId: " + member.getMemberId());
         });
     }
 }
