@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import kr.co.yapp._22nd.coffice.domain.BadRequestException;
 import kr.co.yapp._22nd.coffice.domain.CofficeException;
 import kr.co.yapp._22nd.coffice.domain.NotFoundException;
+import kr.co.yapp._22nd.coffice.domain.member.name.IllegalMemberNameException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -25,8 +26,8 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ApiControllerAdvice {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ApiResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.warn("handleMethodArgumentNotValidException", e);
         return ApiResponse.failure(
@@ -45,6 +46,16 @@ public class ApiControllerAdvice {
     public ApiResponse<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.info("HttpMessageNotReadableException: ", e);
         return ApiResponse.failure(ResultCode.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalMemberNameException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<?> handleIllegalMemberNameException(IllegalMemberNameException e) {
+        log.info("IllegalMemberNameException: ", e);
+        return ApiResponse.failure(
+                ResultCode.from(e.get()),
+                e.getMessage()
+        );
     }
 
     @ExceptionHandler({
