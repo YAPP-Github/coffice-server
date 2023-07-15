@@ -5,6 +5,7 @@ import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderDeleteVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderStatus;
+import kr.co.yapp._22nd.coffice.domain.member.name.MemberName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -76,5 +77,10 @@ public class Member {
 
     public void withdraw() {
         this.status = MemberStatus.WITHDRAWAL;
+    }
+
+    public Member updateName(MemberName memberName) {
+        this.name = memberName.value();
+        return this;
     }
 }
