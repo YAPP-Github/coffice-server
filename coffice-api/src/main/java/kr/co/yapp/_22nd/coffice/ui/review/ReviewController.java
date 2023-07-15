@@ -39,7 +39,7 @@ public class ReviewController {
             @RequestParam(required = false) Long lastSeenReviewId
     ) {
         return ApiResponse.success(
-                reviewApplicationService.getReviewsByPlaceId(placeId, LongCursorPageable.of(lastSeenReviewId, pageSize))
+                reviewApplicationService.getReviewsByPlaceId(memberId, placeId, LongCursorPageable.of(lastSeenReviewId, pageSize))
                         .map(reviewAssembler::toReviewResponse)
         );
     }
