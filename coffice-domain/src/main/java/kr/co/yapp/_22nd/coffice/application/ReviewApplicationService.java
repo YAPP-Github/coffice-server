@@ -15,10 +15,11 @@ public class ReviewApplicationService {
     private final ReviewService reviewService;
 
     public Slice<Review> getReviewsByPlaceId(
+            Long memberId,
             Long placeId,
             CursorPageable<Long> cursorPageable
     ) {
-        return reviewService.findByPlaceId(placeId, cursorPageable);
+        return reviewService.findByPlaceId(memberId, placeId, cursorPageable);
     }
 
     public Review create(

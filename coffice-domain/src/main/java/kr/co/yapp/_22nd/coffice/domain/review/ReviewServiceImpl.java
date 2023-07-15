@@ -20,10 +20,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Slice<Review> findByPlaceId(
+            Long memberId,
             Long placeId,
             CursorPageable<Long> cursorPageable
     ) {
-        return reviewRepository.findByPlaceIdOrderByReviewIdDesc(placeId, cursorPageable);
+        return reviewRepository.findByPlaceIdOrderByReviewIdDesc(memberId, placeId, cursorPageable);
     }
 
     @Override
