@@ -1,7 +1,9 @@
 package kr.co.yapp._22nd.coffice.ui.search;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.search.SearchWordApplicationService;
+import kr.co.yapp._22nd.coffice.domain.search.SearchWord;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,16 @@ import java.util.stream.Collectors;
 public class SearchWordController {
     private final SearchWordApplicationService searchWordApplicationService;
     private final SearchWordAssembler searchWordAssembler;
+
+    @PostMapping
+    public ApiResponse<SearchWordResponse> add(
+            @AuthenticationPrincipal Long memberId,
+            @RequestBody @Valid SearchWordRequest searchWordRequest
+    ) {
+        SearchWord searchWord = searchWordApplicationService.add(memberId, searchWordRequest.getText());
+        SearchWordResponse searchWordResponse = searchWordAssembler.toSearchWordResponse(searchWord);
+        return ApiResponse.success(searchWordResponse);
+    }
 
     @DeleteMapping
     public ApiResponse<?> deleteAll(
