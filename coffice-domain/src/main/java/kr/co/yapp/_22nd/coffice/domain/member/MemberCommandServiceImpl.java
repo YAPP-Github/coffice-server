@@ -1,6 +1,7 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
 import kr.co.yapp._22nd.coffice.domain.BadRequestException;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.*;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderStatus;
 import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderType;
@@ -13,6 +14,8 @@ import kr.co.yapp._22nd.coffice.domain.place.folder.PlaceFolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import java.util.Objects;
 
@@ -40,6 +43,17 @@ public class MemberCommandServiceImpl implements MemberCommandService {
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
         member.addAuthProvider(authProviderCreateVo);
         return memberRepository.save(member);
+    }
+
+    @Override
+    public void disconnect(Long memberId, List<AuthProviderDeleteVo> authProviderDeleteVos) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+        authProviderDeleteVos.forEach(member::deleteAuthProvider);
+        if (!member.activeAuthProviderExists()) {
+            member.withdraw();
+        }
+        memberRepository.save(member);
     }
 
     private String generateName() {
