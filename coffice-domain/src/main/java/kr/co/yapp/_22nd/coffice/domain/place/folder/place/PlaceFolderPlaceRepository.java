@@ -17,4 +17,6 @@ public interface PlaceFolderPlaceRepository extends JpaRepository<PlaceFolderPla
     List<PlaceFolderPlace> findByMember_memberIdAndPlaceFolder_placeFolderId(Long memberId, Long placeFolderId);
 
     void deleteByMember_memberIdAndPlace_placeId(Long memberId, Long placeId);
+
+    boolean existsByMember_memberIdAndPlaceFolder_placeFolderIdAndPlace_placeId(Long memberId, Long placeFolderId, Long placeId);
 }

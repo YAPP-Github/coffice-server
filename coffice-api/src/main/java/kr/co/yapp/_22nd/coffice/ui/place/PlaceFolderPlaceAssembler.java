@@ -11,10 +11,10 @@ public class PlaceFolderPlaceAssembler {
     private final PlaceFolderAssembler placeFolderAssembler;
     private final PlaceAssembler placeAssembler;
 
-    public PlaceFolderPlaceResponse toPlaceFolderPlaceResponse(PlaceFolderPlace placeFolderPlace) {
+    public PlaceFolderPlaceResponse toPlaceFolderPlaceResponse(Long memberId, PlaceFolderPlace placeFolderPlace) {
         return new PlaceFolderPlaceResponse(
                 placeFolderAssembler.toPlaceFolderResponse(placeFolderPlace.getPlaceFolder()),
-                placeAssembler.toPlaceResponse(placeFolderPlace.getPlace())
+                placeAssembler.toPlaceResponse(memberId, placeFolderPlace.getPlace())
         );
     }
 }

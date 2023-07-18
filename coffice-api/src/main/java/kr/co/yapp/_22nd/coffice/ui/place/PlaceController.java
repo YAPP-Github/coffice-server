@@ -4,11 +4,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.PlaceApplicationService;
 import kr.co.yapp._22nd.coffice.application.PlaceFolderPlaceApplicationService;
+import kr.co.yapp._22nd.coffice.domain.place.Place;
 import kr.co.yapp._22nd.coffice.domain.place.PlaceNotFoundException;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -31,21 +33,22 @@ public class PlaceController {
             @PageableDefault Pageable pageable,
             @RequestParam(required = false) String name
     ) {
-        return ApiResponse.success(
-                placeApplicationService.findAll(
-                        placeAssembler.toPlaceQueryRequestVo(name),
-                        pageable
-                ).map(placeAssembler::toPlaceResponse)
+        Slice<Place> placeSlice = placeApplicationService.findAll(
+                placeAssembler.toPlaceQueryRequestVo(name),
+                pageable
         );
+        Slice<PlaceResponse> placeResponses = placeAssembler.toPlaceResponses(memberId, placeSlice);
+        return ApiResponse.success(placeResponses);
     }
 
     @GetMapping("/{placeId}")
     public ApiResponse<PlaceResponse> getPlace(
+            @AuthenticationPrincipal Long memberId,
             @PathVariable Long placeId
     ) {
         return ApiResponse.success(
                 placeApplicationService.findById(placeId)
-                        .map(placeAssembler::toPlaceResponse)
+                        .map(it -> placeAssembler.toPlaceResponse(memberId, it))
                         .orElseThrow(() -> new PlaceNotFoundException(placeId))
         );
     }
@@ -64,7 +67,7 @@ public class PlaceController {
                                 placeToPlaceFolderMapRequest.getPlaceFolderIds()
                         )
                         .stream()
-                        .map(placeFolderPlaceAssembler::toPlaceFolderPlaceResponse)
+                        .map(it -> placeFolderPlaceAssembler.toPlaceFolderPlaceResponse(memberId, it))
                         .toList()
         );
     }
@@ -86,6 +89,7 @@ public class PlaceController {
     ) {
         return ApiResponse.success(
                 placeFolderPlaceAssembler.toPlaceFolderPlaceResponse(
+                        memberId,
                         placeFolderPlaceApplicationService.saveToPlaceFolder(
                                 memberId,
                                 placeAddToFolderRequest.getPlaceFolderId(),

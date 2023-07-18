@@ -86,4 +86,13 @@ public class PlaceFolderPlaceServiceImpl implements PlaceFolderPlaceService {
         List<PlaceFolderPlace> placeFolderPlaces = placeFolderPlaceRepository.findByMemberAndPlaceFolderAndPlace_placeIdIn(member, placeFolder, placeIds);
         placeFolderPlaceRepository.deleteAll(placeFolderPlaces);
     }
+
+    @Override
+    public boolean exists(
+            Long memberId,
+            Long placeFolderId,
+            Long placeId
+    ) {
+        return placeFolderPlaceRepository.existsByMember_memberIdAndPlaceFolder_placeFolderIdAndPlace_placeId(memberId, placeFolderId, placeId);
+    }
 }

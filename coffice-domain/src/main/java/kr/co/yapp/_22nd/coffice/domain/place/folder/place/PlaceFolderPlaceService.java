@@ -11,4 +11,6 @@ public interface PlaceFolderPlaceService {
     void removeAll(Long memberId, Long placeFolderId, Collection<Long> placeIds);
 
     List<PlaceFolderPlace> update(Long memberId, Long placeId, List<Long> placeFolderIds);
+
+    boolean exists(Long memberId, Long placeFolderId, Long placeId);
 }
