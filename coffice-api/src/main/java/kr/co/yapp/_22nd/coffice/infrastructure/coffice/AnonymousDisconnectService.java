@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AnonymousDisconnectService implements DisconnectService {
     @Override
-    public AuthProviderDeleteVo disconnect(Long memberId, DisconnectRequestVo disconnectRequestVo) {
+    public AuthProviderDeleteVo disconnect(String authProviderUserId, DisconnectRequestVo disconnectRequestVo) {
         return AuthProviderDeleteVo.of(
                 AuthProviderType.ANONYMOUS
         );

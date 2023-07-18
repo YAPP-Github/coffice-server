@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class KakaoDisconnectService implements DisconnectService {
+    private final KakaoApiClient kakaoApiClient;
+
     @Override
-    public AuthProviderDeleteVo disconnect(Long memberId, DisconnectRequestVo disconnectRequestVo) {
-        /* TODO: kakao 탈퇴 API 호출 (block() (동기 요청)) */
+    public AuthProviderDeleteVo disconnect(String authProviderUserId, DisconnectRequestVo disconnectRequestVo) {
+        kakaoApiClient.disconnect(authProviderUserId);
         return AuthProviderDeleteVo.of(
                 AuthProviderType.KAKAO
         );

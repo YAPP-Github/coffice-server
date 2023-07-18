@@ -1,10 +1,7 @@
 package kr.co.yapp._22nd.coffice.domain.member;
 
 import jakarta.persistence.*;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProvider;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderCreateVo;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderDeleteVo;
-import kr.co.yapp._22nd.coffice.domain.member.authProvider.AuthProviderStatus;
+import kr.co.yapp._22nd.coffice.domain.member.authProvider.*;
 import kr.co.yapp._22nd.coffice.domain.member.name.MemberName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -82,5 +79,14 @@ public class Member {
     public Member updateName(MemberName memberName) {
         this.name = memberName.value();
         return this;
+    }
+
+    public String getActiveAuthProviderUserIdBy(AuthProviderType authProviderType) {
+        return this.authProviders.stream()
+                .filter(authProvider -> authProvider.getAuthProviderType() == authProviderType &&
+                        authProvider.getAuthProviderStatus() == AuthProviderStatus.ACTIVE)
+                .map(AuthProvider::getAuthProviderUserId)
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -1,3 +1,5 @@
 coffice:
   jwt:
     secret: ${JWT_SECRET_KEY}
+  kakao:
+    admin-key: ${KAKAO_ADMIN_KEY}

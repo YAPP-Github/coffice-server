@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AppleDisconnectService implements DisconnectService {
     @Override
-    public AuthProviderDeleteVo disconnect(Long memberId, DisconnectRequestVo disconnectRequestVo) {
+    public AuthProviderDeleteVo disconnect(String authProviderUserId, DisconnectRequestVo disconnectRequestVo) {
         /* TODO: Apple 탈퇴 API 호출 (block() (동기 요청)) */
         return AuthProviderDeleteVo.of(
                 AuthProviderType.APPLE

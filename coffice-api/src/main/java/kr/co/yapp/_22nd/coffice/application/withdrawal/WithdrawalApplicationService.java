@@ -38,8 +38,10 @@ public class WithdrawalApplicationService {
     }
 
     private AuthProviderDeleteVo sendOAuthDisconnectRequest(Long memberId, DisconnectRequestVo disconnectRequestVo) {
+        Member member = memberQueryService.getMember(memberId);
+        String oAuthUserId = member.getActiveAuthProviderUserIdBy(disconnectRequestVo.getAuthProviderType());
         DisconnectService disconnectService = resolveDisconnectService(disconnectRequestVo);
-        return disconnectService.disconnect(memberId, disconnectRequestVo);
+        return disconnectService.disconnect(oAuthUserId, disconnectRequestVo);
     }
 
     private DisconnectService resolveDisconnectService(DisconnectRequestVo disconnectRequestVo) {
