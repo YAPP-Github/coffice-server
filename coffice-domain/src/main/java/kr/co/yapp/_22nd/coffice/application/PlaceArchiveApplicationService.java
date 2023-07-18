@@ -24,6 +24,11 @@ public class PlaceArchiveApplicationService {
         return placeQueryService.findByPlaceFolderId(memberId, defaultPlaceFolder.getPlaceFolderId());
     }
 
+    public boolean isArchivedPlace(Long memberId, Long placeId) {
+        PlaceFolder defaultPlaceFolder = placeFolderService.getDefaultPlaceFolder(memberId);
+        return placeFolderPlaceService.exists(memberId, defaultPlaceFolder.getPlaceFolderId(), placeId);
+    }
+
     public Place addArchivedPlace(Long memberId, Long placeId) {
         PlaceFolder defaultPlaceFolder = placeFolderService.getDefaultPlaceFolder(memberId);
         PlaceFolderPlace placeFolderPlace = placeFolderPlaceService.add(memberId, defaultPlaceFolder.getPlaceFolderId(), placeId);
