@@ -29,7 +29,7 @@ public class PlaceArchiveController {
         return ApiResponse.success(
                 placeArchiveApplicationService.getArchivedPlaces(memberId)
                         .stream()
-                        .map(placeAssembler::toPlaceResponse)
+                        .map(it -> placeAssembler.toPlaceResponse(memberId, it))
                         .collect(Collectors.toList())
         );
     }
@@ -40,7 +40,7 @@ public class PlaceArchiveController {
             @PathVariable Long placeId
     ) {
         Place place = placeArchiveApplicationService.addArchivedPlace(memberId, placeId);
-        PlaceResponse placeResponse = placeAssembler.toPlaceResponse(place);
+        PlaceResponse placeResponse = placeAssembler.toPlaceResponse(memberId, place);
         return ApiResponse.success(placeResponse);
     }
 

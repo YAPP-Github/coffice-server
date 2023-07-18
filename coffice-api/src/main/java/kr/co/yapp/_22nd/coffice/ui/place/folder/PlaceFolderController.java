@@ -51,7 +51,7 @@ public class PlaceFolderController {
             @PathVariable Long placeFolderId
     ) {
         PlaceFolder placeFolder = placeFolderApplicationService.getPlaceFolder(memberId, placeFolderId);
-        PlaceFolderDetailResponse placeFolderDetailResponse = placeFolderAssembler.toPlaceFolderDetailResponse(placeFolder);
+        PlaceFolderDetailResponse placeFolderDetailResponse = placeFolderAssembler.toPlaceFolderDetailResponse(memberId, placeFolder);
         return ApiResponse.success(placeFolderDetailResponse);
     }
 

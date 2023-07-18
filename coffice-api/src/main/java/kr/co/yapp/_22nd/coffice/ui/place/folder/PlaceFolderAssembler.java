@@ -1,14 +1,17 @@
 package kr.co.yapp._22nd.coffice.ui.place.folder;
 
+import kr.co.yapp._22nd.coffice.domain.place.Place;
 import kr.co.yapp._22nd.coffice.domain.place.folder.PlaceFolder;
 import kr.co.yapp._22nd.coffice.domain.place.folder.PlaceFolderCreateVo;
 import kr.co.yapp._22nd.coffice.domain.place.folder.PlaceFolderUpdateVo;
 import kr.co.yapp._22nd.coffice.domain.place.folder.place.PlaceFolderPlace;
 import kr.co.yapp._22nd.coffice.ui.place.PlaceAssembler;
+import kr.co.yapp._22nd.coffice.ui.place.PlaceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -23,15 +26,15 @@ public class PlaceFolderAssembler {
         );
     }
 
-    public PlaceFolderDetailResponse toPlaceFolderDetailResponse(PlaceFolder placeFolder) {
+    public PlaceFolderDetailResponse toPlaceFolderDetailResponse(Long memberId, PlaceFolder placeFolder) {
+        Stream<Place> placeStream = placeFolder.getPlaceFolderPlaces()
+                .stream()
+                .map(PlaceFolderPlace::getPlace);
+        List<PlaceResponse> placeResponses = placeAssembler.toPlaceResponses(memberId, placeStream).toList();
         return new PlaceFolderDetailResponse(
                 placeFolder.getPlaceFolderId(),
                 placeFolder.getName(),
-                placeFolder.getPlaceFolderPlaces()
-                        .stream()
-                        .map(PlaceFolderPlace::getPlace)
-                        .map(placeAssembler::toPlaceResponse)
-                        .collect(Collectors.toList())
+                placeResponses
         );
     }
 

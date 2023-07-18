@@ -1,19 +1,24 @@
 package kr.co.yapp._22nd.coffice.ui.place;
 
+import kr.co.yapp._22nd.coffice.application.PlaceArchiveApplicationService;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import kr.co.yapp._22nd.coffice.ui.DateTimeAssembler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
 public class PlaceAssembler {
     private final DateTimeAssembler dateTimeAssembler;
+    private final PlaceArchiveApplicationService placeArchiveApplicationService;
 
     public PlaceQueryRequestVo toPlaceQueryRequestVo(
             String name
@@ -21,7 +26,28 @@ public class PlaceAssembler {
         return PlaceQueryRequestVo.of(name);
     }
 
-    public PlaceResponse toPlaceResponse(Place place) {
+    public Stream<PlaceResponse> toPlaceResponses(Long memberId, Stream<Place> placeStream) {
+        Set<Long> archivedPlaceIds = placeArchiveApplicationService.getArchivedPlaces(memberId)
+                .stream()
+                .map(Place::getPlaceId)
+                .collect(Collectors.toSet());
+        return placeStream.map(it -> convertToPlaceResponse(it, archivedPlaceIds.contains(it.getPlaceId())));
+    }
+
+    public Slice<PlaceResponse> toPlaceResponses(Long memberId, Slice<Place> places) {
+        Set<Long> archivedPlaceIds = placeArchiveApplicationService.getArchivedPlaces(memberId)
+                .stream()
+                .map(Place::getPlaceId)
+                .collect(Collectors.toSet());
+        return places.map(it -> convertToPlaceResponse(it, archivedPlaceIds.contains(it.getPlaceId())));
+    }
+
+    public PlaceResponse toPlaceResponse(Long memberId, Place place) {
+        boolean archived = placeArchiveApplicationService.isArchivedPlace(memberId, place.getPlaceId());
+        return convertToPlaceResponse(place, archived);
+    }
+
+    private PlaceResponse convertToPlaceResponse(Place place, boolean archived) {
         return new PlaceResponse(
                 place.getPlaceId(),
                 place.getName(),
@@ -40,7 +66,8 @@ public class PlaceAssembler {
                 toDTO(place.getCrowdednessList()),
                 place.getFoodTypes().stream().map(Enum::name).collect(Collectors.toList()),
                 place.getRestroomTypes().stream().map(Enum::name).collect(Collectors.toList()),
-                place.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList())
+                place.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList()),
+                archived
         );
     }
 
