@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class NameGenerationService {
-    private static final int RANDOM_NUMBER_BOUNDARY = 1000000;
+    private static final int RANDOM_NUMBER_BOUNDARY = 100;
     private final ModifierRepository modifierRepository;
     private final SubjectRepository subjectRepository;
 
@@ -20,7 +20,7 @@ public class NameGenerationService {
         List<Subject> subjects = subjectRepository.findAll();
         String determiner = getRandomElement(random, modifiers).getValue();
         String noun = getRandomElement(random, subjects).getValue();
-        return determiner + " " + noun + random.nextInt(RANDOM_NUMBER_BOUNDARY);
+        return determiner + " " + noun + " " + random.nextInt(RANDOM_NUMBER_BOUNDARY);
     }
 
     private <T> T getRandomElement(SecureRandom random, List<T> list) {

@@ -16,7 +16,7 @@ public class MemberName {
         if (!StringUtils.hasText(this.value)) {
             throw new IllegalMemberNameException(value, EMPTY);
         }
-        if (this.value.length() > 14) {
+        if (this.value.length() > 15) {
             throw new IllegalMemberNameException(value, TOO_LONG);
         }
         if (this.value.length() < 2) {
