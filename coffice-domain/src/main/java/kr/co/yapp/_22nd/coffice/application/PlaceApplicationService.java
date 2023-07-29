@@ -2,7 +2,6 @@ package kr.co.yapp._22nd.coffice.application;
 
 import kr.co.yapp._22nd.coffice.domain.CursorPageable;
 import kr.co.yapp._22nd.coffice.domain.place.*;
-import kr.co.yapp._22nd.coffice.domain.search.SearchRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,6 @@ public class PlaceApplicationService {
     private final PlaceCommandService placeCommandService;
     private final PlaceQueryService placeQueryService;
     private final PlaceArchiveApplicationService placeArchiveApplicationService;
-    private final SearchRequestedEventPublisher searchRequestedEventPublisher;
 
     public Place create(PlaceCreateVo placeCreateVo) {
         return placeCommandService.create(placeCreateVo);
@@ -34,15 +32,6 @@ public class PlaceApplicationService {
             PlaceSearchRequestVo placeSearchRequestVo,
             CursorPageable<Double> cursorPageable
     ) {
-        if (cursorPageable.isInitial()) {
-            searchRequestedEventPublisher.publish(
-                    new SearchRequestedEvent(
-                            memberId,
-                            placeSearchRequestVo.getSearchText()
-                    )
-            );
-        }
-
         Set<Long> archivedPlaceIds = placeArchiveApplicationService.getArchivedPlaces(memberId)
                 .stream()
                 .map(Place::getPlaceId)
