@@ -52,7 +52,8 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
                 qPlace.coordinates,
                 coordinates.getLongitude()
         );
-        BooleanExpression booleanExpression = distanceExpression.loe(distance.toKilometerValue());
+        BooleanExpression booleanExpression = distanceExpression.loe(distance.toKilometerValue())
+                .and(qPlace.deleted.isFalse());
         if (!cursorPageable.isInitial()) {
             Distance lastSeenDistance = Distance.of(cursorPageable.getLastSeenKey(), DistanceUnit.METER);
             booleanExpression = booleanExpression.and(distanceExpression.gt(lastSeenDistance.toKilometerValue()));
