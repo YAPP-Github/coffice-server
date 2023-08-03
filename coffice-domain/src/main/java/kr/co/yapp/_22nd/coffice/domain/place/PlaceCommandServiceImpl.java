@@ -25,4 +25,22 @@ public class PlaceCommandServiceImpl implements PlaceCommandService {
         place.update(placeUpdateVo);
         return place;
     }
+
+    @Override
+    @Transactional
+    public void addImage(Long placeId, String url) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new PlaceNotFoundException(placeId));
+        place.getImageUrls().add(url);
+        placeRepository.save(place);
+    }
+
+    @Override
+    @Transactional
+    public void removeImages(Long placeId) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new PlaceNotFoundException(placeId));
+        place.getImageUrls().clear();
+        placeRepository.save(place);
+    }
 }
