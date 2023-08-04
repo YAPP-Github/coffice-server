@@ -64,9 +64,9 @@ public class PlaceAssembler {
                 place.getCapacityLevel().name(),
                 place.getImageUrls(),
                 toDTO(place.getCrowdednessList()),
+                place.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList()),
                 place.getFoodTypes().stream().map(Enum::name).collect(Collectors.toList()),
                 place.getRestroomTypes().stream().map(Enum::name).collect(Collectors.toList()),
-                place.getDrinkTypes().stream().map(Enum::name).collect(Collectors.toList()),
                 archived
         );
     }
