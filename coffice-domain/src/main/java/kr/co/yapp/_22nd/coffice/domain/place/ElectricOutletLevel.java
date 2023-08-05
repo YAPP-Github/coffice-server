@@ -17,10 +17,10 @@ public enum ElectricOutletLevel {
             return UNKNOWN;
         }
         BigDecimal ratio = BigDecimal.valueOf(electricOutletCount.getValue() / (double) seatCount.getValue());
-        if (ratio.compareTo(BigDecimal.valueOf(0.5)) < 0) {
+        if (ratio.compareTo(BigDecimal.valueOf(0.25)) < 0) {
             return FEW;
         }
-        if (ratio.compareTo(BigDecimal.valueOf(0.8)) < 0) {
+        if (ratio.compareTo(BigDecimal.valueOf(0.4)) < 0) {
             return SEVERAL;
         }
         return MANY;
