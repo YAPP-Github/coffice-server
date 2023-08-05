@@ -18,8 +18,13 @@ import org.springframework.batch.support.transaction.ResourcelessTransactionMana
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
@@ -51,19 +56,37 @@ public class PlaceImageMigrationJobConfig {
     @Bean
     public Tasklet placeImageMigrationTasklet() {
         return (contribution, chunkContext) -> {
-            amazonS3.listObjects("coffice-images").getObjectSummaries().forEach(it -> {
+            Map<Long, List<String>> map = amazonS3.listObjects("coffice-images").getObjectSummaries().stream().filter(it -> {
                 String key = it.getKey();
-                String url = "https://coffice-images.s3.ap-northeast-2.amazonaws.com/" + it.getKey();
-                log.info("url: {}", url);
                 Matcher matcher = PLACE_IMAGE_NAME_PATTERN.matcher(key);
-                if (matcher.matches()) {
-                    String placeIdString = matcher.group(1);
-                    Long placeId = Long.parseLong(placeIdString);
-                    String imageNumberString = matcher.group(2);
-                    Integer imageNumber = Integer.parseInt(imageNumberString);
-                    log.info("placeId = {} , imageNumber = {}", placeId, imageNumber);
-                    placeCommandService.addImage(placeId, url);
-                }
+                return matcher.matches();
+            }).collect(Collectors.toMap(
+                    it -> {
+                        Matcher matcher = PLACE_IMAGE_NAME_PATTERN.matcher(it.getKey());
+                        try {
+                            if (matcher.matches()) {
+                                return Long.parseLong(matcher.group(1));
+                            } else {
+                                throw new RuntimeException("Failed to parse placeId from key: " + it.getKey());
+                            }
+                        } catch (Exception e) {
+                            log.error("Failed to parse placeId from key: {}", it.getKey(), e);
+                            throw e;
+                        }
+                    },
+                    it -> Collections.singletonList("https://coffice-images.s3.ap-northeast-2.amazonaws.com/" + it.getKey()),
+                    (a, b) -> {
+                        List<String> urls = new ArrayList<>();
+                        urls.addAll(a);
+                        urls.addAll(b);
+                        return urls;
+                    }
+            ));
+            map.forEach((placeId, urls) -> {
+                placeCommandService.removeImages(placeId);
+                urls.forEach(it -> {
+                    placeCommandService.addImage(placeId, it);
+                });
             });
             return RepeatStatus.FINISHED;
         };
