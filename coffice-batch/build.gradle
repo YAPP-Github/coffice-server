@@ -5,4 +5,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.jayway.jsonpath:json-path'
+    implementation "com.amazonaws:aws-java-sdk-s3:$awsJavaSdkS3Version"
+    implementation "com.amazonaws:aws-java-sdk-sqs:$awsJavaSdkSqsVersion"
 }
