@@ -15,3 +15,10 @@ cafe:
     sqs:
       access-key: accessKey
       secret-key: secretKey
+coffice:
+  jwt:
+    secret: secret
+  discord:
+    channel_id: channel_id
+    thread_id: thread_id
+    token: token
