@@ -54,4 +54,15 @@ public class Coordinates {
     ) {
         return new Coordinates(latitude, longitude, coordinateSystem);
     }
+
+    /* TODO : 좌표계 변환 KATEC -> WGS84 */
+    public static Coordinates convertFromKATEC(
+            Double mapy,
+            Double mapx
+    ) {
+        return Coordinates.of(
+                mapy,
+                mapx
+        );
+    }
 }

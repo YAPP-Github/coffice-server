@@ -21,4 +21,15 @@ public class CoordinatesResponse {
                 coordinates.getLongitude()
         );
     }
+
+    public static CoordinatesResponse fromKATEC(Coordinates coordinates) {
+        Coordinates convertedCoordinates = Coordinates.convertFromKATEC(
+                coordinates.getLatitude(),
+                coordinates.getLongitude()
+        );
+        return new CoordinatesResponse(
+                convertedCoordinates.getLatitude(),
+                convertedCoordinates.getLongitude()
+        );
+    }
 }
