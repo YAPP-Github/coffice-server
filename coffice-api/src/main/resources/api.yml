@@ -1,3 +1,7 @@
 coffice:
   jwt:
     secret: ${JWT_SECRET_KEY}
+  discord:
+    channel_id: ${DISCORD_CHANNEL_ID}
+    thread_id: ${DISCORD_THREAD_ID}
+    token: ${DISCORD_TOKEN}
