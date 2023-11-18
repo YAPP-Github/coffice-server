@@ -210,7 +210,7 @@ public class PlaceRepositoryImpl extends QuerydslRepositorySupport implements Pl
     ) {
         BooleanExpression booleanExpression = qPlace.deleted.isFalse();
         if (StringUtils.hasText(placeQueryRequestVo.getName())) {
-            booleanExpression = qPlace.name.contains(placeQueryRequestVo.getName());
+            booleanExpression = booleanExpression.and(qPlace.name.contains(placeQueryRequestVo.getName()));
         }
         List<Place> places = from(qPlace)
                 .where(booleanExpression)
