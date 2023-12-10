@@ -22,3 +22,6 @@ coffice:
     channel_id: channel_id
     thread_id: thread_id
     token: token
+  naver:
+    x_naver_client_id: X_Naver_Client_id
+    x_naver_client_secret: X_Naver_Client_Secret
