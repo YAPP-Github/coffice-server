@@ -5,3 +5,6 @@ coffice:
     channel_id: ${DISCORD_CHANNEL_ID}
     thread_id: ${DISCORD_THREAD_ID}
     token: ${DISCORD_TOKEN}
+  naver:
+    x_naver_client_id: ${X_Naver_Client_id}
+    x_naver_client_secret: ${X_Naver_Client_Secret}

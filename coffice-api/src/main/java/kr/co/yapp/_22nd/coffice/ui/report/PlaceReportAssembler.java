@@ -20,10 +20,9 @@ public class PlaceReportAssembler {
             PlaceReportCreateRequest placeReportCreateRequest
     ) {
         return PlaceReportCreateVo.of(
-                Coordinates.of(
+                Coordinates.convertFromKATEC(
                         placeReportCreateRequest.getMapy(),
-                        placeReportCreateRequest.getMapx(),
-                        CoordinateSystem.KATEC
+                        placeReportCreateRequest.getMapx()
                 ),
                 placeReportCreateRequest.getName(),
                 Address.builder()
