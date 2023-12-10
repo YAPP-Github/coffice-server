@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.locationtech.proj4j.*;
 
 @Embeddable
 @Getter
@@ -60,9 +61,21 @@ public class Coordinates {
             Double mapy,
             Double mapx
     ) {
+        CoordinateTransformFactory ctFactory = new CoordinateTransformFactory();
+        CRSFactory crsFactory = new CRSFactory();
+        CoordinateReferenceSystem katechCRS = crsFactory.createFromName("EPSG:5179");
+        CoordinateReferenceSystem wgs84CRS = crsFactory.createFromName("EPSG:4326");
+
+        CoordinateTransform transform = ctFactory.createTransform(katechCRS, wgs84CRS);
+
+        ProjCoordinate katechCoordinate = new ProjCoordinate(mapx, mapy);
+        ProjCoordinate wgs84Coordinate = new ProjCoordinate();
+
+        // 변환 실행
+        transform.transform(katechCoordinate, wgs84Coordinate);
         return Coordinates.of(
-                mapy,
-                mapx
+                wgs84Coordinate.y,
+                wgs84Coordinate.x
         );
     }
 }

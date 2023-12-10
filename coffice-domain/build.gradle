@@ -13,6 +13,7 @@ dependencies {
 
     implementation "com.amazonaws:aws-java-sdk-s3:$awsJavaSdkS3Version"
     implementation "com.amazonaws:aws-java-sdk-sqs:$awsJavaSdkSqsVersion"
+    implementation "org.locationtech.proj4j:proj4j:$proj4jVersion"
 }
 
 jar {
