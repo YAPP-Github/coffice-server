@@ -39,7 +39,7 @@ public class AmazonS3Service implements StorageService {
             throw new StorageUploadFailedException(e);
         }
         return StorageUploadResponseVo.of(
-                "https://$bucketName.s3.ap-northeast-2.amazonaws.com/$filename",
+                "https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + filename,
                 filename,
                 storageUploadRequestVo.getContentType(),
                 storageUploadRequestVo.getSize()

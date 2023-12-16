@@ -1,7 +1,6 @@
 package kr.co.yapp._22nd.coffice.ui.report;
 
 import kr.co.yapp._22nd.coffice.domain.place.Address;
-import kr.co.yapp._22nd.coffice.domain.place.CoordinateSystem;
 import kr.co.yapp._22nd.coffice.domain.place.Coordinates;
 import kr.co.yapp._22nd.coffice.domain.place.PhoneNumber;
 import kr.co.yapp._22nd.coffice.domain.place.report.PlaceReport;
@@ -11,13 +10,15 @@ import kr.co.yapp._22nd.coffice.ui.place.CoordinatesResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class PlaceReportAssembler {
     public PlaceReportCreateVo toPlaceReportCreateVo(
-            PlaceReportCreateRequest placeReportCreateRequest
+            PlaceReportCreateRequest placeReportCreateRequest,
+            List<String> imageUrls
     ) {
         return PlaceReportCreateVo.of(
                 Coordinates.convertFromKATEC(
@@ -33,7 +34,7 @@ public class PlaceReportAssembler {
                 placeReportCreateRequest.getElectricOutletLevel(),
                 placeReportCreateRequest.getCapacityLevel(),
                 placeReportCreateRequest.getHasCommunalTable(),
-                placeReportCreateRequest.getImageUrls(),
+                imageUrls,
                 placeReportCreateRequest.getFoodTypes(),
                 placeReportCreateRequest.getRestroomTypes(),
                 placeReportCreateRequest.getDrinkTypes(),
