@@ -12,9 +12,9 @@ import reactor.netty.http.client.HttpClient;
 
 
 @Configuration
-public class NaverConfig {
+public class NaverOpenAPIConfig {
     @Bean
-    public WebClient naverWebClient() {
+    public WebClient naverOpenAPIClient() {
         return WebClient.builder()
                 .clientConnector(
                         new ReactorClientHttpConnector(

@@ -7,6 +7,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  servlet:
+    multipart:
+      maxFileSize: 10MB # 파일 하나의 최대 크기
+      maxRequestSize: 50MB  # 한 번에 최대 업로드 가능 용량
 cafe:
   aws:
     s3:

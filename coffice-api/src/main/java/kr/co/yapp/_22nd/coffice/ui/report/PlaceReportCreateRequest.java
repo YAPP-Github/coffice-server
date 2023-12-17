@@ -4,16 +4,13 @@ import jakarta.validation.constraints.NotNull;
 import kr.co.yapp._22nd.coffice.domain.place.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class PlaceReportCreateRequest {
-    @NotNull
-    private Double mapx;
-    @NotNull
-    private Double mapy;
     @NotNull
     private String name;
     @NotNull
@@ -27,7 +24,7 @@ public class PlaceReportCreateRequest {
     private CapacityLevel capacityLevel;
     @NotNull
     private Boolean hasCommunalTable;
-    private List<String> imageUrls;
+    private List<MultipartFile> files;
     private List<FoodType> foodTypes;
     private List<RestroomType> restroomTypes;
     private List<DrinkType> drinkTypes;
