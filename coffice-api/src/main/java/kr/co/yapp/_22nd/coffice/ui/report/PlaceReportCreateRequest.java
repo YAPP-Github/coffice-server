@@ -12,10 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class PlaceReportCreateRequest {
     @NotNull
-    private Double mapx;
-    @NotNull
-    private Double mapy;
-    @NotNull
     private String name;
     @NotNull
     private String streetAddress;

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import kr.co.yapp._22nd.coffice.application.ReportApplicationService;
 import kr.co.yapp._22nd.coffice.application.report.ReportImageUploadService;
+import kr.co.yapp._22nd.coffice.infrastructure.naver.NaverApiClient;
 import kr.co.yapp._22nd.coffice.infrastructure.springdoc.SpringdocConfig;
 import kr.co.yapp._22nd.coffice.infrastructure.webhook.discord.DiscordWebhookService;
 import kr.co.yapp._22nd.coffice.ui.ApiResponse;
@@ -23,19 +24,25 @@ public class ReportController {
     private final DiscordWebhookService discordWebhookService;
     private final ReportImageUploadService reportImageUploadService;
 
+    private final NaverApiClient naverApiClient;
+
     @SecurityRequirement(name = SpringdocConfig.SECURITY_SCHEME_NAME)
-    @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<PlaceReportResponse> createPlaceReport(
             @AuthenticationPrincipal Long memberId,
             @ModelAttribute @Valid PlaceReportCreateRequest placeReportCreateRequest
     ) {
         try {
+            String streetAddress = placeReportCreateRequest.getStreetAddress();
+            naverApiClient.getGeocode(streetAddress);
+
             PlaceReportResponse placeReportResponse = placeReportAssembler.toPlaceReportResponse(
                 reportApplicationService.reportPlace(
                         memberId,
                         placeReportAssembler.toPlaceReportCreateVo(
                                 placeReportCreateRequest,
-                                reportImageUploadService.uploadReportImage(placeReportCreateRequest.getFiles())
+                                reportImageUploadService.uploadReportImage(placeReportCreateRequest.getFiles()),
+                                naverApiClient.getGeocode(placeReportCreateRequest.getStreetAddress())
                         )
                 )
             );

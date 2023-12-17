@@ -14,6 +14,7 @@ public class NaverPlaceSearchItem {
     String roadAddress;
     Double mapx;
     Double mapy;
+    boolean isRegistered; // TODO: coffice 앱 내 등록 여부 확인
 
     public static NaverPlaceSearchItem from(
             NaverPlaceSearchItemDto naverPlaceSearchItemDto
@@ -27,7 +28,8 @@ public class NaverPlaceSearchItem {
                 naverPlaceSearchItemDto.getAddress(),
                 naverPlaceSearchItemDto.getRoadAddress(),
                 Double.parseDouble(naverPlaceSearchItemDto.getMapx()),
-                Double.parseDouble(naverPlaceSearchItemDto.getMapy())
+                Double.parseDouble(naverPlaceSearchItemDto.getMapy()),
+                false
         );
     }
 }

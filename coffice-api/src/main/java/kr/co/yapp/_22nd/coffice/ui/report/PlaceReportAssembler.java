@@ -5,6 +5,7 @@ import kr.co.yapp._22nd.coffice.domain.place.Coordinates;
 import kr.co.yapp._22nd.coffice.domain.place.PhoneNumber;
 import kr.co.yapp._22nd.coffice.domain.place.report.PlaceReport;
 import kr.co.yapp._22nd.coffice.domain.place.report.PlaceReportCreateVo;
+import kr.co.yapp._22nd.coffice.infrastructure.naver.NaverGeocodeAddressDto;
 import kr.co.yapp._22nd.coffice.ui.place.AddressResponse;
 import kr.co.yapp._22nd.coffice.ui.place.CoordinatesResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,13 @@ import java.util.stream.Collectors;
 public class PlaceReportAssembler {
     public PlaceReportCreateVo toPlaceReportCreateVo(
             PlaceReportCreateRequest placeReportCreateRequest,
-            List<String> imageUrls
+            List<String> imageUrls,
+            NaverGeocodeAddressDto naverGeocodeAddressDto
     ) {
         return PlaceReportCreateVo.of(
-                Coordinates.convertFromKATEC(
-                        placeReportCreateRequest.getMapy(),
-                        placeReportCreateRequest.getMapx()
+                Coordinates.of(
+                        naverGeocodeAddressDto.getY(),
+                        naverGeocodeAddressDto.getX()
                 ),
                 placeReportCreateRequest.getName(),
                 Address.builder()
@@ -48,7 +50,7 @@ public class PlaceReportAssembler {
         return new PlaceReportResponse(
                 placeReport.getPlaceReportId(),
                 placeReport.getPlaceId(),
-                CoordinatesResponse.fromKATEC(
+                CoordinatesResponse.from(
                         placeReport.getCoordinates()
                 ),
                 placeReport.getName(),
