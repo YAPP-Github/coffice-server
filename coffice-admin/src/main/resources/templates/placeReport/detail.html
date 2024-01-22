@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Place Detail</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div class="container">
+    <h1 th:text="'PlaceReport Detail'"></h1>
+    <table class="table">
+        <caption th:text="'PlaceReport Detail'"></caption>
+        <thead>
+        <tr>
+            <th th:text="'Key'" scope="col"></th>
+            <th th:text="'Value'" scope="col"></th>
+            <th th:text="'비고'" scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th th:text="'member name'" scope="row"></th>
+            <td th:text="${placeReport.getMember().getName()}"></td>
+            <td th:text="'제보자 이름'"></td>
+        </tr>
+        <tr>
+            <th th:text="'placeReportId'" scope="row"></th>
+            <td th:text="${placeReport.getPlaceReportId()}"></td>
+            <td th:text="'ID'"></td>
+        </tr>
+        <tr>
+            <th th:text="'Name'" scope="row"></th>
+            <td th:text="${placeReport.getName()}"></td>
+            <td th:text="'카페명'"></td>
+        </tr>
+        <tr>
+            <th th:text="'StreetAddress'" scope="row"></th>
+            <td th:text="${placeReport.getAddress() == null ? '' : placeReport.getAddress().getStreetAddress()}"></td>
+            <td th:text="'도로명주소'"></td>
+        </tr>
+        <tr>
+            <th th:text="'LandAddress'" scope="row"></th>
+            <td th:text="${placeReport.getAddress() == null ? '' : placeReport.getAddress().getLandAddress()}"></td>
+            <td th:text="'지번주소'"></td>
+        </tr>
+        <tr>
+            <th th:text="'phoneNumber'" scope="row"></th>
+            <td th:text="${placeReport.getPhoneNumber() == null ? '' : placeReport.getPhoneNumber().getValue()}"></td>
+            <td th:text="'연락처'"></td>
+        </tr>
+        <tr>
+            <th th:text="'electricOutletLevel'" scope="row"></th>
+            <td th:text="${placeReport.getElectricOutletLevel()}"></td>
+            <td th:text="'콘센트'"></td>
+        </tr>
+        <tr>
+            <th th:text="'capacityLevel'" scope="row"></th>
+            <td th:text="${placeReport.getCapacityLevel()}"></td>
+            <td th:text="'공간 크기'"></td>
+        </tr>
+        <tr>
+            <th th:text="'hasCommunalTable'" scope="row"></th>
+            <td th:text="${placeReport.getHasCommunalTable()}"></td>
+            <td th:text="'단체석 유무'"></td>
+        </tr>
+        <tr>
+            <th th:text="'foodTypes'" scope="row"></th>
+            <td th:text="${placeReport.getFoodTypes() == null ? '' : #strings.listJoin(placeReport.getFoodTypes(), ', ')}"></td>
+            <td th:text="'푸드'"></td>
+        </tr>
+        <tr>
+            <th th:text="'restroomTypes'" scope="row"></th>
+            <td th:text="${placeReport.getRestroomTypes() == null ? '' : #strings.listJoin(placeReport.getRestroomTypes(), ', ')}"></td>
+            <td th:text="'화장실'"></td>
+        </tr>
+        <tr>
+            <th th:text="'drinkTypes'" scope="row"></th>
+            <td th:text="${placeReport.getDrinkTypes() == null ? '' : #strings.listJoin(placeReport.getDrinkTypes(), ', ')}"></td>
+            <td th:text="'음료'"></td>
+        </tr>
+        <tr>
+            <th th:text="'text'" scope="row"></th>
+            <td th:text="${placeReport.getText()}"></td>
+            <td th:text="'느낀점'"></td>
+        </tr>
+        <tr>
+            <th th:text="'CreatedAt'" scope="row"></th>
+            <td th:text="${placeReport.getCreatedAt()}"></td>
+            <td th:text="'제보일'"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 이미지 표시 섹션 -->
+    <h2>Images</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th th:text="'Image'"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:each="imgUrl : ${placeReport.getImageUrls()}">
+                <img th:src="${imgUrl}" style="width:100%; max-width:300px; height:auto;"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

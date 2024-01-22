@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Place List</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div class="container">
+    <h1 th:text="'PlaceReport List'"></h1>
+    <!-- Table -->
+    <table class="table table-striped">
+        <caption th:text="'PlaceReport List'"></caption>
+        <thead>
+        <tr>
+            <th th:text="placeReportId"></th>
+            <th th:text="name"></th>
+            <th th:text="createdAt"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="placeReport : ${placeReportPage.getContent()}">
+            <td>
+                <a th:href="@{'/placeReport/' + ${placeReport.getPlaceReportId()}}"
+                   th:text="${placeReport.getPlaceReportId()}">
+                </a>
+            </td>
+            <td th:text="${placeReport.getName()}"></td>
+            <td th:text="${placeReport.getCreatedAt()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div th:replace="~{fragments/pagination :: pagination (${placeReportPage})}">Pagination</div>
+</div>
+
+</body>
+</html>
