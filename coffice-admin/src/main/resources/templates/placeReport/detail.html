@@ -99,6 +99,7 @@
     <!-- 이미지 표시 섹션 -->
     <h2>Images</h2>
     <table class="table">
+        <caption>cafe images</caption>
         <thead>
         <tr>
             <th th:text="'Image'"></th>
@@ -107,7 +108,7 @@
         <tbody>
         <tr>
             <td th:each="imgUrl : ${placeReport.getImageUrls()}">
-                <img th:src="${imgUrl}" style="width:100%; max-width:300px; height:auto;"/>
+                <img th:src="${imgUrl}" style="width:100%; max-width:300px; height:auto;" alt=""/>
             </td>
         </tr>
         </tbody>
