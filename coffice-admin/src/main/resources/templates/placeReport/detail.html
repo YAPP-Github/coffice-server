@@ -13,6 +13,12 @@
 
 <div class="container">
     <h1 th:text="'PlaceReport Detail'"></h1>
+
+    <div>
+        <a class="btn btn-primary" th:href="'/placeReport/' + ${placeReport.getPlaceReportId()} + '/register'" role="button"
+           th:text="'등록하기'"></a>
+    </div>
+
     <table class="table">
         <caption th:text="'PlaceReport Detail'"></caption>
         <thead>

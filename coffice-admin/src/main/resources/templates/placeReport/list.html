@@ -21,6 +21,7 @@
             <th th:text="placeReportId"></th>
             <th th:text="name"></th>
             <th th:text="createdAt"></th>
+            <th th:text="isRegistered"></th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
             </td>
             <td th:text="${placeReport.getName()}"></td>
             <td th:text="${placeReport.getCreatedAt()}"></td>
+            <td th:text="${placeReport.getIsRegistered()}"></td>
         </tr>
         </tbody>
     </table>

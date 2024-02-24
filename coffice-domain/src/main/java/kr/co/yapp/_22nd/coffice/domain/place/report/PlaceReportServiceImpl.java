@@ -36,4 +36,12 @@ public class PlaceReportServiceImpl implements PlaceReportService{
         return placeReportRepository.findById(placeReportId)
                 .orElseThrow(RuntimeException::new);
     }
+
+    @Override
+    public PlaceReport register(Long placeReportId, Long placeId) {
+        PlaceReport placeReport = placeReportRepository.findById(placeReportId)
+                .orElseThrow(RuntimeException::new);
+        placeReport.register(placeId);
+        return placeReport;
+    }
 }

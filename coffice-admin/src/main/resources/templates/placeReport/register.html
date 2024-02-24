@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register Reported Place</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div class="container">
+    <h1 th:text="'Register Reported Place'"></h1>
+    <form>
+        <div class="form-group required">
+            <label for="placeNameId" class="control-label" th:text="'이름'"></label>
+            <input id="placeNameId" type="text" name="name" class="form-control" placeholder="Place 이름을 입력하세요."
+                   th:value="${placeReport.getName()}">
+            <small class="form-text text-muted">ex) 할리스 강남역점, ...</small>
+        </div>
+        <div class="form-group required">
+            <label for="placeLatitudeId" class="control-label" th:text="'Latitude'"></label>
+            <input id="placeLatitudeId" class="form-control" name="latitude" type="number" step="0.000000000001"
+                   placeholder="위도를 입력하세요." th:value="${placeReport.getCoordinates().getLatitude()}">
+            <small class="form-text text-muted">ex) 37.498768</small>
+        </div>
+        <div class="form-group required">
+            <label for="placeLongitudeId" class="control-label" th:text="'Longitude'"></label>
+            <input id="placeLongitudeId" class="form-control" name="longitude" type="number" step="0.000000000001"
+                   placeholder="경도를 입력하세요." th:value="${placeReport.getCoordinates().getLongitude()}">
+            <small class="form-text text-muted">ex) 127.0277985</small>
+        </div>
+        <div class="form-group">
+            <label for="placeAddressStreetAddressId" class="control-label" th:text="'Street Address'"></label>
+            <input id="placeAddressStreetAddressId" class="form-control" name="streetAddress" type="text"
+                   placeholder="도로명 주소를 입력하세요."
+                   th:value="${placeReport.getAddress() == null ? '' : placeReport.getAddress().getStreetAddress()}">
+            <small class="form-text text-muted">ex) 서울특별시 강남구 강남대로 402 시계탑빌딩 1층</small>
+        </div>
+        <div class="form-group">
+            <label for="placeAddressLandAddressId" class="control-label" th:text="'Land Address'"></label>
+            <input id="placeAddressLandAddressId" class="form-control" name="landAddress" type="text"
+                   placeholder="지번 주소를 입력하세요."
+                   th:value="${placeReport.getAddress() == null ? '' : placeReport.getAddress().getLandAddress()}">
+            <small class="form-text text-muted">ex) 서울특별시 강남구 역삼동 820-11</small>
+        </div>
+        <div class="form-group">
+            <label for="placeAddressPostalCodeId" class="control-label" th:text="'Postal Code'"></label>
+            <input id="placeAddressPostalCodeId" class="form-control" name="postalCode" type="number"
+                   placeholder="우편번호를 입력하세요."
+                   th:value="${placeReport.getAddress() == null ? '' : placeReport.getAddress().getPostalCode()}">
+            <small class="form-text text-muted">ex) 06134</small>
+        </div>
+        <div class="form-group">
+            <label for="placePhoneNumberId" class="control-label" th:text="'Phone Number'"></label>
+            <input id="placePhoneNumberId" class="form-control" name="phoneNumber" type="tel"
+                   th:value="${placeReport.getPhoneNumber() == null ? '' : placeReport.getPhoneNumber().getValue()}"
+                   placeholder="전화번호를 입력하세요. ">
+            <small class="form-text text-muted">ex) 02-555-0890</small>
+        </div>
+        <div class="form-group">
+            <label for="placeHomepageUrlId" class="control-label" th:text="'HomepageUrl'"></label>
+            <input id="placeHomepageUrlId" class="form-control" name="homepageUrl" type="url"
+                   th:value="''"
+                   placeholder="홈페이지 주소를 입력하세요. ">
+            <small class="form-text text-muted">ex) https://www.hollys.co.kr/</small>
+        </div>
+
+        <!--    Place와 불일치    -->
+        <div class="form-group">
+            <label for="placeElectricOutletCountId" class="control-label" th:text="'Electric Outlet Count'"></label>
+            <input id="placeElectricOutletCountId" class="form-control" name="electricOutletCount" type="number"
+                   th:value="${electricOutletCount}"
+                   placeholder="콘센트 개수를 입력하세요.">
+            <small class="form-text text-muted">1구당 1개로 세어주세요</small>
+        </div>
+        <div class="form-group">
+            <label for="placeSeatCountId" class="control-label" th:text="'Seat Count'"></label>
+            <input id="placeSeatCountId" class="form-control" name="seatCount" type="number"
+                   th:value="${seatCount}"
+                   placeholder="자리 개수를 입력하세요.">
+            <small class="form-text text-muted">의자 개수</small>
+        </div>
+        <div class="form-group">
+            <label for="placeTableCountId" class="control-label" th:text="'Table Count'"></label>
+            <input id="placeTableCountId" class="form-control" name="tableCount" type="number"
+                   th:value="${tableCount}"
+                   placeholder="모든 테이블 개수를 입력하세요.">
+        </div>
+        <div class="form-group">
+            <label for="placeCommunalTableCountId" class="control-label" th:text="'Commnual Table Count'"></label>
+            <input id="placeCommunalTableCountId" class="form-control" name="communalTableCount" type="number"
+                   th:value="${communalTableCount}"
+                   placeholder="단체석 테이블 개수를 입력하세요.">
+            <small class="form-text text-muted">단체석 기준 : 5인 이상 테이블</small>
+        </div>
+        <div class="form-group">
+            <label for="placeFoodTypes" class="control-label" th:text="'FoodType'"></label>
+            <select id="placeFoodTypes" class="form-control" name="foodTypes[]" multiple>
+                <option th:each="foodType : ${foodTypes}"
+                        th:value="${foodType}"
+                        th:selected="${placeReport.getFoodTypes() != null and placeReport.getFoodTypes().contains(foodType)}"
+                        th:text="${foodType}"></option>
+            </select>
+            <small class="form-text text-muted">음식 종류</small>
+        </div>
+        <div class="form-group">
+            <label for="placeRestroomTypes" class="control-label" th:text="'RestroomType'"></label>
+            <select id="placeRestroomTypes" class="form-control" name="restroomTypes[]" multiple>
+                <option th:each="restroomType : ${restroomTypes}"
+                        th:value="${restroomType}"
+                        th:selected="${placeReport.getRestroomTypes() != null and placeReport.getRestroomTypes().contains(restroomType)}"
+                        th:text="${restroomType}"></option>
+            </select>
+            <small class="form-text text-muted">화장실</small>
+        </div>
+        <div class="form-group">
+            <label for="placeDrinkType" class="control-label" th:text="'DrinkType'"></label>
+            <select id="placeDrinkType" class="form-control" name="drinkTypes[]" multiple>
+                <option th:each="drinkType : ${drinkTypes}"
+                        th:value="${drinkType}"
+                        th:selected="${placeReport.getDrinkTypes() != null and placeReport.getDrinkTypes().contains(drinkType)}"
+                        th:text="${drinkType}"></option>
+            </select>
+            <small class="form-text text-muted">음료 종류</small>
+        </div>
+
+
+        <!-- 이미지 표시 섹션 -->
+        <h2>Images</h2>
+        <table class="table">
+            <caption>cafe images</caption>
+            <thead>
+            <tr>
+                <th th:text="'Select'"></th>
+                <th th:text="'Image'"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="imageUrl : ${placeReport.getImageUrls()}">
+                <td>
+                    <input type="checkbox" name="imageUrls[]" th:value="${imageUrl}" checked>
+                </td>
+                <td>
+                    <img th:src="${imageUrl}" style="width:100%; max-width:300px; height:auto;" alt=""/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button id="placeReportSubmitId" type="submit" formmethod="post" class="btn btn-primary"
+                th:text="'등록하기'"></button>
+    </form>
+</div>
+</body>
+</html>

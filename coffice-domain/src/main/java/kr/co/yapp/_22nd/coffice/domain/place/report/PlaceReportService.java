@@ -7,4 +7,5 @@ public interface PlaceReportService {
     PlaceReport create(Long memberId, PlaceReportCreateVo placeReportCreateVo);
     Page<PlaceReport> findAll(Pageable pageable);
     PlaceReport getPlaceReport(Long placeReportId);
+    PlaceReport register(Long placeReportId, Long placeId);
 }
